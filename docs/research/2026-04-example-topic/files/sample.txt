@@ -1,0 +1,3 @@
+Sample download file.
+
+This file exists only to verify the download button works end-to-end on the example research page.

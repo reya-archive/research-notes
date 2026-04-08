@@ -1,0 +1,13 @@
+{
+  "researches": [
+    {
+      "id": "2026-04-example-topic",
+      "title": "예시 리서치 주제",
+      "summary": "사이트 동작 확인을 위한 샘플 리서치입니다. 단일 페이지 + 커스텀 에셋 + 다운로드 첨부 패턴을 보여줍니다.",
+      "date": "2026-04-08",
+      "tags": ["sample", "infra"],
+      "path": "research/2026-04-example-topic/index.html",
+      "pages": 1
+    }
+  ]
+}

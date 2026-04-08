@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>예시 리서치 주제 - Research Notes</title>
+  <base href="/research-notes/">
+  <link rel="stylesheet" href="assets/css/main.css">
+  <link rel="stylesheet" href="research/2026-04-example-topic/assets/style.css">
+</head>
+<body data-include-pending>
+  <div data-include="assets/partials/header.tpl"></div>
+
+  <main class="page page--narrow">
+    <nav class="breadcrumb">
+      <a href="/research-notes/">Research Notes</a>
+      <span class="breadcrumb__sep">/</span>
+      <span>예시 리서치 주제</span>
+    </nav>
+
+    <header class="page-header">
+      <p class="page-header__eyebrow">2026.04.08 &middot; sample &middot; infra</p>
+      <h1 class="page-header__title">예시 리서치 주제</h1>
+      <p class="page-header__lede">
+        사이트 동작 확인을 위한 샘플 리서치입니다. 단일 페이지 + 커스텀 에셋 + 다운로드 첨부 패턴을 한 화면에 보여줍니다.
+      </p>
+    </header>
+
+    <article class="prose">
+      <h2>배경</h2>
+      <p>
+        이 페이지는 실제 리서치가 아니라 사이트 골격이 정상 동작하는지 확인하기 위한 예시입니다.
+        실제 리서치를 추가할 때 이 폴더 구조를 그대로 참고하면 됩니다.
+      </p>
+      <p>
+        Markdown 원본은 같은 폴더의 <code>notes/</code>에 두고, 화면용 HTML은 이 <code>index.html</code>에 작성합니다.
+        문서가 여러 개일 경우 <code>notes/01-background.md</code>, <code>notes/02-findings.md</code> 식으로 나눠서 보관할 수 있습니다.
+      </p>
+
+      <h2>커스텀 에셋 예시</h2>
+      <p>
+        아래 강조 박스는 이 리서치 폴더의 <code>assets/style.css</code>에서만 정의된 스타일입니다.
+        공통 CSS 다음에 로드되기 때문에 토큰을 그대로 활용하면서도 이 페이지에서만 보이는 요소를 만들 수 있습니다.
+      </p>
+      <p class="r-example__callout">
+        이 박스는 <code>.r-example__callout</code> 클래스로 스타일됩니다. 다른 리서치 페이지에서는 보이지 않습니다.
+      </p>
+
+      <h2>다중 페이지가 필요할 때</h2>
+      <p>
+        리서치가 여러 화면으로 나뉘어야 한다면 같은 폴더 안에 <code>pages/01-background.html</code>,
+        <code>pages/02-method.html</code> 같이 추가하고, 각 페이지에서 사이드바 partial을 공유하면 됩니다.
+        해시 라우팅이나 SPA 방식은 사용하지 않습니다 - 각 페이지가 개별 정적 파일이어서 직접 링크 공유와 새로고침이 안전합니다.
+      </p>
+    </article>
+
+    <h3 class="section-title">첨부 파일</h3>
+    <ul class="download-list">
+      <li>
+        <a class="download-btn" href="research/2026-04-example-topic/files/sample.txt" download>
+          <svg class="download-btn__icon" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+            <path d="M8 2v9"/>
+            <path d="M5 8l3 3 3-3"/>
+            <path d="M3 13h10"/>
+          </svg>
+          <span class="download-btn__name">sample.txt</span>
+          <span class="download-btn__meta">TXT</span>
+        </a>
+      </li>
+    </ul>
+  </main>
+
+  <div data-include="assets/partials/footer.tpl"></div>
+
+  <script src="assets/js/include.js"></script>
+</body>
+</html>

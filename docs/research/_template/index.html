@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>리서치 제목 - Research Notes</title>
+  <base href="/research-notes/">
+  <!-- 1) 공통 스타일 -->
+  <link rel="stylesheet" href="assets/css/main.css">
+  <!-- 2) 이 리서치 전용 스타일 (오버라이드 가능) -->
+  <link rel="stylesheet" href="research/_template/assets/style.css">
+</head>
+<body data-include-pending>
+  <div data-include="assets/partials/header.tpl"></div>
+
+  <main class="page page--narrow">
+    <nav class="breadcrumb">
+      <a href="/research-notes/">Research Notes</a>
+      <span class="breadcrumb__sep">/</span>
+      <span>리서치 제목</span>
+    </nav>
+
+    <header class="page-header">
+      <p class="page-header__eyebrow">YYYY-MM-DD</p>
+      <h1 class="page-header__title">리서치 제목</h1>
+      <p class="page-header__lede">한 줄 요약을 여기에 적습니다.</p>
+    </header>
+
+    <article class="prose">
+      <h2>개요</h2>
+      <p>이 리서치의 목적과 배경을 적습니다.</p>
+
+      <h2>주요 내용</h2>
+      <p>본문 내용을 적습니다.</p>
+
+      <h2>결론</h2>
+      <p>결론과 후속 작업을 적습니다.</p>
+    </article>
+
+    <h3 class="section-title">첨부 파일</h3>
+    <ul class="download-list">
+      <!-- 예시: <li><a class="download-btn" href="research/_template/files/sample.pdf" download>
+        <svg class="download-btn__icon" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5">
+          <path d="M8 2v9m0 0l-3-3m3 3l3-3M3 13h10"/>
+        </svg>
+        <span class="download-btn__name">sample.pdf</span>
+        <span class="download-btn__meta">PDF</span>
+      </a></li> -->
+    </ul>
+  </main>
+
+  <div data-include="assets/partials/footer.tpl"></div>
+
+  <script src="assets/js/include.js"></script>
+  <!-- 이 리서치 전용 스크립트 (필요할 때만) -->
+  <script src="research/_template/assets/script.js" defer></script>
+</body>
+</html>

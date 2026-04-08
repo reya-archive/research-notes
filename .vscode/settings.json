@@ -1,0 +1,70 @@
+{
+  // ---------------------------------------------------------------
+  // Live Server (ritwickdey.LiveServer) 설정
+  //
+  // 이 사이트의 모든 HTML은 <base href="/research-notes/">를 사용합니다.
+  // 따라서 절대경로(/assets/..., /data/...)가 정상 동작하려면 로컬에서도
+  // URL이 /research-notes/ 로 시작해야 합니다.
+  //
+  // 아래 mount 옵션은 가상 경로 /research-notes 를 워크스페이스의 ./docs 에
+  // 연결합니다. 결과:
+  //   http://127.0.0.1:5500/research-notes/                              -> docs/index.html
+  //   http://127.0.0.1:5500/research-notes/research/2026-04-example-topic/index.html
+  //
+  // 사용 방법:
+  //   1) VS Code 하단의 [Go Live] 버튼 클릭 (또는 명령 팔레트 > "Live Server: Open")
+  //   2) 자동으로 열린 브라우저 주소창에서 다음 URL로 이동:
+  //        http://127.0.0.1:5500/research-notes/
+  //
+  // 참고: docs/index.html 을 우클릭 > "Open with Live Server" 로 열면
+  //       /docs/index.html 경로로 열려서 base href 가 깨지므로,
+  //       반드시 위의 /research-notes/ 경로로 접근하세요.
+  // ---------------------------------------------------------------
+  "liveServer.settings.root": "/",
+  "liveServer.settings.mount": [
+    ["/research-notes", "./docs"]
+  ],
+  "liveServer.settings.host": "127.0.0.1",
+  "liveServer.settings.port": 5500,
+  "liveServer.settings.NoBrowser": false,
+  "liveServer.settings.donotShowInfoMsg": true,
+  "liveServer.settings.donotVerifyTags": true,
+  "liveServer.settings.ignoreFiles": [
+    ".vscode/**",
+    ".git/**",
+    "**/.gitkeep",
+    "**/*.md"
+  ],
+
+  // 파일 인코딩 / 줄바꿈 일관성
+  "files.encoding": "utf8",
+  "files.eol": "\n",
+  "files.insertFinalNewline": true,
+  "files.trimTrailingWhitespace": true,
+
+  // .tpl(partial) 파일을 HTML로 인식 -> 문법 하이라이팅, Emmet, 포맷터 적용
+  "files.associations": {
+    "*.tpl": "html"
+  },
+  "emmet.includeLanguages": {
+    "tpl": "html"
+  },
+
+  // HTML/CSS/JS 포맷터 기본값
+  "[html]": {
+    "editor.tabSize": 2,
+    "editor.insertSpaces": true
+  },
+  "[css]": {
+    "editor.tabSize": 2,
+    "editor.insertSpaces": true
+  },
+  "[javascript]": {
+    "editor.tabSize": 2,
+    "editor.insertSpaces": true
+  },
+  "[json]": {
+    "editor.tabSize": 2,
+    "editor.insertSpaces": true
+  }
+}

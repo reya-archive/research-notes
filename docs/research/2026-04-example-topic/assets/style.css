@@ -1,0 +1,11 @@
+/* 이 리서치 전용 커스텀 스타일.
+   공통 토큰(var(--color-...))을 활용해 톤을 유지합니다. */
+
+.r-example__callout {
+  padding: var(--space-4);
+  border-left: 3px solid var(--color-link);
+  background: var(--color-surface);
+  border-radius: var(--radius-sm);
+  color: var(--color-text);
+  font-size: var(--fs-sm);
+}
