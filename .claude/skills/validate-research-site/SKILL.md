@@ -1,6 +1,6 @@
 ---
 name: validate-research-site
-description: Use when the user wants to verify the research-notes site is healthy before push, or after adding/editing a research. Checks manifest paths, base href, partial extensions, per-research path prefixes, download links, and CSS token usage.
+description: Use when the user wants to verify the research-notes site is healthy before push, or after adding/editing a research. Checks manifest paths, base href, noindex meta, partial extensions, per-research path prefixes, download links, and CSS token usage.
 allowed-tools: Read, Glob, Grep
 ---
 
@@ -35,6 +35,7 @@ allowed-tools: Read, Glob, Grep
 `Glob "docs/**/*.html"`로 모든 HTML 파일을 찾는다. 각 파일에 대해:
 
 - **base href 검사**: `Grep`으로 `<base href="/research-notes/">` 매치 확인. 없으면 `FAIL base-href missing`.
+- **noindex meta 검사**: `Grep`으로 `<meta name="robots" content="[^"]*noindex` 패턴 매치 확인. 없으면 `FAIL noindex-missing` - 회사 내부 자료라 검색엔진 인덱싱을 반드시 차단해야 한다. `_template/index.html`도 동일하게 검사한다 (새 리서치 생성 시 누락 방지).
 - **data-include 확장자 검사**: `Grep`으로 `data-include="..."` 패턴을 찾고, 값이 `.html`로 끝나면 `FAIL include-extension` (반드시 `.tpl`이어야 함). 함정 1순위.
 - **공통 자원 참조 검사**: `assets/css/main.css`, `assets/js/include.js`를 정상적으로 참조하는지 (루트 페이지와 리서치 페이지 모두 동일한 절대경로 패턴이어야 함).
 
@@ -82,6 +83,7 @@ allowed-tools: Read, Glob, Grep
 |---------------------------|-------|----------------------------|
 | manifest 무결성            | OK    | 1개 항목 모두 정상         |
 | HTML base href             | OK    | 5개 파일 모두 포함         |
+| HTML noindex meta          | OK    | 5개 파일 모두 포함         |
 | data-include 확장자        | OK    | 모두 .tpl                  |
 | 리서치별 경로 prefix       | OK    |                            |
 | 다운로드 링크 무결성       | OK    | 1개 링크, 파일 존재 확인   |
