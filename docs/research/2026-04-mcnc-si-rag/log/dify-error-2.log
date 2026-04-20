@@ -1,0 +1,26 @@
+mcnc@mcncui-MacStudio mcnc-oss % docker compose -f dify/docker/docker-compose.yaml --env-file dify/docker/.env config --services | sort
+api
+db_postgres
+init_permissions
+nginx
+plugin_daemon
+redis
+sandbox
+ssrf_proxy
+weaviate
+web
+worker
+worker_beat
+mcnc@mcncui-MacStudio mcnc-oss % grep -E "^\s*(db|postgres|db_postgres):" dify/docker/docker-compose.yaml
+      db_postgres:
+      db_postgres:
+      db_postgres:
+  db_postgres:
+      db_postgres:
+mcnc@mcncui-MacStudio mcnc-oss %  grep -E "^(DB_HOST|DB_USERNAME|DB_DATABASE|DB_PORT|COMPOSE_PROFILE)" dify/docker/.env
+DB_USERNAME=postgres
+DB_HOST=db_postgres
+DB_PORT=5432
+DB_DATABASE=dify
+COMPOSE_PROFILES=${VECTOR_STORE:-weaviate},${DB_TYPE:-postgresql}
+mcnc@mcncui-MacStudio mcnc-oss %

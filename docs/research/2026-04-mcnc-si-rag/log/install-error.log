@@ -1,0 +1,57 @@
+mcnc@mcncui-MacStudio mcnc-oss % bash setup.sh
+[oss-hosting] 필수 도구 확인 중...
+[ ok ] docker, docker compose, git 확인 완료
+[ ok ] Dify 폴더 이미 존재 - clone 건너뜀
+[ ok ] .env 확인 완료
+[oss-hosting] 컨테이너 이미지 빌드 + 전체 스택 기동 중...
+WARN[0000] The "CERTBOT_EMAIL" variable is not set. Defaulting to a blank string.
+WARN[0000] The "CERTBOT_DOMAIN" variable is not set. Defaulting to a blank string.
+[+] Building 7.9s (8/11)
+ => [internal] load local bake definitions                                                                         0.0s
+ => => reading from stdin 521B                                                                                     0.0s
+ => [internal] load build definition from Dockerfile                                                               0.0s
+ => => transferring dockerfile: 546B                                                                               0.0s
+ => [internal] load metadata for docker.io/library/python:3.12-slim                                                2.0s
+ => [internal] load .dockerignore                                                                                  0.0s
+ => => transferring context: 2B                                                                                    0.0s
+ => [1/6] FROM docker.io/library/python:3.12-slim@sha256:804ddf3251a60bbf9c92e73b7566c40428d54d0e79d3428194edf40d  5.5s
+ => => resolve docker.io/library/python:3.12-slim@sha256:804ddf3251a60bbf9c92e73b7566c40428d54d0e79d3428194edf40d  0.0s
+ => => sha256:e61d985ceda8a21ed2f4f6aebbd9d23f060142d9eddc6e67f3d964f5b4775120 12.05MB / 12.05MB                   2.9s
+ => => sha256:768a1d5746dc2f0f053c712028eb2084c03b4cdb5f9f403db7a346bdd4475a68 1.27MB / 1.27MB                     1.2s
+ => => sha256:ad3f41dc732f18b2e6923762457fab7121f2321e016c73b7637f0b13c1379dcc 250B / 250B                         0.4s
+ => => sha256:53196b1f47bdd6997874156c61491c9a36e115d9b7bd5d74e0cb5c2fc4ee69ce 30.14MB / 30.14MB                   4.9s
+ => => extracting sha256:53196b1f47bdd6997874156c61491c9a36e115d9b7bd5d74e0cb5c2fc4ee69ce                          0.4s
+ => => extracting sha256:768a1d5746dc2f0f053c712028eb2084c03b4cdb5f9f403db7a346bdd4475a68                          0.0s
+ => => extracting sha256:e61d985ceda8a21ed2f4f6aebbd9d23f060142d9eddc6e67f3d964f5b4775120                          0.1s
+ => => extracting sha256:ad3f41dc732f18b2e6923762457fab7121f2321e016c73b7637f0b13c1379dcc                          0.0s
+ => [internal] load build context                                                                                  0.0s
+ => => transferring context: 8.69kB                                                                                0.0s
+ => [2/6] WORKDIR /app                                                                                             0.2s
+ => ERROR [3/6] RUN groupadd --system --gid 1000 sync  && useradd --system --uid 1000 --gid sync --home-dir /app   0.1s
+------
+ > [3/6] RUN groupadd --system --gid 1000 sync  && useradd --system --uid 1000 --gid sync --home-dir /app sync  && mkdir -p /var/lib/dify-sync  && chown -R sync:sync /app /var/lib/dify-sync:
+0.091 useradd: user 'sync' already exists
+------
+Dockerfile:6
+
+--------------------
+
+   5 |     # 런타임에 root 권한 불필요 - non-root 유저로 실행
+
+   6 | >>> RUN groupadd --system --gid 1000 sync \
+
+   7 | >>>  && useradd --system --uid 1000 --gid sync --home-dir /app sync \
+
+   8 | >>>  && mkdir -p /var/lib/dify-sync \
+
+   9 | >>>  && chown -R sync:sync /app /var/lib/dify-sync
+
+  10 |
+
+--------------------
+
+failed to solve: process "/bin/sh -c groupadd --system --gid 1000 sync  && useradd --system --uid 1000 --gid sync --home-dir /app sync  && mkdir -p /var/lib/dify-sync  && chown -R sync:sync /app /var/lib/dify-sync" did not complete successfully: exit code: 9
+
+
+
+View build details: docker-desktop://dashboard/build/default/default/wg58h97dpn6c7cv81dvfcvklt

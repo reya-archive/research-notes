@@ -1,0 +1,416 @@
+{
+  "meta": {
+    "updated": "2026-04-15",
+    "currency": "KRW",
+    "exchangeRate": 1500,
+    "scenarios": {
+      "base": { "users": 50, "months": 6, "label": "50명 × 6개월" },
+      "pilot": { "users": 10, "months": 1, "label": "10명 × 1개월" }
+    }
+  },
+  "products": [
+    {
+      "id": "dify",
+      "name": "Dify + Amazon Bedrock",
+      "shortName": "Dify + Bedrock",
+      "vendor": "LangGenius + AWS",
+      "category": "OSS 셀프호스팅",
+      "categoryTag": "OSS",
+      "colorVariant": "dify",
+      "tagline": "셀프호스팅 LLMOps + Bedrock LLM 의 2-Tier 조합",
+      "topStrengths": [
+        "데이터 주권: 모든 문서가 MCNC 인프라 내부",
+        "사용량 기반 과금: LLM 토큰만 월 $0~$10/인",
+        "MCNC 기존 노하우 100% 활용 (Docker, PGVector, Bedrock)"
+      ],
+      "pricing": {
+        "perUser": {
+          "min": 0,
+          "avg": 3,
+          "max": 10,
+          "unit": "USD/mo",
+          "note": "Claude Sonnet 계열 기준 (인프라 별도)"
+        },
+        "costBase": { "min": 1100, "avg": 1146, "max": 1500 },
+        "costPilot": { "min": 150, "avg": 155, "max": 180 },
+        "trial": "영구 무료 (인프라 비용 별도)"
+      },
+      "region": "MCNC 선택 (도쿄 권장)",
+      "dataResidency": "MCNC 지정 가능",
+      "llmChoice": "자유 (Claude Sonnet / Haiku / Opus 계열)",
+      "contextWindow": "LLM 의존 (Claude 계열 200k)",
+      "connectors": "Google Drive, Notion 등 (확장 중)",
+      "folderStructure": "제한적 (태그)",
+      "parsingQuality": {
+        "pptxXlsx": 3,
+        "note": "Unstructured 연동 시 중상위"
+      },
+      "audioM4a": "Whisper 플러그인",
+      "uploadUxStars": 4,
+      "uploadUxCriterion": "Dify Knowledge 드래그&드롭 · 다중 파일 · 진행률 표시",
+      "demoFeasibilityStars": 4,
+      "decisionMakerStars": 3,
+      "setupDifficulty": {
+        "label": "중간",
+        "note": "Docker Compose 2-tier (Dify + Bedrock IAM) 셋업"
+      },
+      "repeatDeployStars": 4,
+      "smHandoffStars": 3,
+      "portabilityStars": 5,
+      "uiCustomStars": 5,
+      "workflowStars": 5,
+      "integrationStars": 5,
+      "mcncSkillReuseStars": 5,
+      "security": {
+        "noTraining": true,
+        "kms": "EBS + Bedrock KMS",
+        "vpc": "완전 지원",
+        "sso": "Enterprise Edition만 (유료)",
+        "certifications": ["Bedrock ISO 27001", "SOC 1/2/3", "HIPAA BAA"]
+      },
+      "strengths": [
+        "데이터 주권: 셀프호스팅으로 모든 문서가 MCNC 인프라 내부",
+        "사용량 기반 과금: LLM 토큰만 월 $0~$10/인 (인프라 별도)",
+        "MCNC 기존 노하우 높은 활용도: mcnc-rag, Docker Compose, PGVector 경험 직결",
+        "커스터마이징 자유도: UI·워크플로우·사내 연동 제약 없음",
+        "LLM 선택 자유: Claude Sonnet / Haiku / Opus 교체 가능, 벤더 락인 없음"
+      ],
+      "weaknesses": [
+        "SSO 부재: Community Edition은 SAML/OIDC 미지원",
+        "문서 파싱 품질: Gemini Document AI 대비 복잡 기획서 열세",
+        "폴더 구조 제약: 복잡한 폴더 트리 그대로 표현 어려움",
+        "운영 책임 전가: 패치·백업·모니터링 MCNC 책임",
+        "검색 품질 튜닝 공수: 리랭커·청킹 전략 조정이 MCNC 책임"
+      ],
+      "docs": [
+        { "title": "Dify 공식 문서", "url": "https://docs.dify.ai/" },
+        { "title": "Dify GitHub", "url": "https://github.com/langgenius/dify" },
+        { "title": "Amazon Bedrock Pricing", "url": "https://aws.amazon.com/bedrock/pricing/" }
+      ]
+    },
+    {
+      "id": "qbusiness",
+      "name": "Amazon Q Business",
+      "shortName": "Q Business",
+      "vendor": "AWS",
+      "category": "AWS 관리형 SaaS",
+      "categoryTag": "AWS SaaS",
+      "colorVariant": "qbusiness",
+      "tagline": "40+ 커넥터 + IAM 권한 자동 상속 + 관리형 운영",
+      "topStrengths": [
+        "40+ 엔터프라이즈 커넥터 (SharePoint, Confluence, S3 등)",
+        "IAM Identity Center 권한 자동 상속",
+        "60일 50명 무료 트라이얼로 프로토타입 $0"
+      ],
+      "pricing": {
+        "perUser": {
+          "min": 3,
+          "avg": 3,
+          "max": 20,
+          "unit": "USD/mo",
+          "note": "Lite $3 / Pro $20"
+        },
+        "costBase": { "min": 1512, "avg": 2058, "max": 7158 },
+        "costPilot": { "min": 132, "avg": 223, "max": 393 },
+        "trial": "60일, 최대 50명, 인덱스 1,500시간"
+      },
+      "region": "시드니 (ap-southeast-2)",
+      "dataResidency": "호주(시드니)",
+      "llmChoice": "불가 (AWS 내부 모델)",
+      "contextWindow": "비공개",
+      "connectors": "40+ (SharePoint, Confluence, S3, Salesforce 등)",
+      "folderStructure": "메타데이터 유지",
+      "parsingQuality": {
+        "pptxXlsx": 4,
+        "note": "Textract 기반. 시드니 Tabular Search는 작은 표만"
+      },
+      "audioM4a": "시드니 미지원",
+      "uploadUxStars": 2,
+      "uploadUxCriterion": "S3 콘솔/Admin UI (영업팀 부적합)",
+      "demoFeasibilityStars": 3,
+      "decisionMakerStars": 4,
+      "setupDifficulty": {
+        "label": "낮음",
+        "note": "AWS 콘솔에서 IAM Identity Center + 커넥터 설정. 관리형 SaaS라 서버 운영 없음"
+      },
+      "repeatDeployStars": 5,
+      "smHandoffStars": 5,
+      "portabilityStars": 4,
+      "uiCustomStars": 2,
+      "workflowStars": 3,
+      "integrationStars": 4,
+      "mcncSkillReuseStars": 2,
+      "security": {
+        "noTraining": true,
+        "kms": "기본 AWS / Enterprise Index CMK",
+        "vpc": "VPC Endpoint",
+        "sso": "IAM Identity Center 필수",
+        "certifications": ["ISO 27001/17/18", "SOC 1/2/3", "HIPAA BAA", "PCI DSS", "FedRAMP Moderate"]
+      },
+      "strengths": [
+        "40+ 커넥터: SharePoint/Confluence/S3 등 고객사 기존 시스템 즉시 연결",
+        "권한 자동 상속: IAM Identity Center + 소스 ACL 자동 반영",
+        "관리형 운영: 패치·스케일링·백업 AWS 책임",
+        "60일 무료 트라이얼: 프로토타입 $0 검증",
+        "AWS 주변 인프라 경험 활용 가능 (IAM · S3 · VPC 수준)"
+      ],
+      "weaknesses": [
+        "업로드 UX: 기본 S3/Admin 콘솔이라 영업팀 시연 어려움",
+        "시드니 리전 기능 제약: Q Apps/Actions, Audio/Video 미지원",
+        "LLM 선택 불가: AWS 내부 모델, 벤더 락인 강함",
+        "Pro 요금: $20/인·월 (Lite의 6.7배)",
+        "한국 외 데이터 상주 (시드니)"
+      ],
+      "docs": [
+        { "title": "Amazon Q Business 공식", "url": "https://aws.amazon.com/q/business/" },
+        { "title": "Pricing", "url": "https://aws.amazon.com/q/business/pricing/" },
+        { "title": "Subscription Tiers", "url": "https://docs.aws.amazon.com/amazonq/latest/qbusiness-ug/tiers.html" },
+        { "title": "Supported Connectors", "url": "https://docs.aws.amazon.com/amazonq/latest/qbusiness-ug/connectors-list.html" },
+        { "title": "Sydney Region 발표", "url": "https://aws.amazon.com/about-aws/whats-new/2025/03/amazon-q-business-asia-pacific-sydney-region/" }
+      ]
+    },
+    {
+      "id": "gemini",
+      "name": "Gemini Enterprise + Google Drive",
+      "shortName": "Gemini Enterprise",
+      "vendor": "Google Cloud",
+      "category": "Google 관리형 SaaS",
+      "categoryTag": "Google SaaS",
+      "colorVariant": "gemini",
+      "tagline": "Gemini Pro 계열 1M 토큰 + Document AI 최상위 파싱 + NotebookLM",
+      "topStrengths": [
+        "Document AI 파싱 품질 3사 중 최상위 (PPTX/XLSX)",
+        "1M~2M 토큰 컨텍스트 (Gemini Pro 계열)",
+        "NotebookLM 내장 + Drive 네이티브 연동"
+      ],
+      "pricing": {
+        "perUser": {
+          "min": 21,
+          "avg": 30,
+          "max": 60,
+          "unit": "USD/mo",
+          "note": "Business $21 연 / Standard $30 연, $35 월 / Plus $30~60"
+        },
+        "costBase": { "min": 6300, "avg": 9000, "max": 15000 },
+        "costPilot": { "min": 210, "avg": 350, "max": 500 },
+        "trial": "30일 Business (300명 한도), Standard/Plus 영업 협의"
+      },
+      "region": "도쿄/싱가포르/global",
+      "dataResidency": "일본(도쿄) 등",
+      "llmChoice": "선택 가능 (Gemini Pro/Flash 계열)",
+      "contextWindow": "1M~2M 토큰",
+      "connectors": "100+ (Drive 네이티브)",
+      "folderStructure": "Drive 구조 그대로",
+      "parsingQuality": {
+        "pptxXlsx": 5,
+        "note": "Document AI, 3사 중 최상위"
+      },
+      "audioM4a": "네이티브 지원 (다국어)",
+      "uploadUxStars": 5,
+      "uploadUxCriterion": "Drive 드래그&drop (영업팀 완전 친숙)",
+      "demoFeasibilityStars": 5,
+      "decisionMakerStars": 5,
+      "setupDifficulty": {
+        "label": "중간",
+        "note": "Google Cloud 프로젝트 + Workspace 라이선스 할당 + Drive 카탈로깅 구성. 도메인 검증과 영업 협의 필요"
+      },
+      "repeatDeployStars": 3,
+      "smHandoffStars": 4,
+      "portabilityStars": 3,
+      "uiCustomStars": 3,
+      "workflowStars": 5,
+      "integrationStars": 5,
+      "mcncSkillReuseStars": 2,
+      "security": {
+        "noTraining": true,
+        "kms": "기본 Google / CMEK (Standard/Plus)",
+        "vpc": "VPC Service Controls",
+        "sso": "Workspace SSO / SAML",
+        "certifications": ["ISO 27001/17/18", "SOC 1/2/3", "HIPAA", "PCI DSS", "FedRAMP High"]
+      },
+      "strengths": [
+        "Document AI 파싱 품질 최상위: PPTX/XLSX 비중이 높은 데이터에 가장 강력",
+        "1M~2M 토큰 컨텍스트: 폴더 전체 한 번에 이해",
+        "NotebookLM 내장: 영업팀 친숙한 UX 즉시 사용",
+        "Google Drive 네이티브: 복잡한 폴더 트리 구조 그대로 보존",
+        "Deep Research 에이전트: 내부 문서 자동 리서치"
+      ],
+      "weaknesses": [
+        "가격대: Business $21/인·월, Plus 최대 $60/인·월",
+        "리전 제약: 한국 리전 없음, 도쿄/싱가포르",
+        "MCNC 기존 노하우 활용 제한 (AWS 중심)",
+        "SSO 유연성: Workspace 외는 에디션·협의 필요",
+        "벤더 락인: Google 생태계 의존"
+      ],
+      "docs": [
+        { "title": "Gemini Enterprise 공식", "url": "https://cloud.google.com/gemini-enterprise" },
+        { "title": "Edition 비교", "url": "https://docs.cloud.google.com/gemini/enterprise/docs/editions" },
+        { "title": "Release notes", "url": "https://docs.cloud.google.com/gemini/enterprise/docs/release-notes" },
+        { "title": "Gemini 모델 전체", "url": "https://docs.cloud.google.com/vertex-ai/generative-ai/docs/models/gemini" }
+      ]
+    },
+    {
+      "id": "m365copilot",
+      "name": "Microsoft 365 Copilot",
+      "shortName": "M365 Copilot",
+      "vendor": "Microsoft",
+      "category": "Microsoft 관리형 SaaS",
+      "categoryTag": "MS SaaS",
+      "colorVariant": "m365copilot",
+      "tagline": "SharePoint RAG 자동화 + Word/Excel/PPT 네이티브 AI 내장",
+      "topStrengths": [
+        "M365 네이티브: Word/Excel/PPT/Outlook/Teams에서 바로 AI 사용",
+        "Office 문서 파싱 최고: PPTX/XLSX 원본 포맷 직접 이해",
+        "SharePoint RAG 자동화: 추가 설정 없이 즉시 검색"
+      ],
+      "pricing": {
+        "perUser": {
+          "min": 21,
+          "avg": 21,
+          "max": 30,
+          "unit": "USD/mo",
+          "note": "MCNC 권장: Business $21 (300명 한도) + Business Standard $12.50. Enterprise $30은 300명 초과 시"
+        },
+        "costBase": { "min": 6300, "avg": 6300, "max": 9000 },
+        "costPilot": { "min": 210, "avg": 210, "max": 300 },
+        "trial": "없음 (Pay-as-you-go 대안)"
+      },
+      "region": "한국 (저장) / 미국 등 (LLM 처리)",
+      "dataResidency": "한국 (데이터 저장 가능, LLM 처리는 해외)",
+      "llmChoice": "불가 (GPT 계열 고정, Copilot Studio 별도 시 선택 가능)",
+      "contextWindow": "GPT 계열 기준 (공식 수치 미공개)",
+      "connectors": "100+ (SharePoint, OneDrive, Teams, Exchange, 외부 커넥터)",
+      "folderStructure": "SharePoint/OneDrive 그대로",
+      "parsingQuality": {
+        "pptxXlsx": 5,
+        "note": "Office 네이티브 파서, 원본 포맷 직접 이해"
+      },
+      "audioM4a": "Teams 회의 녹음 전사/요약",
+      "uploadUxStars": 5,
+      "uploadUxCriterion": "SharePoint/OneDrive 자동 + Copilot Chat 드래그&드롭",
+      "demoFeasibilityStars": 4,
+      "decisionMakerStars": 5,
+      "setupDifficulty": {
+        "label": "낮음",
+        "note": "M365 관리센터에서 Copilot 라이선스 할당. 기존 SharePoint 데이터 자동 인덱싱"
+      },
+      "repeatDeployStars": 4,
+      "smHandoffStars": 5,
+      "portabilityStars": 3,
+      "uiCustomStars": 2,
+      "workflowStars": 4,
+      "integrationStars": 5,
+      "mcncSkillReuseStars": 1,
+      "security": {
+        "noTraining": true,
+        "kms": "BitLocker + 파일별 암호화 / ADR 옵션",
+        "vpc": "M365 서비스 경계 (VPC 개념 없음)",
+        "sso": "Entra ID (Azure AD) / SAML / 조건부 접근",
+        "certifications": ["ISO 27001/27018", "ISO 42001", "SOC 2 Type II", "GDPR", "HIPAA", "FedRAMP High"]
+      },
+      "strengths": [
+        "M365 네이티브 통합: Word/Excel/PPT/Outlook/Teams에서 바로 AI 사용",
+        "Office 문서 파싱 최고: PPTX/XLSX 원본 포맷 직접 이해, 변환 손실 없음",
+        "SharePoint RAG 자동화: 기존 문서를 추가 설정 없이 즉시 검색",
+        "100+ 커넥터: Confluence, Salesforce, Jira 등 외부 시스템 연동",
+        "한국 데이터 상주: 데이터 저장 시 한국 리전 사용 가능"
+      ],
+      "weaknesses": [
+        "이중 라이선스: E3+Copilot $66/인·월 (4사 중 최고가)",
+        "트라이얼 없음: 엔터프라이즈 무료 평가판 미제공, 연약정 필수",
+        "LLM 선택 제한: 기본 Copilot에서 모델 직접 선택 불가",
+        "MCNC AWS 노하우 재사용 불가: Microsoft 생태계 의존",
+        "LLM 처리 리전: 한국 in-country LLM 처리 아직 미지원"
+      ],
+      "docs": [
+        { "title": "M365 Copilot 공식", "url": "https://www.microsoft.com/en-us/microsoft-365-copilot" },
+        { "title": "프라이버시 · 보안", "url": "https://learn.microsoft.com/en-us/copilot/microsoft-365/microsoft-365-copilot-privacy" },
+        { "title": "아키텍처", "url": "https://learn.microsoft.com/en-us/copilot/microsoft-365/microsoft-365-copilot-architecture" },
+        { "title": "라이선스 옵션", "url": "https://learn.microsoft.com/en-us/copilot/microsoft-365/microsoft-365-copilot-licensing" }
+      ]
+    }
+  ],
+  "matrix": {
+    "categories": [
+      {
+        "id": "basic",
+        "label": "기본 정보",
+        "rows": [
+          { "label": "제품 유형", "field": "category" },
+          { "label": "제공사", "field": "vendor" },
+          { "label": "리전", "field": "region" },
+          { "label": "데이터 상주", "field": "dataResidency" }
+        ]
+      },
+      {
+        "id": "pricing",
+        "label": "가격",
+        "rows": [
+          { "label": "1인당 월 단가 (최소)", "field": "pricing.perUser.min", "unit": "USD/mo", "highlightLowest": true },
+          { "label": "1인당 월 단가 (평균)", "field": "pricing.perUser.avg", "unit": "USD/mo", "highlightLowest": true },
+          { "label": "1인당 월 단가 (최대)", "field": "pricing.perUser.max", "unit": "USD/mo" },
+          { "label": "가격 구조 설명", "field": "pricing.perUser.note" },
+          { "label": "무료 트라이얼", "field": "pricing.trial" }
+        ]
+      },
+      {
+        "id": "features",
+        "label": "기능",
+        "rows": [
+          { "label": "LLM 모델 선택", "field": "llmChoice" },
+          { "label": "컨텍스트 윈도우", "field": "contextWindow" },
+          { "label": "커넥터", "field": "connectors" },
+          { "label": "폴더 구조", "field": "folderStructure" },
+          { "label": "PPTX/XLSX 파싱 품질 (★)", "field": "parsingQuality.pptxXlsx", "star": true, "criterion": "Office 문서 파싱 정확도 (참고 샘플 기준 63% 비중)" },
+          { "label": "오디오 (m4a)", "field": "audioM4a" }
+        ]
+      },
+      {
+        "id": "demo",
+        "label": "시연 친숙도",
+        "rows": [
+          { "label": "업로드 UX (★)", "field": "uploadUxStars", "star": true, "criterion": "파일 업로드 완료까지 클릭/단계 수" },
+          { "label": "영업팀 시연 가능성 (★)", "field": "demoFeasibilityStars", "star": true, "criterion": "업로드 → 질문 플로우가 10분 내 시연 가능한가" },
+          { "label": "결정권자 평가 관점 (★)", "field": "decisionMakerStars", "star": true, "criterion": "시각적 완성도 + 답변 품질" }
+        ]
+      },
+      {
+        "id": "si",
+        "label": "SI 적합도",
+        "rows": [
+          { "label": "구축 난이도", "field": "setupDifficulty.label" },
+          { "label": "구축 시 주요 작업", "field": "setupDifficulty.note" },
+          { "label": "반복 배포 용이성 (★)", "field": "repeatDeployStars", "star": true, "criterion": "신규 프로젝트 투입 시 셋업 시간" },
+          { "label": "SM 이관 용이성 (★)", "field": "smHandoffStars", "star": true, "criterion": "운영 매뉴얼 작성·인계 부담" },
+          { "label": "프로젝트 간 이식성 (★)", "field": "portabilityStars", "star": true, "criterion": "패키지 재사용 가능성" }
+        ]
+      },
+      {
+        "id": "custom",
+        "label": "커스터마이징",
+        "rows": [
+          { "label": "UI 변경/브랜딩 (★)", "field": "uiCustomStars", "star": true, "criterion": "UI 소스 수정 자유도" },
+          { "label": "워크플로우 확장 (★)", "field": "workflowStars", "star": true, "criterion": "에이전트·워크플로우 빌더 기능" },
+          { "label": "사내 시스템 연동 (★)", "field": "integrationStars", "star": true, "criterion": "외부 API·커넥터 호출 유연성" }
+        ]
+      },
+      {
+        "id": "security",
+        "label": "보안",
+        "rows": [
+          { "label": "데이터 학습 미사용", "field": "security.noTraining", "bool": true },
+          { "label": "암호화 (KMS)", "field": "security.kms" },
+          { "label": "VPC 격리", "field": "security.vpc" },
+          { "label": "SSO", "field": "security.sso" }
+        ]
+      },
+      {
+        "id": "mcnc",
+        "label": "MCNC 노하우 활용도",
+        "rows": [
+          { "label": "기술 스택 호환성 (★)", "field": "mcncSkillReuseStars", "star": true, "criterion": "mcnc-rag, Docker, Bedrock 등 기존 자산 재사용도" }
+        ]
+      }
+    ]
+  }
+}

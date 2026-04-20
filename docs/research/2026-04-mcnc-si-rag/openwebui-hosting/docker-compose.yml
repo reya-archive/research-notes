@@ -1,0 +1,98 @@
+# ==============================================================================
+# openwebui-hosting - LiteLLM Proxy + Open WebUI 번들
+# ==============================================================================
+# 이 compose 하나로 두 서비스가 함께 뜹니다.
+#   - litellm    : Bedrock 을 OpenAI 호환으로 변환하는 프록시
+#   - open-webui : 내부 litellm 서비스에 자동 연결된 웹 UI (RAG 임베딩 포함)
+#
+# 사용 예:
+#   docker compose --env-file .env up -d
+#
+# 기동 후 접근 (기본 포트):
+#   http://<VM>:${OPENWEBUI_PORT}     Open WebUI
+#   http://<VM>:${LITELLM_PORT}/v1    OpenAI 호환 엔드포인트 (외부 클라이언트용)
+#
+# 포트는 .env 에서 변경 가능 (기존 서비스와 충돌 회피용으로 14000/13000 기본).
+# 프로젝트 이름을 명시해 서버에 이미 떠 있는 다른 compose 스택과 격리합니다.
+# ==============================================================================
+name: openwebui-hosting
+
+services:
+  litellm:
+    image: ghcr.io/berriai/litellm:main-stable
+    container_name: openwebui-hosting-litellm
+    restart: unless-stopped
+    ports:
+      # 호스트:컨테이너. 컨테이너 내부는 항상 4000 고정 (config 와 일치).
+      - "${LITELLM_PORT:-14000}:4000"
+    volumes:
+      - ./litellm_config.yaml:/app/config.yaml:ro
+    environment:
+      # AWS Bedrock 자격증명 (.env 에서 주입)
+      AWS_REGION_NAME: ${AWS_REGION:-ap-northeast-1}
+      AWS_ACCESS_KEY_ID: ${AWS_ACCESS_KEY_ID}
+      AWS_SECRET_ACCESS_KEY: ${AWS_SECRET_ACCESS_KEY}
+
+      # LiteLLM 프록시 인증키 (외부 클라이언트가 Bearer 로 보낼 값)
+      LITELLM_MASTER_KEY: ${LITELLM_MASTER_KEY}
+    command:
+      - "--config"
+      - "/app/config.yaml"
+      - "--port"
+      - "4000"
+      - "--num_workers"
+      - "1"
+    healthcheck:
+      test: ["CMD", "python", "-c", "import urllib.request; urllib.request.urlopen('http://127.0.0.1:4000/health/liveliness').read()"]
+      interval: 15s
+      timeout: 5s
+      retries: 10
+      start_period: 30s
+
+  open-webui:
+    image: ghcr.io/open-webui/open-webui:main
+    container_name: openwebui-hosting-webui
+    restart: unless-stopped
+    depends_on:
+      litellm:
+        condition: service_healthy
+    ports:
+      - "${OPENWEBUI_PORT:-13000}:8080"
+    volumes:
+      # 대화 기록 · 사용자 · 내장 ChromaDB(RAG) 전부 이 볼륨 안에 저장됨
+      - open-webui-data:/app/backend/data
+    environment:
+      # ---- LiteLLM 프록시 자동 연결 (컨테이너 간 DNS: "litellm") ----
+      OPENAI_API_BASE_URL: http://litellm:4000/v1
+      OPENAI_API_KEY: ${LITELLM_MASTER_KEY}
+
+      # ---- Ollama 비활성화 (LiteLLM 전용이라 불필요) ----
+      # OFF 로 두면 Admin Panel → Settings → Connections 에서 Ollama 섹션
+      # 자체가 사라지고, 시작 시 연결 시도 로그도 뜨지 않음.
+      ENABLE_OLLAMA_API: "false"
+
+      # ---- Arena · RAG 청크/Top-K 등 세부 설정은 env 로 넣지 않음 ----
+      # Open WebUI 의 PersistentConfig 때문에 env 반영이 불안정합니다.
+      # 최초 기동 후 Admin Panel 에서 맞추는 절차가 docs/04-admin-settings.md 에
+      # 체크리스트로 정리되어 있습니다.
+
+      # ---- RAG 임베딩 프리셋 ----
+      # engine=openai 는 "OpenAI 호환 엔드포인트를 쓴다"는 뜻이라 LiteLLM 으로 정상 라우팅됨
+      RAG_EMBEDDING_ENGINE: openai
+      RAG_EMBEDDING_MODEL: titan-embed-v2
+      RAG_OPENAI_API_BASE_URL: http://litellm:4000/v1
+      RAG_OPENAI_API_KEY: ${LITELLM_MASTER_KEY}
+
+      # ---- 브랜딩 / 운영 ----
+      # 기존 mcnc-llm-webui 와 시각적으로 구분되도록
+      WEBUI_NAME: ${WEBUI_NAME:-MCNC RAG Lab}
+      WEBUI_SECRET_KEY: ${WEBUI_SECRET_KEY}
+      # signup 은 열어둠 (최초 관리자 생성에 필요). 신규 가입자는 pending 으로
+      # 들어와 관리자 승인 전까지 로그인 불가. 첫 가입자는 Open WebUI 기본
+      # 규칙상 자동으로 관리자 권한을 받음.
+      ENABLE_SIGNUP: "true"
+      DEFAULT_USER_ROLE: pending
+
+volumes:
+  open-webui-data:
+    name: openwebui-hosting-data

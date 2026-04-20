@@ -1,0 +1,8 @@
+# 시크릿
+.env
+
+# OS / 에디터
+.DS_Store
+Thumbs.db
+.vscode/
+.idea/

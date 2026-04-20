@@ -2,7 +2,31 @@
   "permissions": {
     "allow": [
       "Bash(curl:*)",
-      "Bash(xargs grep:*)"
+      "Bash(xargs grep:*)",
+      "Bash(sed 's/.*\\\\.//')",
+      "Bash(find \"c:/Work/RnD/woongjinpi\" -type f -not -path \"*/.svn/*\" -size +50M -exec ls -lh {} \\\\;)",
+      "Bash(awk '{sum+=$1} END {printf \"%.2f MB\\\\n\", sum/1024/1024}')",
+      "WebSearch",
+      "WebFetch(domain:aws.amazon.com)",
+      "WebFetch(domain:www.epcgroup.net)",
+      "WebFetch(domain:www.geekwire.com)",
+      "WebFetch(domain:www.microsoft.com)",
+      "WebFetch(domain:ngenioussolutions.com)",
+      "WebFetch(domain:copilot-experts.com)",
+      "WebFetch(domain:blogs.microsoft.com)",
+      "WebFetch(domain:www.datastudios.org)",
+      "WebFetch(domain:techcommunity.microsoft.com)",
+      "Skill(validate-research-site)",
+      "Read(//c/Work/Repositories/.mcnc_ai-hub/mcnc-ai-platform/mcnc-rag/mcnc-rag-embedding/**)",
+      "Read(//c/Work/Repositories/.mcnc_ai-hub/mcnc-ai-platform/mcnc-llm/mcnc-llm-ollama/**)",
+      "Bash(bash -n \"C:/Work/Repositories/.reya-archive/research-notes/docs/research/2026-04-mcnc-si-rag/oss-hosting/setup.sh\")",
+      "Bash(python *)",
+      "Bash(rm -f ./_bedrock_test.json ./_claude_test.json ./_bedrock_models.json ./_profiles.json)",
+      "Bash(rm -f /tmp/bedrock_resp.json /tmp/bedrock_resp2.json /tmp/bedrock_resp3.json)",
+      "Bash(ls *.json)",
+      "WebFetch(domain:docs.dify.ai)",
+      "Bash(rm -f compose.nextcloud.yml docs/04-sync-setup.md)",
+      "Bash(rm -rf sync)"
     ]
   }
 }

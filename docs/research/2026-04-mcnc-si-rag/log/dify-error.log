@@ -1,0 +1,197 @@
+mcnc@mcncui-MacStudio mcnc-oss %   docker compose \
+>     -f dify/docker/docker-compose.yaml \
+>     -f compose.nextcloud.yml \
+>     --env-file .env \
+>     ps
+WARN[0000] The "CERTBOT_EMAIL" variable is not set. Defaulting to a blank string.
+WARN[0000] The "CERTBOT_DOMAIN" variable is not set. Defaulting to a blank string.
+NAME                     IMAGE                                       COMMAND                  SERVICE         CREATED         STATUS                          PORTS
+dify-sync                mcnc-rag/dify-sync:local                    "python -u sync.py"      dify-sync       4 minutes ago   Up 4 minutes
+docker-api-1             langgenius/dify-api:1.13.3                  "/bin/bash /entrypoi…"   api             4 minutes ago   Restarting (1) 19 seconds ago
+docker-nginx-1           nginx:latest                                "sh -c 'cp /docker-e…"   nginx           4 minutes ago   Up 4 minutes                    0.0.0.0:80->80/tcp, [::]:80->80/tcp, 0.0.0.0:443->443/tcp, [::]:443->443/tcp
+docker-plugin_daemon-1   langgenius/dify-plugin-daemon:0.5.3-local   "/bin/bash -c /app/e…"   plugin_daemon   4 minutes ago   Restarting (1) 3 seconds ago
+docker-redis-1           redis:6-alpine                              "docker-entrypoint.s…"   redis           4 minutes ago   Up 4 minutes (healthy)          6379/tcp
+docker-sandbox-1         langgenius/dify-sandbox:0.2.14              "/entrypoint.sh"         sandbox         4 minutes ago   Up 4 minutes (healthy)
+docker-ssrf_proxy-1      ubuntu/squid:latest                         "sh -c 'cp /docker-e…"   ssrf_proxy      4 minutes ago   Up 4 minutes                    3128/tcp
+docker-web-1             langgenius/dify-web:1.13.3                  "/bin/sh ./entrypoin…"   web             4 minutes ago   Up 4 minutes                    3000/tcp
+docker-worker-1          langgenius/dify-api:1.13.3                  "/bin/bash /entrypoi…"   worker          4 minutes ago   Up 4 minutes                    5001/tcp
+docker-worker_beat-1     langgenius/dify-api:1.13.3                  "/bin/bash /entrypoi…"   worker_beat     4 minutes ago   Up 4 minutes                    5001/tcp
+nextcloud                nextcloud:30-apache                         "/entrypoint.sh apac…"   nextcloud       4 minutes ago   Up 4 minutes                    0.0.0.0:8080->80/tcp, [::]:8080->80/tcp
+nextcloud-db             mariadb:11                                  "docker-entrypoint.s…"   nextcloud-db    4 minutes ago   Up 4 minutes (healthy)          3306/tcp
+mcnc@mcncui-MacStudio mcnc-oss %   docker compose \
+>     -f dify/docker/docker-compose.yaml \
+>     -f compose.nextcloud.yml \
+>     --env-file .env \
+>     logs --tail 100 api
+WARN[0000] The "CERTBOT_EMAIL" variable is not set. Defaulting to a blank string.
+WARN[0000] The "CERTBOT_DOMAIN" variable is not set. Defaulting to a blank string.
+api-1  | Starting database migration.
+api-1  | Database migration failed: (psycopg2.OperationalError) could not translate host name "db_postgres" to address: Name or service not known
+api-1  |
+api-1  | (Background on this error at: https://sqlalche.me/e/20/e3q8)
+api-1  | Running migrations
+api-1  | Warning! You didn't set docs_url, redoc_url or openapi_url.
+api-1  | API Documentation will be skipped.
+api-1  | Preparing database migration...
+api-1  | Starting database migration.
+api-1  | Database migration failed: (psycopg2.OperationalError) could not translate host name "db_postgres" to address: Name or service not known
+api-1  |
+api-1  | (Background on this error at: https://sqlalche.me/e/20/e3q8)
+api-1  | Running migrations
+api-1  | Warning! You didn't set docs_url, redoc_url or openapi_url.
+api-1  | API Documentation will be skipped.
+api-1  | Preparing database migration...
+api-1  | Starting database migration.
+api-1  | Database migration failed: (psycopg2.OperationalError) could not translate host name "db_postgres" to address: Name or service not known
+api-1  |
+api-1  | (Background on this error at: https://sqlalche.me/e/20/e3q8)
+api-1  | Running migrations
+api-1  | Warning! You didn't set docs_url, redoc_url or openapi_url.
+api-1  | API Documentation will be skipped.
+api-1  | Preparing database migration...
+api-1  | Starting database migration.
+api-1  | Database migration failed: (psycopg2.OperationalError) could not translate host name "db_postgres" to address: Name or service not known
+api-1  |
+api-1  | (Background on this error at: https://sqlalche.me/e/20/e3q8)
+api-1  | Running migrations
+api-1  | Warning! You didn't set docs_url, redoc_url or openapi_url.
+api-1  | API Documentation will be skipped.
+api-1  | Preparing database migration...
+api-1  | Starting database migration.
+api-1  | Database migration failed: (psycopg2.OperationalError) could not translate host name "db_postgres" to address: Name or service not known
+api-1  |
+api-1  | (Background on this error at: https://sqlalche.me/e/20/e3q8)
+api-1  | Running migrations
+api-1  | Warning! You didn't set docs_url, redoc_url or openapi_url.
+api-1  | API Documentation will be skipped.
+api-1  | Preparing database migration...
+api-1  | Starting database migration.
+api-1  | Database migration failed: (psycopg2.OperationalError) could not translate host name "db_postgres" to address: Name or service not known
+api-1  |
+api-1  | (Background on this error at: https://sqlalche.me/e/20/e3q8)
+api-1  | Running migrations
+api-1  | Warning! You didn't set docs_url, redoc_url or openapi_url.
+api-1  | API Documentation will be skipped.
+api-1  | Preparing database migration...
+api-1  | Starting database migration.
+api-1  | Database migration failed: (psycopg2.OperationalError) could not translate host name "db_postgres" to address: Name or service not known
+api-1  |
+api-1  | (Background on this error at: https://sqlalche.me/e/20/e3q8)
+api-1  | Running migrations
+api-1  | Warning! You didn't set docs_url, redoc_url or openapi_url.
+api-1  | API Documentation will be skipped.
+api-1  | Preparing database migration...
+api-1  | Starting database migration.
+api-1  | Database migration failed: (psycopg2.OperationalError) could not translate host name "db_postgres" to address: Name or service not known
+api-1  |
+api-1  | (Background on this error at: https://sqlalche.me/e/20/e3q8)
+api-1  | Running migrations
+api-1  | Warning! You didn't set docs_url, redoc_url or openapi_url.
+api-1  | API Documentation will be skipped.
+api-1  | Preparing database migration...
+api-1  | Starting database migration.
+api-1  | Database migration failed: (psycopg2.OperationalError) could not translate host name "db_postgres" to address: Name or service not known
+api-1  |
+api-1  | (Background on this error at: https://sqlalche.me/e/20/e3q8)
+api-1  | Running migrations
+api-1  | Warning! You didn't set docs_url, redoc_url or openapi_url.
+api-1  | API Documentation will be skipped.
+api-1  | Preparing database migration...
+api-1  | Starting database migration.
+api-1  | Database migration failed: (psycopg2.OperationalError) could not translate host name "db_postgres" to address: Name or service not known
+api-1  |
+api-1  | (Background on this error at: https://sqlalche.me/e/20/e3q8)
+api-1  | Running migrations
+api-1  | Warning! You didn't set docs_url, redoc_url or openapi_url.
+api-1  | API Documentation will be skipped.
+api-1  | Preparing database migration...
+api-1  | Starting database migration.
+api-1  | Database migration failed: (psycopg2.OperationalError) could not translate host name "db_postgres" to address: Name or service not known
+api-1  |
+api-1  | (Background on this error at: https://sqlalche.me/e/20/e3q8)
+api-1  | Running migrations
+api-1  | Warning! You didn't set docs_url, redoc_url or openapi_url.
+api-1  | API Documentation will be skipped.
+api-1  | Preparing database migration...
+api-1  | Starting database migration.
+api-1  | Database migration failed: (psycopg2.OperationalError) could not translate host name "db_postgres" to address: Name or service not known
+api-1  |
+api-1  | (Background on this error at: https://sqlalche.me/e/20/e3q8)
+api-1  | Running migrations
+api-1  | Warning! You didn't set docs_url, redoc_url or openapi_url.
+api-1  | API Documentation will be skipped.
+api-1  | Preparing database migration...
+api-1  | Starting database migration.
+api-1  | Database migration failed: (psycopg2.OperationalError) could not translate host name "db_postgres" to address: Name or service not known
+api-1  |
+api-1  | (Background on this error at: https://sqlalche.me/e/20/e3q8)
+mcnc@mcncui-MacStudio mcnc-oss %   docker compose \
+>     -f dify/docker/docker-compose.yaml \
+>     -f compose.nextcloud.yml \
+>     --env-file .env \
+>     logs --tail 50 nginx
+WARN[0000] The "CERTBOT_EMAIL" variable is not set. Defaulting to a blank string.
+WARN[0000] The "CERTBOT_DOMAIN" variable is not set. Defaulting to a blank string.
+nginx-1  | 2026/04/17 07:45:13 [error] 26#26: *14 connect() failed (111: Connection refused) while connecting to upstream, client: 172.66.0.243, server: _, request: "GET /console/api/system-features HTTP/1.1", upstream: "http://172.28.0.8:5001/console/api/system-features", host: "bizmob-ai.mcnc.co.kr", referrer: "http://bizmob-ai.mcnc.co.kr/install"
+nginx-1  | 172.66.0.243 - - [17/Apr/2026:07:45:13 +0000] "GET /console/api/system-features HTTP/1.1" 502 559 "http://bizmob-ai.mcnc.co.kr/install" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/147.0.0.0 Safari/537.36" "-"
+nginx-1  | 172.66.0.243 - - [17/Apr/2026:07:45:14 +0000] "GET /console/api/system-features HTTP/1.1" 502 559 "http://bizmob-ai.mcnc.co.kr/install" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/147.0.0.0 Safari/537.36" "-"
+nginx-1  | 2026/04/17 07:45:14 [error] 25#25: *13 connect() failed (111: Connection refused) while connecting to upstream, client: 172.66.0.243, server: _, request: "GET /console/api/system-features HTTP/1.1", upstream: "http://172.28.0.8:5001/console/api/system-features", host: "bizmob-ai.mcnc.co.kr", referrer: "http://bizmob-ai.mcnc.co.kr/install"
+nginx-1  | 172.66.0.243 - - [17/Apr/2026:07:45:24 +0000] "GET /console/api/system-features HTTP/1.1" 502 559 "http://bizmob-ai.mcnc.co.kr/install" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/147.0.0.0 Safari/537.36" "-"
+nginx-1  | 2026/04/17 07:45:24 [error] 25#25: *13 connect() failed (113: No route to host) while connecting to upstream, client: 172.66.0.243, server: _, request: "GET /console/api/system-features HTTP/1.1", upstream: "http://172.28.0.8:5001/console/api/system-features", host: "bizmob-ai.mcnc.co.kr", referrer: "http://bizmob-ai.mcnc.co.kr/install"
+nginx-1  | 2026/04/17 07:45:32 [error] 25#25: *13 connect() failed (113: No route to host) while connecting to upstream, client: 172.66.0.243, server: _, request: "GET /console/api/system-features HTTP/1.1", upstream: "http://172.28.0.8:5001/console/api/system-features", host: "bizmob-ai.mcnc.co.kr", referrer: "http://bizmob-ai.mcnc.co.kr/install"
+nginx-1  | 172.66.0.243 - - [17/Apr/2026:07:45:32 +0000] "GET /console/api/system-features HTTP/1.1" 502 559 "http://bizmob-ai.mcnc.co.kr/install" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/147.0.0.0 Safari/537.36" "-"
+nginx-1  | 172.66.0.243 - - [17/Apr/2026:07:45:32 +0000] "GET /logo/logo.svg HTTP/1.1" 200 584 "http://bizmob-ai.mcnc.co.kr/install" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/147.0.0.0 Safari/537.36" "-"
+nginx-1  | 172.66.0.243 - - [17/Apr/2026:07:45:32 +0000] "GET /console/api/system-features HTTP/1.1" 502 559 "http://bizmob-ai.mcnc.co.kr/install" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/147.0.0.0 Safari/537.36" "-"
+nginx-1  | 172.66.0.243 - - [17/Apr/2026:07:45:32 +0000] "GET /console/api/setup HTTP/1.1" 502 559 "http://bizmob-ai.mcnc.co.kr/install" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/147.0.0.0 Safari/537.36" "-"
+nginx-1  | 2026/04/17 07:45:32 [error] 25#25: *13 connect() failed (111: Connection refused) while connecting to upstream, client: 172.66.0.243, server: _, request: "GET /console/api/setup HTTP/1.1", upstream: "http://172.28.0.8:5001/console/api/setup", host: "bizmob-ai.mcnc.co.kr", referrer: "http://bizmob-ai.mcnc.co.kr/install"
+nginx-1  | 2026/04/17 07:45:32 [error] 26#26: *14 connect() failed (111: Connection refused) while connecting to upstream, client: 172.66.0.243, server: _, request: "GET /console/api/system-features HTTP/1.1", upstream: "http://172.28.0.8:5001/console/api/system-features", host: "bizmob-ai.mcnc.co.kr", referrer: "http://bizmob-ai.mcnc.co.kr/install"
+nginx-1  | 172.66.0.243 - - [17/Apr/2026:07:45:48 +0000] "GET /console/api/system-features HTTP/1.1" 502 559 "http://bizmob-ai.mcnc.co.kr/install" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/147.0.0.0 Safari/537.36" "-"
+nginx-1  | 2026/04/17 07:45:48 [error] 26#26: *14 connect() failed (113: No route to host) while connecting to upstream, client: 172.66.0.243, server: _, request: "GET /console/api/system-features HTTP/1.1", upstream: "http://172.28.0.8:5001/console/api/system-features", host: "bizmob-ai.mcnc.co.kr", referrer: "http://bizmob-ai.mcnc.co.kr/install"
+nginx-1  | 2026/04/17 07:45:53 [error] 26#26: *14 connect() failed (113: No route to host) while connecting to upstream, client: 172.66.0.243, server: _, request: "GET /console/api/system-features HTTP/1.1", upstream: "http://172.28.0.8:5001/console/api/system-features", host: "bizmob-ai.mcnc.co.kr", referrer: "http://bizmob-ai.mcnc.co.kr/install"
+nginx-1  | 172.66.0.243 - - [17/Apr/2026:07:45:53 +0000] "GET /console/api/system-features HTTP/1.1" 502 559 "http://bizmob-ai.mcnc.co.kr/install" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/147.0.0.0 Safari/537.36" "-"
+nginx-1  | 2026/04/17 07:46:00 [error] 26#26: *14 connect() failed (113: No route to host) while connecting to upstream, client: 172.66.0.243, server: _, request: "GET /console/api/system-features HTTP/1.1", upstream: "http://172.28.0.8:5001/console/api/system-features", host: "bizmob-ai.mcnc.co.kr", referrer: "http://bizmob-ai.mcnc.co.kr/install"
+nginx-1  | 172.66.0.243 - - [17/Apr/2026:07:46:00 +0000] "GET /console/api/system-features HTTP/1.1" 502 559 "http://bizmob-ai.mcnc.co.kr/install" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/147.0.0.0 Safari/537.36" "-"
+nginx-1  | 172.66.0.243 - - [17/Apr/2026:07:46:00 +0000] "GET /logo/logo.svg HTTP/1.1" 200 584 "http://bizmob-ai.mcnc.co.kr/install" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/147.0.0.0 Safari/537.36" "-"
+nginx-1  | 172.66.0.243 - - [17/Apr/2026:07:46:03 +0000] "GET /console/api/system-features HTTP/1.1" 502 559 "http://bizmob-ai.mcnc.co.kr/install" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/147.0.0.0 Safari/537.36" "-"
+nginx-1  | 172.66.0.243 - - [17/Apr/2026:07:46:03 +0000] "GET /console/api/setup HTTP/1.1" 502 559 "http://bizmob-ai.mcnc.co.kr/install" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/147.0.0.0 Safari/537.36" "-"
+nginx-1  | 2026/04/17 07:46:03 [error] 25#25: *13 connect() failed (113: No route to host) while connecting to upstream, client: 172.66.0.243, server: _, request: "GET /console/api/setup HTTP/1.1", upstream: "http://172.28.0.8:5001/console/api/setup", host: "bizmob-ai.mcnc.co.kr", referrer: "http://bizmob-ai.mcnc.co.kr/install"
+nginx-1  | 2026/04/17 07:46:03 [error] 26#26: *14 connect() failed (113: No route to host) while connecting to upstream, client: 172.66.0.243, server: _, request: "GET /console/api/system-features HTTP/1.1", upstream: "http://172.28.0.8:5001/console/api/system-features", host: "bizmob-ai.mcnc.co.kr", referrer: "http://bizmob-ai.mcnc.co.kr/install"
+nginx-1  | 2026/04/17 07:46:06 [error] 25#25: *13 connect() failed (113: No route to host) while connecting to upstream, client: 172.66.0.243, server: _, request: "GET /console/api/system-features HTTP/1.1", upstream: "http://172.28.0.8:5001/console/api/system-features", host: "bizmob-ai.mcnc.co.kr", referrer: "http://bizmob-ai.mcnc.co.kr/install"
+nginx-1  | 172.66.0.243 - - [17/Apr/2026:07:46:06 +0000] "GET /console/api/system-features HTTP/1.1" 502 559 "http://bizmob-ai.mcnc.co.kr/install" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/147.0.0.0 Safari/537.36" "-"
+nginx-1  | 2026/04/17 07:46:11 [error] 25#25: *13 connect() failed (113: No route to host) while connecting to upstream, client: 172.66.0.243, server: _, request: "GET /console/api/system-features HTTP/1.1", upstream: "http://172.28.0.8:5001/console/api/system-features", host: "bizmob-ai.mcnc.co.kr", referrer: "http://bizmob-ai.mcnc.co.kr/install"
+nginx-1  | 172.66.0.243 - - [17/Apr/2026:07:46:11 +0000] "GET /console/api/system-features HTTP/1.1" 502 559 "http://bizmob-ai.mcnc.co.kr/install" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/147.0.0.0 Safari/537.36" "-"
+nginx-1  | 172.66.0.243 - - [17/Apr/2026:07:46:16 +0000] "GET /console/api/system-features HTTP/1.1" 502 559 "http://bizmob-ai.mcnc.co.kr/install" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/147.0.0.0 Safari/537.36" "-"
+nginx-1  | 2026/04/17 07:46:16 [error] 25#25: *13 connect() failed (111: Connection refused) while connecting to upstream, client: 172.66.0.243, server: _, request: "GET /console/api/system-features HTTP/1.1", upstream: "http://172.28.0.8:5001/console/api/system-features", host: "bizmob-ai.mcnc.co.kr", referrer: "http://bizmob-ai.mcnc.co.kr/install"
+nginx-1  | 172.66.0.243 - - [17/Apr/2026:07:46:16 +0000] "GET /logo/logo.svg HTTP/1.1" 200 584 "http://bizmob-ai.mcnc.co.kr/install" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/147.0.0.0 Safari/537.36" "-"
+nginx-1  | 2026/04/17 07:46:16 [error] 25#25: *13 connect() failed (111: Connection refused) while connecting to upstream, client: 172.66.0.243, server: _, request: "GET /console/api/setup HTTP/1.1", upstream: "http://172.28.0.8:5001/console/api/setup", host: "bizmob-ai.mcnc.co.kr", referrer: "http://bizmob-ai.mcnc.co.kr/install"
+nginx-1  | 172.66.0.243 - - [17/Apr/2026:07:46:16 +0000] "GET /console/api/setup HTTP/1.1" 502 559 "http://bizmob-ai.mcnc.co.kr/install" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/147.0.0.0 Safari/537.36" "-"
+nginx-1  | 172.66.0.243 - - [17/Apr/2026:07:46:16 +0000] "GET /console/api/system-features HTTP/1.1" 502 559 "http://bizmob-ai.mcnc.co.kr/install" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/147.0.0.0 Safari/537.36" "-"
+nginx-1  | 2026/04/17 07:46:16 [error] 26#26: *14 connect() failed (111: Connection refused) while connecting to upstream, client: 172.66.0.243, server: _, request: "GET /console/api/system-features HTTP/1.1", upstream: "http://172.28.0.8:5001/console/api/system-features", host: "bizmob-ai.mcnc.co.kr", referrer: "http://bizmob-ai.mcnc.co.kr/install"
+nginx-1  | 2026/04/17 07:46:17 [error] 26#26: *14 connect() failed (111: Connection refused) while connecting to upstream, client: 172.66.0.243, server: _, request: "GET /console/api/system-features HTTP/1.1", upstream: "http://172.28.0.8:5001/console/api/system-features", host: "bizmob-ai.mcnc.co.kr", referrer: "http://bizmob-ai.mcnc.co.kr/install"
+nginx-1  | 172.66.0.243 - - [17/Apr/2026:07:46:17 +0000] "GET /console/api/system-features HTTP/1.1" 502 559 "http://bizmob-ai.mcnc.co.kr/install" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/147.0.0.0 Safari/537.36" "-"
+nginx-1  | 2026/04/17 07:46:19 [error] 26#26: *14 connect() failed (111: Connection refused) while connecting to upstream, client: 172.66.0.243, server: _, request: "GET /console/api/system-features HTTP/1.1", upstream: "http://172.28.0.8:5001/console/api/system-features", host: "bizmob-ai.mcnc.co.kr", referrer: "http://bizmob-ai.mcnc.co.kr/install"
+nginx-1  | 172.66.0.243 - - [17/Apr/2026:07:46:19 +0000] "GET /console/api/system-features HTTP/1.1" 502 559 "http://bizmob-ai.mcnc.co.kr/install" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/147.0.0.0 Safari/537.36" "-"
+nginx-1  | 2026/04/17 07:46:28 [error] 26#26: *14 connect() failed (113: No route to host) while connecting to upstream, client: 172.66.0.243, server: _, request: "GET /console/api/system-features HTTP/1.1", upstream: "http://172.28.0.8:5001/console/api/system-features", host: "bizmob-ai.mcnc.co.kr", referrer: "http://bizmob-ai.mcnc.co.kr/install"
+nginx-1  | 172.66.0.243 - - [17/Apr/2026:07:46:28 +0000] "GET /console/api/system-features HTTP/1.1" 502 559 "http://bizmob-ai.mcnc.co.kr/install" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/147.0.0.0 Safari/537.36" "-"
+nginx-1  | 172.66.0.243 - - [17/Apr/2026:07:46:28 +0000] "GET /logo/logo.svg HTTP/1.1" 200 584 "http://bizmob-ai.mcnc.co.kr/install" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/147.0.0.0 Safari/537.36" "-"
+nginx-1  | 2026/04/17 07:46:31 [error] 25#25: *13 connect() failed (113: No route to host) while connecting to upstream, client: 172.66.0.243, server: _, request: "GET /console/api/setup HTTP/1.1", upstream: "http://172.28.0.8:5001/console/api/setup", host: "bizmob-ai.mcnc.co.kr", referrer: "http://bizmob-ai.mcnc.co.kr/install"
+nginx-1  | 2026/04/17 07:46:31 [error] 29#29: *324 connect() failed (113: No route to host) while connecting to upstream, client: 172.66.0.243, server: _, request: "GET /console/api/system-features HTTP/1.1", upstream: "http://172.28.0.8:5001/console/api/system-features", host: "bizmob-ai.mcnc.co.kr", referrer: "http://bizmob-ai.mcnc.co.kr/install"
+nginx-1  | 172.66.0.243 - - [17/Apr/2026:07:46:31 +0000] "GET /console/api/setup HTTP/1.1" 502 559 "http://bizmob-ai.mcnc.co.kr/install" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/147.0.0.0 Safari/537.36" "-"
+nginx-1  | 172.66.0.243 - - [17/Apr/2026:07:46:31 +0000] "GET /console/api/system-features HTTP/1.1" 502 559 "http://bizmob-ai.mcnc.co.kr/install" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/147.0.0.0 Safari/537.36" "-"
+nginx-1  | 172.66.0.243 - - [17/Apr/2026:07:46:32 +0000] "GET /console/api/system-features HTTP/1.1" 502 559 "http://bizmob-ai.mcnc.co.kr/install" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/147.0.0.0 Safari/537.36" "-"
+nginx-1  | 2026/04/17 07:46:32 [error] 25#25: *13 connect() failed (111: Connection refused) while connecting to upstream, client: 172.66.0.243, server: _, request: "GET /console/api/system-features HTTP/1.1", upstream: "http://172.28.0.8:5001/console/api/system-features", host: "bizmob-ai.mcnc.co.kr", referrer: "http://bizmob-ai.mcnc.co.kr/install"
+nginx-1  | 2026/04/17 07:46:45 [error] 25#25: *13 connect() failed (113: No route to host) while connecting to upstream, client: 172.66.0.243, server: _, request: "GET /console/api/system-features HTTP/1.1", upstream: "http://172.28.0.8:5001/console/api/system-features", host: "bizmob-ai.mcnc.co.kr", referrer: "http://bizmob-ai.mcnc.co.kr/install"
+nginx-1  | 172.66.0.243 - - [17/Apr/2026:07:46:45 +0000] "GET /console/api/system-features HTTP/1.1" 502 559 "http://bizmob-ai.mcnc.co.kr/install" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/147.0.0.0 Safari/537.36" "-"
+mcnc@mcncui-MacStudio mcnc-oss %   docker compose \
+>     -f dify/docker/docker-compose.yaml \
+>     -f compose.nextcloud.yml \
+>     --env-file .env \
+>     logs --tail 50 web
+WARN[0000] The "CERTBOT_EMAIL" variable is not set. Defaulting to a blank string.
+WARN[0000] The "CERTBOT_DOMAIN" variable is not set. Defaulting to a blank string.
+web-1  | ▲ Next.js 16.2.1
+web-1  | - Local:         http://457a182e17cd:3000
+web-1  | - Network:       http://457a182e17cd:3000
+web-1  | ✓ Ready in 0ms
+web-1  | Using localhost as base URL in server environment, please configure accordingly.
+mcnc@mcncui-MacStudio mcnc-oss %

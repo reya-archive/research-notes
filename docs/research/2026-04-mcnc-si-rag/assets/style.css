@@ -1,0 +1,900 @@
+/* =========================================================================
+   MCNC SI RAG 리서치 전용 스타일
+   모든 커스텀 클래스는 .r-2026-04-mcnc-si-rag__ prefix 사용.
+   색상/간격은 main.css의 디자인 토큰을 그대로 상속.
+   제품 구분 색(Dify 주황 / Q Business 다크네이비 / Gemini 블루)은
+   배지·점·테두리 등 국소 지점에만 사용.
+   ========================================================================= */
+
+/* ---------- 제품 색 토큰 (국소 전용) ----------------------------------- */
+.r-2026-04-mcnc-si-rag {
+  --dify-accent: #f7921e;       /* Dify 주황 */
+  --dify-soft:   #fdf4e8;
+  --qb-accent:   #232f3e;       /* AWS 다크네이비 */
+  --qb-soft:     #eef1f5;
+  --gemini-accent: #1a73e8;     /* Google 블루 */
+  --gemini-soft:   #e8f0fe;
+  --m365-accent:   #0078d4;     /* Microsoft 블루 */
+  --m365-soft:     #e5f1fb;
+}
+
+/* ---------- 페이지 본문 폭 -------------------------------------------- */
+/* 랜딩·sub-page 모두 prose 영역을 확장해 카드/표가 충분히 넓게 렌더되도록 */
+.r-2026-04-mcnc-si-rag .prose {
+  max-width: 100%;
+}
+
+/* ---------- 섹션 앵커 네비게이션 (index 전용) ------------------------- */
+.r-2026-04-mcnc-si-rag__nav {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-3);
+  margin: var(--space-5) 0 var(--space-7);
+  padding: var(--space-4);
+  background: var(--color-surface);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius);
+}
+.r-2026-04-mcnc-si-rag__nav-label {
+  font-size: var(--fs-xs);
+  color: var(--color-text-subtle);
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  margin-right: var(--space-2);
+  align-self: center;
+}
+.r-2026-04-mcnc-si-rag__nav a {
+  font-size: var(--fs-sm);
+  padding: var(--space-2) var(--space-3);
+  border-radius: var(--radius-sm);
+  background: var(--color-bg);
+  border: 1px solid var(--color-border);
+  color: var(--color-text);
+  text-decoration: none;
+  transition: background-color var(--transition);
+}
+.r-2026-04-mcnc-si-rag__nav a:hover {
+  background: var(--color-surface-hover);
+  text-decoration: none;
+}
+
+/* ---------- 제약 조건 카드 그리드 (index 배경 섹션) ------------------ */
+.r-2026-04-mcnc-si-rag__constraints {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: var(--space-3);
+  margin: var(--space-4) 0;
+  list-style: none;
+  padding: 0;
+}
+.r-2026-04-mcnc-si-rag__constraints li {
+  padding: var(--space-4);
+  background: var(--color-surface);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius);
+  font-size: var(--fs-sm);
+}
+.r-2026-04-mcnc-si-rag__constraints strong {
+  display: block;
+  margin-bottom: var(--space-1);
+  font-size: var(--fs-xs);
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  color: var(--color-text-subtle);
+}
+
+/* ---------- 데이터 규모 인포그래픽 (591 파일 / 0.9GB) ----------------- */
+.r-2026-04-mcnc-si-rag__data-viz {
+  padding: var(--space-5);
+  background: var(--color-surface);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius);
+  margin: var(--space-4) 0;
+}
+.r-2026-04-mcnc-si-rag__data-viz-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  margin-bottom: var(--space-4);
+  gap: var(--space-4);
+  flex-wrap: wrap;
+}
+.r-2026-04-mcnc-si-rag__data-viz-stat {
+  font-size: var(--fs-2xl);
+  font-weight: 600;
+}
+.r-2026-04-mcnc-si-rag__data-viz-stat small {
+  font-size: var(--fs-sm);
+  color: var(--color-text-muted);
+  font-weight: 400;
+  margin-left: var(--space-2);
+}
+.r-2026-04-mcnc-si-rag__format-bar {
+  display: flex;
+  height: 24px;
+  border-radius: var(--radius-sm);
+  overflow: hidden;
+  border: 1px solid var(--color-border);
+  background: var(--color-bg);
+}
+.r-2026-04-mcnc-si-rag__format-bar > span {
+  display: block;
+  height: 100%;
+  font-size: var(--fs-xs);
+  color: #fff;
+  text-align: center;
+  line-height: 24px;
+  white-space: nowrap;
+  overflow: hidden;
+}
+.r-2026-04-mcnc-si-rag__format-legend {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-3);
+  margin-top: var(--space-3);
+  font-size: var(--fs-sm);
+  color: var(--color-text-muted);
+}
+.r-2026-04-mcnc-si-rag__format-legend-item {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-2);
+}
+.r-2026-04-mcnc-si-rag__format-legend-swatch {
+  width: 10px;
+  height: 10px;
+  border-radius: 2px;
+  display: inline-block;
+}
+
+/* ---------- 3개 제품 개요 카드 그리드 --------------------------------- */
+.r-2026-04-mcnc-si-rag__product-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: var(--space-4);
+  margin: var(--space-5) 0;
+  list-style: none;
+  padding: 0;
+}
+@media (max-width: 640px) {
+  .r-2026-04-mcnc-si-rag__product-grid {
+    grid-template-columns: 1fr;
+  }
+}
+.r-2026-04-mcnc-si-rag__product-grid > li + li {
+  margin-top: 0;
+}
+.r-2026-04-mcnc-si-rag__product-card {
+  display: flex;
+  flex-direction: column;
+  padding: var(--space-5);
+  background: var(--color-bg);
+  border: 1px solid var(--color-border);
+  border-top: 3px solid var(--color-border-strong);
+  border-radius: var(--radius);
+  transition: background-color var(--transition), border-color var(--transition);
+}
+.r-2026-04-mcnc-si-rag__product-card:hover {
+  background: var(--color-surface);
+}
+.r-2026-04-mcnc-si-rag__product-card--dify      { border-top-color: var(--dify-accent); }
+.r-2026-04-mcnc-si-rag__product-card--qbusiness { border-top-color: var(--qb-accent); }
+.r-2026-04-mcnc-si-rag__product-card--gemini      { border-top-color: var(--gemini-accent); }
+.r-2026-04-mcnc-si-rag__product-card--m365copilot { border-top-color: var(--m365-accent); }
+.r-2026-04-mcnc-si-rag__product-card-icon {
+  width: 40px;
+  height: 40px;
+  margin-bottom: var(--space-3);
+}
+.r-2026-04-mcnc-si-rag__product-card-title {
+  font-size: var(--fs-lg);
+  font-weight: 600;
+  margin: 0 0 var(--space-2);
+  letter-spacing: -0.005em;
+}
+.r-2026-04-mcnc-si-rag__product-card-tag {
+  display: inline-block;
+  font-size: var(--fs-xs);
+  padding: 2px var(--space-2);
+  border-radius: var(--radius-sm);
+  margin-bottom: var(--space-3);
+}
+.r-2026-04-mcnc-si-rag__product-card--dify .r-2026-04-mcnc-si-rag__product-card-tag {
+  background: var(--dify-soft);
+  color: var(--dify-accent);
+}
+.r-2026-04-mcnc-si-rag__product-card--qbusiness .r-2026-04-mcnc-si-rag__product-card-tag {
+  background: var(--qb-soft);
+  color: var(--qb-accent);
+}
+.r-2026-04-mcnc-si-rag__product-card--gemini .r-2026-04-mcnc-si-rag__product-card-tag {
+  background: var(--gemini-soft);
+  color: var(--gemini-accent);
+}
+.r-2026-04-mcnc-si-rag__product-card--m365copilot .r-2026-04-mcnc-si-rag__product-card-tag {
+  background: var(--m365-soft);
+  color: var(--m365-accent);
+}
+.r-2026-04-mcnc-si-rag__product-card-lede {
+  font-size: var(--fs-sm);
+  color: var(--color-text-muted);
+  margin: 0 0 var(--space-3);
+}
+.r-2026-04-mcnc-si-rag__product-card-strengths {
+  list-style: none;
+  padding: 0;
+  margin: 0 0 var(--space-4);
+  font-size: var(--fs-sm);
+  flex: 1;
+}
+.r-2026-04-mcnc-si-rag__product-card-strengths li {
+  padding: var(--space-1) 0;
+  padding-left: var(--space-4);
+  position: relative;
+}
+.r-2026-04-mcnc-si-rag__product-card-strengths li::before {
+  content: "";
+  position: absolute;
+  left: 0;
+  top: 10px;
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: var(--color-text-subtle);
+}
+.r-2026-04-mcnc-si-rag__product-card--dify      .r-2026-04-mcnc-si-rag__product-card-strengths li::before { background: var(--dify-accent); }
+.r-2026-04-mcnc-si-rag__product-card--qbusiness .r-2026-04-mcnc-si-rag__product-card-strengths li::before { background: var(--qb-accent); }
+.r-2026-04-mcnc-si-rag__product-card--gemini      .r-2026-04-mcnc-si-rag__product-card-strengths li::before { background: var(--gemini-accent); }
+.r-2026-04-mcnc-si-rag__product-card--m365copilot .r-2026-04-mcnc-si-rag__product-card-strengths li::before { background: var(--m365-accent); }
+.r-2026-04-mcnc-si-rag__product-card-cta {
+  font-size: var(--fs-sm);
+  font-weight: 600;
+  align-self: flex-start;
+}
+
+/* ---------- Overview 카드 내부 블록: 가격 · 스펙 · 평가 -------------- */
+.r-2026-04-mcnc-si-rag__product-card-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--space-3);
+  margin-bottom: var(--space-3);
+}
+.r-2026-04-mcnc-si-rag__product-card-head .r-2026-04-mcnc-si-rag__product-card-icon {
+  margin-bottom: 0;
+}
+.r-2026-04-mcnc-si-rag__product-card-head .r-2026-04-mcnc-si-rag__product-card-tag {
+  margin-bottom: 0;
+}
+
+.r-2026-04-mcnc-si-rag__product-card-body {
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+}
+
+.r-2026-04-mcnc-si-rag__product-card-price {
+  padding: var(--space-3) var(--space-4);
+  background: var(--color-surface);
+  border-radius: var(--radius-sm);
+  margin: var(--space-3) 0;
+  text-align: center;
+}
+.r-2026-04-mcnc-si-rag__product-card--dify .r-2026-04-mcnc-si-rag__product-card-price {
+  background: var(--dify-soft);
+}
+.r-2026-04-mcnc-si-rag__product-card--qbusiness .r-2026-04-mcnc-si-rag__product-card-price {
+  background: var(--qb-soft);
+}
+.r-2026-04-mcnc-si-rag__product-card--gemini .r-2026-04-mcnc-si-rag__product-card-price {
+  background: var(--gemini-soft);
+}
+.r-2026-04-mcnc-si-rag__product-card--m365copilot .r-2026-04-mcnc-si-rag__product-card-price {
+  background: var(--m365-soft);
+}
+.r-2026-04-mcnc-si-rag__product-card-price-label {
+  display: block;
+  font-size: var(--fs-xs);
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  color: var(--color-text-muted);
+  margin-bottom: var(--space-1);
+}
+.r-2026-04-mcnc-si-rag__product-card-price-value {
+  display: block;
+  font-size: var(--fs-2xl);
+  font-weight: 700;
+  color: var(--color-text);
+  letter-spacing: -0.01em;
+  line-height: 1.2;
+}
+.r-2026-04-mcnc-si-rag__product-card-price-note {
+  display: block;
+  font-size: var(--fs-xs);
+  color: var(--color-text-muted);
+  margin-top: var(--space-1);
+}
+.r-2026-04-mcnc-si-rag__product-card-price-note--highlight {
+  color: var(--color-text);
+  font-weight: 600;
+}
+.r-2026-04-mcnc-si-rag__product-card-price .r-2026-04-mcnc-si-rag__product-card-price-rows {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-1);
+}
+.r-2026-04-mcnc-si-rag__product-card-price-rows > li + li {
+  margin-top: 0;
+}
+.r-2026-04-mcnc-si-rag__product-card-price-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  gap: var(--space-3);
+}
+.r-2026-04-mcnc-si-rag__product-card-price-plan {
+  font-size: var(--fs-sm);
+  font-weight: 500;
+  color: var(--color-text-muted);
+}
+.r-2026-04-mcnc-si-rag__product-card-price-amount {
+  font-size: var(--fs-2xl);
+  font-weight: 700;
+  color: var(--color-text);
+  letter-spacing: -0.01em;
+  line-height: 1.2;
+}
+
+.r-2026-04-mcnc-si-rag__product-card-stats {
+  margin: var(--space-3) 0;
+  padding: 0;
+  font-size: var(--fs-sm);
+}
+.r-2026-04-mcnc-si-rag__product-card-stat {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: var(--space-2) 0;
+  border-bottom: 1px solid var(--color-border);
+  margin: 0;
+  gap: var(--space-3);
+}
+.r-2026-04-mcnc-si-rag__product-card-stat:last-child {
+  border-bottom: 0;
+}
+.r-2026-04-mcnc-si-rag__product-card-stat dt {
+  color: var(--color-text-muted);
+  margin: 0;
+  font-weight: 400;
+}
+.r-2026-04-mcnc-si-rag__product-card-stat dd {
+  margin: 0;
+  color: var(--color-text);
+  font-weight: 600;
+  text-align: right;
+}
+.r-2026-04-mcnc-si-rag__product-card-stat--stars dd {
+  letter-spacing: 1.5px;
+  color: var(--color-accent);
+}
+
+.r-2026-04-mcnc-si-rag__product-card-verdict {
+  margin: var(--space-3) 0 var(--space-2);
+  font-size: var(--fs-sm);
+  color: var(--color-text);
+  flex: 1;
+}
+.r-2026-04-mcnc-si-rag__product-card-verdict-label {
+  display: block;
+  font-size: var(--fs-xs);
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  color: var(--color-text-subtle);
+  margin-bottom: var(--space-1);
+  font-weight: 600;
+}
+.r-2026-04-mcnc-si-rag__product-card-caveat {
+  margin: 0 0 var(--space-4);
+  font-size: var(--fs-sm);
+  color: var(--color-text-muted);
+}
+.r-2026-04-mcnc-si-rag__product-card-caveat-label {
+  display: block;
+  font-size: var(--fs-xs);
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  color: var(--color-text-subtle);
+  margin-bottom: var(--space-1);
+  font-weight: 600;
+}
+
+/* ---------- sub-page 간 이동 네비게이션 (이전/다음) -------------------- */
+.r-2026-04-mcnc-si-rag__pager {
+  display: flex;
+  justify-content: space-between;
+  gap: var(--space-4);
+  margin: var(--space-8) 0 var(--space-5);
+  padding-top: var(--space-5);
+  border-top: 1px solid var(--color-border);
+}
+.r-2026-04-mcnc-si-rag__pager a {
+  display: block;
+  flex: 1;
+  padding: var(--space-4);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius);
+  text-decoration: none;
+  transition: background-color var(--transition);
+}
+.r-2026-04-mcnc-si-rag__pager a:hover {
+  background: var(--color-surface);
+  text-decoration: none;
+}
+.r-2026-04-mcnc-si-rag__pager-label {
+  display: block;
+  font-size: var(--fs-xs);
+  color: var(--color-text-subtle);
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  margin-bottom: var(--space-1);
+}
+.r-2026-04-mcnc-si-rag__pager-title {
+  font-size: var(--fs-sm);
+  font-weight: 600;
+  color: var(--color-text);
+}
+.r-2026-04-mcnc-si-rag__pager-next {
+  text-align: right;
+}
+
+/* ---------- 제품 뱃지 (sub-page 헤더용) ------------------------------- */
+.r-2026-04-mcnc-si-rag__product-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-2);
+  padding: var(--space-2) var(--space-3);
+  border-radius: var(--radius-sm);
+  font-size: var(--fs-xs);
+  font-weight: 600;
+  margin-bottom: var(--space-3);
+}
+.r-2026-04-mcnc-si-rag__product-badge--dify      { background: var(--dify-soft);   color: var(--dify-accent); }
+.r-2026-04-mcnc-si-rag__product-badge--qbusiness { background: var(--qb-soft);     color: var(--qb-accent); }
+.r-2026-04-mcnc-si-rag__product-badge--gemini      { background: var(--gemini-soft); color: var(--gemini-accent); }
+.r-2026-04-mcnc-si-rag__product-badge--m365copilot { background: var(--m365-soft);   color: var(--m365-accent); }
+
+/* ---------- 정보 표 (제품 개요, 가격 등) ------------------------------ */
+.r-2026-04-mcnc-si-rag__info-table {
+  width: 100%;
+  border-collapse: collapse;
+  margin: var(--space-4) 0;
+  font-size: var(--fs-sm);
+}
+.r-2026-04-mcnc-si-rag__info-table th,
+.r-2026-04-mcnc-si-rag__info-table td {
+  padding: var(--space-3);
+  text-align: left;
+  border-bottom: 1px solid var(--color-border);
+  vertical-align: top;
+}
+.r-2026-04-mcnc-si-rag__info-table th {
+  width: 30%;
+  color: var(--color-text-muted);
+  font-weight: 500;
+  background: var(--color-surface);
+}
+.r-2026-04-mcnc-si-rag__info-table td {
+  color: var(--color-text);
+}
+
+/* ---------- 비교 매트릭스 ------------------------------------------- */
+.r-2026-04-mcnc-si-rag__matrix {
+  margin: var(--space-4) 0;
+}
+.r-2026-04-mcnc-si-rag__matrix-category {
+  margin: var(--space-4) 0;
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius);
+  overflow: hidden;
+}
+.r-2026-04-mcnc-si-rag__matrix-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: var(--space-3) var(--space-4);
+  background: var(--color-surface);
+  border: 0;
+  width: 100%;
+  text-align: left;
+  font-size: var(--fs-base);
+  font-weight: 600;
+  color: var(--color-text);
+  cursor: pointer;
+  transition: background-color var(--transition);
+}
+.r-2026-04-mcnc-si-rag__matrix-header:hover {
+  background: var(--color-surface-hover);
+}
+.r-2026-04-mcnc-si-rag__matrix-toggle {
+  font-size: var(--fs-sm);
+  color: var(--color-text-muted);
+  transition: transform var(--transition);
+}
+.r-2026-04-mcnc-si-rag__matrix-header[aria-expanded="false"] .r-2026-04-mcnc-si-rag__matrix-toggle {
+  transform: rotate(-90deg);
+}
+.r-2026-04-mcnc-si-rag__matrix-body {
+  padding: 0;
+  overflow-x: auto;
+}
+.r-2026-04-mcnc-si-rag__matrix-body[hidden] { display: none; }
+.r-2026-04-mcnc-si-rag__matrix-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: var(--fs-sm);
+  min-width: 640px;
+}
+.r-2026-04-mcnc-si-rag__matrix-table th,
+.r-2026-04-mcnc-si-rag__matrix-table td {
+  padding: var(--space-3) var(--space-4);
+  text-align: left;
+  vertical-align: top;
+  border-top: 1px solid var(--color-border);
+}
+.r-2026-04-mcnc-si-rag__matrix-table thead th {
+  background: var(--color-bg);
+  font-weight: 600;
+  font-size: var(--fs-xs);
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  color: var(--color-text-subtle);
+  border-top: 0;
+}
+.r-2026-04-mcnc-si-rag__matrix-row-label {
+  width: 30%;
+  color: var(--color-text-muted);
+}
+.r-2026-04-mcnc-si-rag__matrix-criterion {
+  display: block;
+  font-size: var(--fs-xs);
+  color: var(--color-text-subtle);
+  margin-top: 2px;
+  font-weight: 400;
+}
+.r-2026-04-mcnc-si-rag__matrix-cell--highlight {
+  background: var(--color-surface);
+  font-weight: 600;
+  color: var(--color-text);
+  position: relative;
+}
+.r-2026-04-mcnc-si-rag__matrix-cell--highlight::after {
+  content: "최저";
+  position: absolute;
+  top: 4px;
+  right: 4px;
+  font-size: 10px;
+  color: var(--color-text-subtle);
+  font-weight: 400;
+}
+
+/* ---------- 별점 ------------------------------------------------------- */
+.r-2026-04-mcnc-si-rag__star {
+  color: var(--color-text-subtle);
+  letter-spacing: 2px;
+  font-size: var(--fs-base);
+}
+.r-2026-04-mcnc-si-rag__star-filled {
+  color: var(--color-accent);
+}
+
+/* ---------- 비용 시나리오 카드 ---------------------------------------- */
+.r-2026-04-mcnc-si-rag__cost-cards {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: var(--space-3);
+  margin: var(--space-4) 0;
+  list-style: none;
+  padding: 0;
+}
+.r-2026-04-mcnc-si-rag__cost-card {
+  padding: var(--space-4);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius);
+  background: var(--color-bg);
+}
+.r-2026-04-mcnc-si-rag__cost-card-label {
+  font-size: var(--fs-xs);
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  color: var(--color-text-subtle);
+  margin-bottom: var(--space-1);
+}
+.r-2026-04-mcnc-si-rag__cost-card-value {
+  font-size: var(--fs-xl);
+  font-weight: 600;
+  color: var(--color-text);
+}
+.r-2026-04-mcnc-si-rag__cost-card-sub {
+  font-size: var(--fs-xs);
+  color: var(--color-text-muted);
+  margin-top: var(--space-1);
+}
+
+/* ---------- 강점 / 약점 2 컬럼 ---------------------------------------- */
+.r-2026-04-mcnc-si-rag__pros-cons {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: var(--space-5);
+  margin: var(--space-4) 0;
+}
+@media (max-width: 640px) {
+  .r-2026-04-mcnc-si-rag__pros-cons {
+    grid-template-columns: 1fr;
+  }
+}
+.r-2026-04-mcnc-si-rag__pros,
+.r-2026-04-mcnc-si-rag__cons {
+  padding: var(--space-4);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius);
+}
+.r-2026-04-mcnc-si-rag__pros {
+  background: var(--color-bg);
+  border-left: 3px solid var(--color-accent);
+}
+.r-2026-04-mcnc-si-rag__cons {
+  background: var(--color-surface);
+  border-left: 3px solid var(--color-border-strong);
+}
+.r-2026-04-mcnc-si-rag__pros h4,
+.r-2026-04-mcnc-si-rag__cons h4 {
+  margin: 0 0 var(--space-2);
+  font-size: var(--fs-sm);
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  color: var(--color-text-subtle);
+}
+.r-2026-04-mcnc-si-rag__pros ul,
+.r-2026-04-mcnc-si-rag__cons ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  font-size: var(--fs-sm);
+}
+.r-2026-04-mcnc-si-rag__pros li,
+.r-2026-04-mcnc-si-rag__cons li {
+  padding: var(--space-2) 0;
+  border-top: 1px solid var(--color-border);
+}
+.r-2026-04-mcnc-si-rag__pros li:first-child,
+.r-2026-04-mcnc-si-rag__cons li:first-child { border-top: 0; }
+
+/* ---------- 강조 박스 (callout) --------------------------------------- */
+.r-2026-04-mcnc-si-rag__callout {
+  padding: var(--space-4);
+  background: var(--color-surface);
+  border-left: 3px solid var(--color-accent);
+  border-radius: var(--radius-sm);
+  margin: var(--space-4) 0;
+  font-size: var(--fs-sm);
+}
+.r-2026-04-mcnc-si-rag__callout strong {
+  display: block;
+  margin-bottom: var(--space-1);
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  font-size: var(--fs-xs);
+  color: var(--color-text-subtle);
+}
+
+/* ---------- 시연 시나리오 Q&A 카드 ------------------------------------ */
+.r-2026-04-mcnc-si-rag__scenarios {
+  list-style: none;
+  padding: 0;
+  margin: var(--space-4) 0;
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-3);
+}
+.r-2026-04-mcnc-si-rag__scenario {
+  padding: var(--space-4);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius);
+  background: var(--color-bg);
+}
+.r-2026-04-mcnc-si-rag__scenario-q {
+  font-weight: 600;
+  color: var(--color-text);
+  font-size: var(--fs-base);
+  margin: 0 0 var(--space-2);
+}
+.r-2026-04-mcnc-si-rag__scenario-path {
+  font-size: var(--fs-xs);
+  color: var(--color-text-subtle);
+  font-family: var(--font-mono);
+  margin-bottom: var(--space-2);
+}
+.r-2026-04-mcnc-si-rag__scenario-a {
+  font-size: var(--fs-sm);
+  color: var(--color-text-muted);
+  padding: var(--space-3);
+  background: var(--color-surface);
+  border-radius: var(--radius-sm);
+  margin: 0;
+}
+.r-2026-04-mcnc-si-rag__scenario-a strong {
+  color: var(--color-text);
+  display: block;
+  margin-bottom: var(--space-1);
+  font-size: var(--fs-xs);
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+}
+
+/* ---------- 2주 구축 일정표 (간트) ------------------------------------ */
+.r-2026-04-mcnc-si-rag__gantt {
+  margin: var(--space-4) 0;
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius);
+  overflow-x: auto;
+}
+.r-2026-04-mcnc-si-rag__gantt-grid {
+  display: grid;
+  grid-template-columns: 200px repeat(14, 1fr);
+  min-width: 720px;
+  font-size: var(--fs-xs);
+}
+.r-2026-04-mcnc-si-rag__gantt-grid > * {
+  padding: var(--space-2) var(--space-3);
+  border-top: 1px solid var(--color-border);
+  border-left: 1px solid var(--color-border);
+}
+.r-2026-04-mcnc-si-rag__gantt-grid > *:first-child,
+.r-2026-04-mcnc-si-rag__gantt-grid > :nth-child(16n+1) { border-left: 0; }
+.r-2026-04-mcnc-si-rag__gantt-header {
+  background: var(--color-surface);
+  font-weight: 600;
+  text-align: center;
+  color: var(--color-text-subtle);
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  border-top: 0;
+}
+.r-2026-04-mcnc-si-rag__gantt-task {
+  color: var(--color-text-muted);
+}
+.r-2026-04-mcnc-si-rag__gantt-bar {
+  background: var(--color-accent);
+  border-radius: 2px;
+  color: #fff;
+  font-size: 10px;
+  text-align: center;
+  padding: 2px;
+  align-self: center;
+  margin: 4px 0;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+/* ---------- 키-밸류 메트릭 (아키텍처/스펙 카드) ----------------------- */
+.r-2026-04-mcnc-si-rag__metrics {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+  gap: var(--space-3);
+  margin: var(--space-4) 0;
+  list-style: none;
+  padding: 0;
+}
+.r-2026-04-mcnc-si-rag__metrics > li {
+  padding: var(--space-3);
+  background: var(--color-surface);
+  border-radius: var(--radius-sm);
+  margin-top: 0;
+}
+.r-2026-04-mcnc-si-rag__metrics-label {
+  font-size: var(--fs-xs);
+  color: var(--color-text-subtle);
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  margin-bottom: var(--space-1);
+}
+.r-2026-04-mcnc-si-rag__metrics-value {
+  font-size: var(--fs-base);
+  font-weight: 600;
+  color: var(--color-text);
+}
+
+/* ---------- FAQ (details/summary) ------------------------------------- */
+.r-2026-04-mcnc-si-rag__faq {
+  margin: var(--space-4) 0;
+}
+.r-2026-04-mcnc-si-rag__faq details {
+  padding: var(--space-4);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius);
+  background: var(--color-bg);
+  margin-bottom: var(--space-3);
+}
+.r-2026-04-mcnc-si-rag__faq summary {
+  font-weight: 600;
+  cursor: pointer;
+  list-style: none;
+  color: var(--color-text);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: var(--space-3);
+}
+.r-2026-04-mcnc-si-rag__faq summary::-webkit-details-marker { display: none; }
+.r-2026-04-mcnc-si-rag__faq summary::after {
+  content: "+";
+  color: var(--color-text-subtle);
+  font-weight: 400;
+}
+.r-2026-04-mcnc-si-rag__faq details[open] summary::after { content: "-"; }
+.r-2026-04-mcnc-si-rag__faq details > :not(summary) {
+  margin-top: var(--space-3);
+  color: var(--color-text-muted);
+  font-size: var(--fs-sm);
+}
+
+/* ---------- 아키텍처 다이어그램 (ASCII/pre) --------------------------- */
+.r-2026-04-mcnc-si-rag__arch {
+  padding: var(--space-4);
+  background: var(--color-surface);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius);
+  overflow-x: auto;
+  font-family: var(--font-mono);
+  font-size: var(--fs-xs);
+  line-height: 1.6;
+  margin: var(--space-4) 0;
+  white-space: pre;
+  color: var(--color-text);
+}
+
+/* ---------- 출처 / 참고 링크 목록 ------------------------------------ */
+.r-2026-04-mcnc-si-rag__refs {
+  list-style: none;
+  padding: 0;
+  margin: var(--space-4) 0;
+  font-size: var(--fs-sm);
+}
+.r-2026-04-mcnc-si-rag__refs li {
+  padding: var(--space-2) 0;
+  border-top: 1px solid var(--color-border);
+}
+.r-2026-04-mcnc-si-rag__refs li:first-child { border-top: 0; }
+
+/* ---------- 인쇄 스타일 ----------------------------------------------- */
+@media print {
+  .site-header,
+  .site-footer,
+  .breadcrumb,
+  .sidebar,
+  .r-2026-04-mcnc-si-rag__nav,
+  .r-2026-04-mcnc-si-rag__pager {
+    display: none !important;
+  }
+  .layout--with-sidebar {
+    grid-template-columns: 1fr;
+    gap: 0;
+  }
+  .r-2026-04-mcnc-si-rag__matrix-body[hidden] {
+    display: block !important;
+  }
+  .r-2026-04-mcnc-si-rag__product-card,
+  .r-2026-04-mcnc-si-rag__matrix-category,
+  .r-2026-04-mcnc-si-rag__scenario,
+  .r-2026-04-mcnc-si-rag__faq details {
+    page-break-inside: avoid;
+  }
+  .r-2026-04-mcnc-si-rag__faq details:not([open]) > :not(summary) {
+    display: block !important;
+  }
+  body { background: #fff; color: #000; }
+}

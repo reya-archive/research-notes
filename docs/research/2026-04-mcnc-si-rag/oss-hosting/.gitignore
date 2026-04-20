@@ -1,0 +1,11 @@
+# 시크릿
+.env
+
+# Dify 공식 리포를 셋업 시 clone 하는 위치
+dify/
+
+# OS / 에디터
+.DS_Store
+Thumbs.db
+.vscode/
+.idea/

@@ -86,6 +86,15 @@ VSCode Live Server를 사용합니다. 워크스페이스 `.vscode/settings.json
 
 새 리서치를 시작하거나 push 전 점검할 때는 위 skills를 우선 활용하세요. 직접 파일을 수정하는 것보다 함정(`.html` partial, 경로 prefix 누락 등)을 피할 수 있습니다.
 
+## gstack
+
+`.claude/skills/gstack/`에 vendoring된 외부 스킬 팩입니다. 헤드리스 브라우저 자동화(Playwright 기반)와 리뷰/플랜/QA/배포 워크플로우를 제공합니다. 빌드 산출물(`browse/dist/`, `node_modules/` 등)이 필요하므로 새 환경에서는 `bun` 설치 후 `.claude/skills/gstack/setup --no-prefix`를 다시 실행해야 합니다.
+
+- **웹 브라우징은 항상 `/browse` 스킬로 처리합니다.** `mcp__claude-in-chrome__*` 도구는 사용하지 마세요.
+- gstack 스킬은 모두 짧은 이름(`/qa`, `/ship` 등)으로 호출합니다 (`--no-prefix` 옵션 적용).
+
+사용 가능한 스킬: `/office-hours`, `/plan-ceo-review`, `/plan-eng-review`, `/plan-design-review`, `/design-consultation`, `/design-shotgun`, `/design-html`, `/review`, `/ship`, `/land-and-deploy`, `/canary`, `/benchmark`, `/browse`, `/connect-chrome`, `/qa`, `/qa-only`, `/design-review`, `/setup-browser-cookies`, `/setup-deploy`, `/retro`, `/investigate`, `/document-release`, `/codex`, `/cso`, `/autoplan`, `/plan-devex-review`, `/devex-review`, `/careful`, `/freeze`, `/guard`, `/unfreeze`, `/gstack-upgrade`, `/learn`
+
 ## Git / 커밋
 
 - 사용자가 명시적으로 요청하지 않는 한 커밋하지 마세요

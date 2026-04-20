@@ -8,6 +8,15 @@
       "tags": ["sample", "infra"],
       "path": "research/2026-04-example-topic/index.html",
       "pages": 1
+    },
+    {
+      "id": "2026-04-mcnc-si-rag",
+      "title": "MCNC SI RAG 시스템 프로토타입 검증 결과",
+      "summary": "Dify+Bedrock, Q Business, Gemini Enterprise, M365 Copilot 4개 제품 동일 기준 비교",
+      "date": "2026-04-15",
+      "tags": ["rag", "llm", "si", "prototype"],
+      "path": "research/2026-04-mcnc-si-rag/index.html",
+      "pages": 8
     }
   ]
 }

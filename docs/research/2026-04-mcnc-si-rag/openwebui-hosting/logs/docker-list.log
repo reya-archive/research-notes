@@ -1,0 +1,21 @@
+mcnc@mcncui-MacStudio mcnc-oss % docker ps
+CONTAINER ID   IMAGE                                       COMMAND                  CREATED          STATUS                    PORTS                                                                          NAMES
+20e4d2a23d3e   nginx:latest                                "sh -c 'cp /docker-e…"   52 minutes ago   Up 52 minutes             0.0.0.0:80->80/tcp, [::]:80->80/tcp, 0.0.0.0:443->443/tcp, [::]:443->443/tcp   docker-nginx-1
+a7b00116d084   langgenius/dify-api:1.13.3                  "/bin/bash /entrypoi…"   52 minutes ago   Up 52 minutes             5001/tcp                                                                       docker-worker_beat-1
+83971ef1592a   langgenius/dify-api:1.13.3                  "/bin/bash /entrypoi…"   52 minutes ago   Up 52 minutes (healthy)   5001/tcp                                                                       docker-api-1
+14f36afa7fe3   langgenius/dify-api:1.13.3                  "/bin/bash /entrypoi…"   52 minutes ago   Up 52 minutes             5001/tcp                                                                       docker-worker-1
+ef715484f787   langgenius/dify-plugin-daemon:0.5.3-local   "/bin/bash -c /app/e…"   52 minutes ago   Up 52 minutes             0.0.0.0:5003->5003/tcp, [::]:5003->5003/tcp                                    docker-plugin_daemon-1
+fdd87dac58f8   postgres:15-alpine                          "docker-entrypoint.s…"   52 minutes ago   Up 52 minutes (healthy)   5432/tcp                                                                       docker-db_postgres-1
+f8003d0948bb   redis:6-alpine                              "docker-entrypoint.s…"   52 minutes ago   Up 52 minutes (healthy)   6379/tcp                                                                       docker-redis-1
+7a78a48fcd13   langgenius/dify-web:1.13.3                  "/bin/sh ./entrypoin…"   52 minutes ago   Up 52 minutes             3000/tcp                                                                       docker-web-1
+c8707105a77f   langgenius/dify-sandbox:0.2.14              "/entrypoint.sh"         52 minutes ago   Up 52 minutes (healthy)                                                                                  docker-sandbox-1
+1e683d96919f   semitechnologies/weaviate:1.27.0            "/bin/weaviate --hos…"   52 minutes ago   Up 52 minutes                                                                                            docker-weaviate-1
+0009e7004912   ubuntu/squid:latest                         "sh -c 'cp /docker-e…"   52 minutes ago   Up 52 minutes             3128/tcp                                                                       docker-ssrf_proxy-1
+94bb80a10873   mcnc-rag-portal:prod                        "/docker-entrypoint-…"   2 days ago       Up 2 days (unhealthy)     0.0.0.0:7080->80/tcp, [::]:7080->80/tcp                                        mcnc-rag-portal
+2a7aadb33e56   ghcr.io/open-webui/open-webui:v0.8.12       "bash -c ' apt-get u…"   2 weeks ago      Up 2 weeks (healthy)      0.0.0.0:3000->8080/tcp, [::]:3000->8080/tcp                                    mcnc-llm-webui
+02688585d7e2   mcnc-builder-mcp:latest                     "python -m app --pre…"   2 weeks ago      Up 2 weeks (unhealthy)    0.0.0.0:7020->7020/tcp, [::]:7020->7020/tcp                                    mcnc-builder-mcp
+1a734806dd29   mcnc-rag-mcp:latest                         "docker-entrypoint.s…"   3 weeks ago      Up 3 weeks (unhealthy)    0.0.0.0:7010->7010/tcp, [::]:7010->7010/tcp                                    mcnc-rag-mcp
+dfcc44ac2c19   mcnc-rag-api:latest                         "sh -c 'set -eux; ja…"   3 weeks ago      Up 3 weeks (healthy)      0.0.0.0:7000->8080/tcp, [::]:7000->8080/tcp                                    mcnc-rag-api
+d934d688cd09   ankane/pgvector:latest                      "docker-entrypoint.s…"   3 weeks ago      Up 3 weeks (healthy)      0.0.0.0:15432->5432/tcp, [::]:15432->5432/tcp                                  mcnc-rag-postgre
+f4537e3c36fd   gitlab/gitlab-ce:latest                     "/assets/init-contai…"   4 months ago     Up 7 weeks (healthy)      0.0.0.0:4000->80/tcp, [::]:4000->80/tcp                                        gitlab
+mcnc@mcncui-MacStudio mcnc-oss %
