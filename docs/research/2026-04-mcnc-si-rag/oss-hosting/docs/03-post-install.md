@@ -62,7 +62,7 @@ Save → Bedrock 카드에 LLM + 임베딩 2개 모델이 녹색 체크.
 > | `apac.`   | 아시아-태평양 크로스 리전 | `apac.anthropic.claude-sonnet-4-20250514-v1:0` |
 > | `global.` | 전 세계 크로스 리전 | `global.anthropic.claude-sonnet-4-6` |
 >
-> 데이터 주권이 우선이면 `jp.` 프로필을 쓰세요. Titan Embeddings 는 inference profile 이 필요 없어 직접 model ID 로 호출합니다.
+> 데이터 상주가 우선이면 `jp.` 프로필을 쓰세요. Titan Embeddings 는 inference profile 이 필요 없어 직접 model ID 로 호출합니다.
 
 **Save** 후 Model Provider 화면을 새로고침해 각 모델이 녹색 체크로 보이는지 확인.
 

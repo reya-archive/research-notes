@@ -184,22 +184,11 @@
 | **SSO** | Enterprise Edition만 (유료) | **IAM Identity Center 필수** | Workspace SSO / SAML | Entra ID (Azure AD) / SAML / 조건부 접근 |
 | **주요 인증** | Bedrock ISO/SOC/HIPAA | ISO/SOC/HIPAA/FedRAMP Moderate | ISO/SOC/HIPAA/FedRAMP High | ISO 27001/27018, ISO 42001, SOC 2, GDPR, HIPAA, FedRAMP High |
 
-## 9. MCNC 노하우 활용도 (별점 + 기준)
-
-### 기술 스택 호환성 (기준: mcnc-rag, Docker, PostgreSQL, Bedrock 등 기존 자산 재사용도)
-
-| 제품 | 별점 | 기준 |
-|---|---|---|
-| Dify + Bedrock | ★★★★★ | Docker Compose, PGVector, Bedrock 경험 100% 활용 |
-| Q Business | ★★★★☆ | IAM Identity Center, S3, CDK 경험 활용 |
-| Gemini Enterprise | ★★☆☆☆ | Google Cloud 직접 경험 제한적 |
-| M365 Copilot | ★☆☆☆☆ | AWS 중심 스택과 호환성 낮음, Microsoft 생태계 학습 필요 |
-
 ## 종합 비교표 (한 줄 요약)
 
 | 관점 | 선택지 |
 |---|---|
-| **저비용 + 데이터 주권** | Dify + Bedrock |
+| **저비용 + 사내 보관** | Dify + Bedrock |
 | **AWS 생태계 + 관리형** | Amazon Q Business |
 | **최고 품질 파싱 + UX** | Gemini Enterprise + Drive |
 | **M365 생태계 + Office 내장 AI** | Microsoft 365 Copilot |

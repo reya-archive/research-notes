@@ -1,2 +1,3 @@
 # gstack vendoring exclusions (gstack 자체 .gitignore에 누락된 Windows .exe)
 .claude/skills/gstack/bin/*.exe
+.gstack/

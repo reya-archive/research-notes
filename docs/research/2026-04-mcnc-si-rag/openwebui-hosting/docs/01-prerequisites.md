@@ -7,13 +7,13 @@
 | 항목 | 최소 | 권장 |
 |---|---|---|
 | vCPU | 2 | 2 ~ 4 |
-| RAM | 2 GB | 4 GB |
+| RAM | 4 GB | 6 ~ 8 GB |
 | 디스크 | 10 GB | 20 GB |
 | OS | Ubuntu 22.04 / Rocky Linux 9 등 최신 리눅스 | Ubuntu 24.04 |
 
-Open WebUI 가 내장 ChromaDB (RAG 벡터 저장) 를 쓰기 때문에 단순 프록시보다 메모리 · 디스크 여유가 조금 더 필요합니다. 대용량 Knowledge 업로드를 반복하면 디스크가 주요 제약이 되므로 여유 있게.
+Open WebUI 가 내장 ChromaDB (RAG 벡터 저장) 를 쓰고, 번들에 포함된 **Apache Tika 서버가 JVM heap 을 기본 1 GB (최대 `-Xmx1g`)** 로 잡습니다. 두 요소 합쳐 최소 RAM 을 4 GB 로 잡되, 대용량 PDF 배치를 자주 처리한다면 JVM heap 을 `-Xmx2g` 로 상향하고 VM RAM 도 6 GB 이상 권장 (`docker-compose.yml` 의 `tika` 서비스 `JAVA_OPTS`). 대용량 Knowledge 업로드를 반복하면 디스크가 주요 제약이 되므로 여유 있게.
 
-LLM 추론은 전부 Bedrock 에서 수행되므로 GPU 불필요.
+LLM 추론은 전부 Bedrock 에서 수행되므로 GPU 불필요. Tika 도 CPU 만 사용합니다.
 
 ### 설치 소프트웨어
 
@@ -73,7 +73,8 @@ LiteLLM 에 꽂을 Access Key 에 최소 권한을 붙입니다.
       "Effect": "Allow",
       "Action": [
         "bedrock:InvokeModel",
-        "bedrock:InvokeModelWithResponseStream"
+        "bedrock:InvokeModelWithResponseStream",
+        "bedrock:Rerank"
       ],
       "Resource": [
         "arn:aws:bedrock:*::foundation-model/*",
@@ -95,7 +96,8 @@ LiteLLM 에 꽂을 Access Key 에 최소 권한을 붙입니다.
 ```
 
 - `foundation-model/*` 은 Titan 같은 raw model ID 호출용
-- `inference-profile/*` 은 `global.anthropic.claude-*` · `apac.amazon.nova-*` 호출용 — 둘 다 필요
+- `inference-profile/*` 은 `global.anthropic.claude-*` · `apac.amazon.nova-*` 호출용 - 둘 다 필요
+- **`bedrock:Rerank`** 는 Cohere Rerank 3.5 를 통한 Reranking API 호출용. Rerank 는 `bedrock-agent-runtime.Rerank` 라는 별도 API 라 `InvokeModel` 권한만으로는 403 이 발생함. Reranker 를 아예 쓰지 않을 계획이면 이 한 줄은 생략 가능
 - Resource 에 `*` (전 리전) 을 허용하는 이유: `global.` · `apac.` 같은 크로스 리전 프로필은 여러 리전을 경유하므로 단일 리전으로 제한하면 런타임 거부
 - `aws-marketplace:*` 블록은 **Anthropic Claude 에만 필요** (Amazon Nova · Titan 은 Marketplace 구독 없이 직접 호출)
 
@@ -105,7 +107,7 @@ Claude 4.x 계열은 raw model ID 로 직접 호출이 막혀 있고 반드시 *
 
 | prefix | 데이터 상주 | 일일 토큰 쿼터 | 권장 용도 |
 |---|---|---|---|
-| `jp.`     | 도쿄 내 고정 | 가장 타이트 | 데이터 주권 필수 운영 |
+| `jp.`     | 도쿄 내 고정 | 가장 타이트 | 상주 요건 엄격 운영 |
 | `apac.`   | APAC 여러 리전 | 중간 | 아시아 내 허용되는 운영 |
 | `global.` | 여러 대륙 (미국 포함) | 가장 여유 | **시연 · 검증** 또는 리전 제약 없는 운영 |
 
@@ -115,7 +117,7 @@ Claude 4.x 계열은 raw model ID 로 직접 호출이 막혀 있고 반드시 *
 
 ### ⚠ 운영 전환 체크리스트
 
-실제 사용자에게 오픈하는 시점에는 **데이터 주권 요건을 다시 평가**하고 아래 중 하나로 전환하세요.
+실제 사용자에게 오픈하는 시점에는 **데이터 상주 요건을 다시 평가**하고 아래 중 하나로 전환하세요.
 
 1. Bedrock **Service Quotas** 콘솔에서 `jp.` (또는 `apac.`) 의 일일 토큰 쿼터를 실제 사용량 대비 충분히 증액 신청
 2. `litellm_config.yaml` 의 model 라인에서 `bedrock/global.*` → `bedrock/jp.*` 혹은 `bedrock/apac.*` 로 일괄 교체 (주석 블록도 동일하게)

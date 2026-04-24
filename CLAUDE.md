@@ -92,6 +92,7 @@ VSCode Live Server를 사용합니다. 워크스페이스 `.vscode/settings.json
 
 - **웹 브라우징은 항상 `/browse` 스킬로 처리합니다.** `mcp__claude-in-chrome__*` 도구는 사용하지 마세요.
 - gstack 스킬은 모두 짧은 이름(`/qa`, `/ship` 등)으로 호출합니다 (`--no-prefix` 옵션 적용).
+- vendored `browse/scripts/build-node-server.sh`에 Bun 1.3.11 호환용 한 줄 로컬 패치가 적용되어 있습니다(`bun build`의 `--external` 목록에 `@ngrok/ngrok` 추가). upstream main(v1.x)의 동일 수정을 cherry-pick한 것으로, 이 레포 vendored 버전은 `0.15.16.0`이라 해당 수정 이전입니다. `/gstack-upgrade`로 정식 업그레이드하면 로컬 패치는 upstream 코드에 자연 교체되어 사라집니다.
 
 사용 가능한 스킬: `/office-hours`, `/plan-ceo-review`, `/plan-eng-review`, `/plan-design-review`, `/design-consultation`, `/design-shotgun`, `/design-html`, `/review`, `/ship`, `/land-and-deploy`, `/canary`, `/benchmark`, `/browse`, `/connect-chrome`, `/qa`, `/qa-only`, `/design-review`, `/setup-browser-cookies`, `/setup-deploy`, `/retro`, `/investigate`, `/document-release`, `/codex`, `/cso`, `/autoplan`, `/plan-devex-review`, `/devex-review`, `/careful`, `/freeze`, `/guard`, `/unfreeze`, `/gstack-upgrade`, `/learn`
 

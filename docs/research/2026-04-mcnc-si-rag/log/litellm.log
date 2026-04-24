@@ -1,0 +1,96 @@
+mcnc@mcncui-MacStudio mcnc-oss-openwebui % docker compose logs -f --tail 100 litellm
+openwebui-hosting-litellm  |   File "/usr/lib/python3.13/site-packages/litellm/router.py", line 4071, in _aembedding
+openwebui-hosting-litellm  |     raise e
+openwebui-hosting-litellm  |   File "/usr/lib/python3.13/site-packages/litellm/router.py", line 4058, in _aembedding
+openwebui-hosting-litellm  |     response = await response
+openwebui-hosting-litellm  |                ^^^^^^^^^^^^^^
+openwebui-hosting-litellm  |   File "/usr/lib/python3.13/site-packages/litellm/utils.py", line 2072, in wrapper_async
+openwebui-hosting-litellm  |     raise e
+openwebui-hosting-litellm  |   File "/usr/lib/python3.13/site-packages/litellm/utils.py", line 1892, in wrapper_async
+openwebui-hosting-litellm  |     result = await original_function(*args, **kwargs)
+openwebui-hosting-litellm  |              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+openwebui-hosting-litellm  |   File "/usr/lib/python3.13/site-packages/litellm/main.py", line 4600, in aembedding
+openwebui-hosting-litellm  |     raise exception_type(
+openwebui-hosting-litellm  |           ~~~~~~~~~~~~~~^
+openwebui-hosting-litellm  |         model=model,
+openwebui-hosting-litellm  |         ^^^^^^^^^^^^
+openwebui-hosting-litellm  |     ...<3 lines>...
+openwebui-hosting-litellm  |         extra_kwargs=kwargs,
+openwebui-hosting-litellm  |         ^^^^^^^^^^^^^^^^^^^^
+openwebui-hosting-litellm  |     )
+openwebui-hosting-litellm  |     ^
+openwebui-hosting-litellm  |   File "/usr/lib/python3.13/site-packages/litellm/litellm_core_utils/exception_mapping_utils.py", line 2456, in exception_type
+openwebui-hosting-litellm  |     raise e
+openwebui-hosting-litellm  |   File "/usr/lib/python3.13/site-packages/litellm/litellm_core_utils/exception_mapping_utils.py", line 1140, in exception_type
+openwebui-hosting-litellm  |     raise RateLimitError(
+openwebui-hosting-litellm  |     ...<5 lines>...
+openwebui-hosting-litellm  |     )
+openwebui-hosting-litellm  | litellm.exceptions.RateLimitError: litellm.RateLimitError: BedrockException - {"message":"Too many requests, please wait before trying again."} LiteLLM Retried: 10 times
+openwebui-hosting-litellm  |
+openwebui-hosting-litellm  | During handling of the above exception, another exception occurred:
+openwebui-hosting-litellm  |
+openwebui-hosting-litellm  | Traceback (most recent call last):
+openwebui-hosting-litellm  |   File "/usr/lib/python3.13/site-packages/litellm/proxy/proxy_server.py", line 7187, in embeddings
+openwebui-hosting-litellm  |     response = await base_llm_response_processor.base_process_llm_request(
+openwebui-hosting-litellm  |                ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+openwebui-hosting-litellm  |     ...<16 lines>...
+openwebui-hosting-litellm  |     )
+openwebui-hosting-litellm  |     ^
+openwebui-hosting-litellm  |   File "/usr/lib/python3.13/site-packages/litellm/proxy/common_request_processing.py", line 953, in base_process_llm_request
+openwebui-hosting-litellm  |     responses = await llm_responses
+openwebui-hosting-litellm  |                 ^^^^^^^^^^^^^^^^^^^
+openwebui-hosting-litellm  |   File "/usr/lib/python3.13/site-packages/litellm/router.py", line 4001, in aembedding
+openwebui-hosting-litellm  |     raise e
+openwebui-hosting-litellm  |   File "/usr/lib/python3.13/site-packages/litellm/router.py", line 3990, in aembedding
+openwebui-hosting-litellm  |     response = await self.async_function_with_fallbacks(**kwargs)
+openwebui-hosting-litellm  |                ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+openwebui-hosting-litellm  |   File "/usr/lib/python3.13/site-packages/litellm/router.py", line 5413, in async_function_with_fallbacks
+openwebui-hosting-litellm  |     return await self.async_function_with_fallbacks_common_utils(
+openwebui-hosting-litellm  |            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+openwebui-hosting-litellm  |     ...<8 lines>...
+openwebui-hosting-litellm  |     )
+openwebui-hosting-litellm  |     ^
+openwebui-hosting-litellm  |   File "/usr/lib/python3.13/site-packages/litellm/router.py", line 5370, in async_function_with_fallbacks_common_utils
+openwebui-hosting-litellm  |     raise original_exception
+openwebui-hosting-litellm  |   File "/usr/lib/python3.13/site-packages/litellm/router.py", line 5404, in async_function_with_fallbacks
+openwebui-hosting-litellm  |     response = await self.async_function_with_retries(*args, **kwargs)
+openwebui-hosting-litellm  |                ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+openwebui-hosting-litellm  |   File "/usr/lib/python3.13/site-packages/litellm/router.py", line 5667, in async_function_with_retries
+openwebui-hosting-litellm  |     raise original_exception
+openwebui-hosting-litellm  |   File "/usr/lib/python3.13/site-packages/litellm/router.py", line 5596, in async_function_with_retries
+openwebui-hosting-litellm  |     response = await self.make_call(original_function, *args, **kwargs)
+openwebui-hosting-litellm  |                ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+openwebui-hosting-litellm  |   File "/usr/lib/python3.13/site-packages/litellm/router.py", line 5678, in make_call
+openwebui-hosting-litellm  |     response = await response
+openwebui-hosting-litellm  |                ^^^^^^^^^^^^^^
+openwebui-hosting-litellm  |   File "/usr/lib/python3.13/site-packages/litellm/router.py", line 4071, in _aembedding
+openwebui-hosting-litellm  |     raise e
+openwebui-hosting-litellm  |   File "/usr/lib/python3.13/site-packages/litellm/router.py", line 4058, in _aembedding
+openwebui-hosting-litellm  |     response = await response
+openwebui-hosting-litellm  |                ^^^^^^^^^^^^^^
+openwebui-hosting-litellm  |   File "/usr/lib/python3.13/site-packages/litellm/utils.py", line 2072, in wrapper_async
+openwebui-hosting-litellm  |     raise e
+openwebui-hosting-litellm  |   File "/usr/lib/python3.13/site-packages/litellm/utils.py", line 1892, in wrapper_async
+openwebui-hosting-litellm  |     result = await original_function(*args, **kwargs)
+openwebui-hosting-litellm  |              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+openwebui-hosting-litellm  |   File "/usr/lib/python3.13/site-packages/litellm/main.py", line 4600, in aembedding
+openwebui-hosting-litellm  |     raise exception_type(
+openwebui-hosting-litellm  |           ~~~~~~~~~~~~~~^
+openwebui-hosting-litellm  |         model=model,
+openwebui-hosting-litellm  |         ^^^^^^^^^^^^
+openwebui-hosting-litellm  |     ...<3 lines>...
+openwebui-hosting-litellm  |         extra_kwargs=kwargs,
+openwebui-hosting-litellm  |         ^^^^^^^^^^^^^^^^^^^^
+openwebui-hosting-litellm  |     )
+openwebui-hosting-litellm  |     ^
+openwebui-hosting-litellm  |   File "/usr/lib/python3.13/site-packages/litellm/litellm_core_utils/exception_mapping_utils.py", line 2456, in exception_type
+openwebui-hosting-litellm  |     raise e
+openwebui-hosting-litellm  |   File "/usr/lib/python3.13/site-packages/litellm/litellm_core_utils/exception_mapping_utils.py", line 1140, in exception_type
+openwebui-hosting-litellm  |     raise RateLimitError(
+openwebui-hosting-litellm  |     ...<5 lines>...
+openwebui-hosting-litellm  |     )
+openwebui-hosting-litellm  | litellm.exceptions.RateLimitError: litellm.RateLimitError: BedrockException - {"message":"Too many requests, please wait before trying again."}. Received Model Group=titan-embed-v2
+openwebui-hosting-litellm  | Available Model Group Fallbacks=None LiteLLM Retried: 10 times, LiteLLM Max Retries: 10
+openwebui-hosting-litellm  | INFO:     172.26.0.4:35190 - "POST /v1/embeddings HTTP/1.1" 429 Too Many Requests
+openwebui-hosting-litellm  | INFO:     127.0.0.1:37316 - "GET /health/liveliness HTTP/1.1" 200 OK
+openwebui-hosting-litellm  | INFO:     127.0.0.1:54522 - "GET /health/liveliness HTTP/1.1" 200 OK

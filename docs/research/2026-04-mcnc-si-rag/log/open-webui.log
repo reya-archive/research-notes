@@ -1,0 +1,101 @@
+mcnc@mcncui-MacStudio mcnc-oss-openwebui % docker compose logs -f --tail 100 open-webui
+openwebui-hosting-webui  |           │    │   │      └ <function BaseHTTPMiddleware.__call__.<locals>.call_next.<locals>.receive_or_disconnect at 0xfffeb43d34c0>
+openwebui-hosting-webui  |           │    │   └ {'type': 'http', 'asgi': {'version': '3.0', 'spec_version': '2.3'}, 'http_version': '1.1', 'server': ('172.26.0.4', 8080), 'c...
+openwebui-hosting-webui  |           │    └ <function request_response.<locals>.app at 0xfffea62227a0>
+openwebui-hosting-webui  |           └ APIRoute(path='/api/v1/knowledge/{id}/file/add', name='add_file_to_knowledge_by_id', methods=['POST'])
+openwebui-hosting-webui  |   File "/usr/local/lib/python3.11/site-packages/fastapi/routing.py", line 130, in app
+openwebui-hosting-webui  |     await wrap_app_handling_exceptions(app, request)(scope, receive, send)
+openwebui-hosting-webui  |           │                            │    │        │      │        └ <function wrap_app_handling_exceptions.<locals>.wrapped_app.<locals>.sender at 0xfffeb41f8400>
+openwebui-hosting-webui  |           │                            │    │        │      └ <function BaseHTTPMiddleware.__call__.<locals>.call_next.<locals>.receive_or_disconnect at 0xfffeb43d34c0>
+openwebui-hosting-webui  |           │                            │    │        └ {'type': 'http', 'asgi': {'version': '3.0', 'spec_version': '2.3'}, 'http_version': '1.1', 'server': ('172.26.0.4', 8080), 'c...
+openwebui-hosting-webui  |           │                            │    └ <starlette.requests.Request object at 0xfffeaeb5ef50>
+openwebui-hosting-webui  |           │                            └ <function request_response.<locals>.app.<locals>.app at 0xfffeb41fa700>
+openwebui-hosting-webui  |           └ <function wrap_app_handling_exceptions at 0xffffac28f100>
+openwebui-hosting-webui  |   File "/usr/local/lib/python3.11/site-packages/starlette/_exception_handler.py", line 42, in wrapped_app
+openwebui-hosting-webui  |     await app(scope, receive, sender)
+openwebui-hosting-webui  |           │   │      │        └ <function wrap_app_handling_exceptions.<locals>.wrapped_app.<locals>.sender at 0xfffea55e6520>
+openwebui-hosting-webui  |           │   │      └ <function BaseHTTPMiddleware.__call__.<locals>.call_next.<locals>.receive_or_disconnect at 0xfffeb43d34c0>
+openwebui-hosting-webui  |           │   └ {'type': 'http', 'asgi': {'version': '3.0', 'spec_version': '2.3'}, 'http_version': '1.1', 'server': ('172.26.0.4', 8080), 'c...
+openwebui-hosting-webui  |           └ <function request_response.<locals>.app.<locals>.app at 0xfffeb41fa700>
+openwebui-hosting-webui  |   File "/usr/local/lib/python3.11/site-packages/fastapi/routing.py", line 116, in app
+openwebui-hosting-webui  |     response = await f(request)
+openwebui-hosting-webui  |                      │ └ <starlette.requests.Request object at 0xfffeaeb5ef50>
+openwebui-hosting-webui  |                      └ <function get_request_handler.<locals>.app at 0xfffea6222980>
+openwebui-hosting-webui  |   File "/usr/local/lib/python3.11/site-packages/fastapi/routing.py", line 670, in app
+openwebui-hosting-webui  |     raw_response = await run_endpoint_function(
+openwebui-hosting-webui  |                          └ <function run_endpoint_function at 0xffffac2d2840>
+openwebui-hosting-webui  |   File "/usr/local/lib/python3.11/site-packages/fastapi/routing.py", line 324, in run_endpoint_function
+openwebui-hosting-webui  |     return await dependant.call(**values)
+openwebui-hosting-webui  |                  │         │      └ {'user': UserModel(id='e6ae008e-4fc0-4ada-ad71-7beec829dd3e', email='admin@mcnc.co.kr', username=None, role='admin', name='ad...
+openwebui-hosting-webui  |                  │         └ <function add_file_to_knowledge_by_id at 0xfffeb61e0180>
+openwebui-hosting-webui  |                  └ Dependant(path_params=[ModelField(field_info=Path(PydanticUndefined), name='id', mode='validation', config=None)], query_para...
+openwebui-hosting-webui  |
+openwebui-hosting-webui  |   File "/app/backend/open_webui/routers/knowledge.py", line 661, in add_file_to_knowledge_by_id
+openwebui-hosting-webui  |     await process_file(
+openwebui-hosting-webui  |           └ <function process_file at 0xfffebabce2a0>
+openwebui-hosting-webui  |
+openwebui-hosting-webui  | > File "/app/backend/open_webui/routers/retrieval.py", line 1730, in process_file
+openwebui-hosting-webui  |     raise e
+openwebui-hosting-webui  |           └ ClientResponseError(RequestInfo(url=URL('http://litellm:4000/v1/embeddings'), method='POST', headers=<CIMultiDictProxy('Host'...
+openwebui-hosting-webui  |
+openwebui-hosting-webui  |   File "/app/backend/open_webui/routers/retrieval.py", line 1688, in process_file
+openwebui-hosting-webui  |     result = await run_in_threadpool(
+openwebui-hosting-webui  |                    └ <function run_in_threadpool at 0xffffac459760>
+openwebui-hosting-webui  |
+openwebui-hosting-webui  |   File "/usr/local/lib/python3.11/site-packages/starlette/concurrency.py", line 32, in run_in_threadpool
+openwebui-hosting-webui  |     return await anyio.to_thread.run_sync(func)
+openwebui-hosting-webui  |                  │     │         │        └ functools.partial(<function save_docs_to_vector_db at 0xfffebabce160>, <starlette.requests.Request object at 0xfffeaeb5ef50>,...
+openwebui-hosting-webui  |                  │     │         └ <function run_sync at 0xffffaf1700e0>
+openwebui-hosting-webui  |                  │     └ <module 'anyio.to_thread' from '/usr/local/lib/python3.11/site-packages/anyio/to_thread.py'>
+openwebui-hosting-webui  |                  └ <module 'anyio' from '/usr/local/lib/python3.11/site-packages/anyio/__init__.py'>
+openwebui-hosting-webui  |   File "/usr/local/lib/python3.11/site-packages/anyio/to_thread.py", line 63, in run_sync
+openwebui-hosting-webui  |     return await get_async_backend().run_sync_in_worker_thread(
+openwebui-hosting-webui  |                  └ <function get_async_backend at 0xffffaf40e0c0>
+openwebui-hosting-webui  |   File "/usr/local/lib/python3.11/site-packages/anyio/_backends/_asyncio.py", line 2518, in run_sync_in_worker_thread
+openwebui-hosting-webui  |     return await future
+openwebui-hosting-webui  |                  └ <Future finished exception=ClientResponseError(RequestInfo(url=URL('http://litellm:4000/v1/embeddings'), method='POST', heade...
+openwebui-hosting-webui  |   File "/usr/local/lib/python3.11/site-packages/anyio/_backends/_asyncio.py", line 1002, in run
+openwebui-hosting-webui  |     result = context.run(func, *args)
+openwebui-hosting-webui  |
+openwebui-hosting-webui  |   File "/app/backend/open_webui/routers/retrieval.py", line 1531, in save_docs_to_vector_db
+openwebui-hosting-webui  |     raise e
+openwebui-hosting-webui  |
+openwebui-hosting-webui  |   File "/app/backend/open_webui/routers/retrieval.py", line 1508, in save_docs_to_vector_db
+openwebui-hosting-webui  |     embeddings = future.result(timeout=embedding_timeout)
+openwebui-hosting-webui  |                  │      │              └ None
+openwebui-hosting-webui  |                  │      └ <function Future.result at 0xffffb04262a0>
+openwebui-hosting-webui  |                  └ <Future at 0xfffeacac6c90 state=finished raised ClientResponseError>
+openwebui-hosting-webui  |
+openwebui-hosting-webui  |   File "/usr/local/lib/python3.11/concurrent/futures/_base.py", line 456, in result
+openwebui-hosting-webui  |     return self.__get_result()
+openwebui-hosting-webui  |            └ None
+openwebui-hosting-webui  |   File "/usr/local/lib/python3.11/concurrent/futures/_base.py", line 401, in __get_result
+openwebui-hosting-webui  |     raise self._exception
+openwebui-hosting-webui  |           └ None
+openwebui-hosting-webui  |
+openwebui-hosting-webui  |   File "/app/backend/open_webui/retrieval/utils.py", line 959, in async_embedding_function
+openwebui-hosting-webui  |     batch_results.append(await embedding_function(batch, prefix=prefix, user=user))
+openwebui-hosting-webui  |     │             │            │                  │             │            └ UserModel(id='e6ae008e-4fc0-4ada-ad71-7beec829dd3e', email='admin@mcnc.co.kr', username=None, role='admin', name='admin', pro...
+openwebui-hosting-webui  |     │             │            │                  │             └ None
+openwebui-hosting-webui  |     │             │            │                  └ ['2026년 변경 2025년 구분변경 전변경 후 점심시간오전 11시 30분 ~ 오후 12시 30분 오후 12시 ~ 오후 1시 집중✅오전 9시 30분 ~ 오전 11시 30분 근무시간 시행 카페테리아 및 흡연 자제 지각누계시간...
+openwebui-hosting-webui  |     │             │            └ <function get_embedding_function.<locals>.<lambda> at 0xfffeb41fad40>
+openwebui-hosting-webui  |     │             └ <method 'append' of 'list' objects>
+openwebui-hosting-webui  |     └ []
+openwebui-hosting-webui  |
+openwebui-hosting-webui  |   File "/app/backend/open_webui/retrieval/utils.py", line 1012, in generate_embeddings
+openwebui-hosting-webui  |     embeddings = await agenerate_openai_batch_embeddings(
+openwebui-hosting-webui  |                        └ <function agenerate_openai_batch_embeddings at 0xfffebabcd120>
+openwebui-hosting-webui  |
+openwebui-hosting-webui  |   File "/app/backend/open_webui/retrieval/utils.py", line 730, in agenerate_openai_batch_embeddings
+openwebui-hosting-webui  |     r.raise_for_status()
+openwebui-hosting-webui  |     │ └ <function ClientResponse.raise_for_status at 0xffffac57c720>
+openwebui-hosting-webui  |     └ <ClientResponse(http://litellm:4000/v1/embeddings) [429 Too Many Requests]>
+openwebui-hosting-webui  |       <CIMultiDictProxy('Date': 'Thu, 23 Apr 2026 01:12...
+openwebui-hosting-webui  |
+openwebui-hosting-webui  |   File "/usr/local/lib/python3.11/site-packages/aiohttp/client_reqrep.py", line 636, in raise_for_status
+openwebui-hosting-webui  |     raise ClientResponseError(
+openwebui-hosting-webui  |           └ <class 'aiohttp.client_exceptions.ClientResponseError'>
+openwebui-hosting-webui  |
+openwebui-hosting-webui  | aiohttp.client_exceptions.ClientResponseError: 429, message='Too Many Requests', url='http://litellm:4000/v1/embeddings'
+openwebui-hosting-webui  | 2026-04-23 01:13:26.498 | INFO     | uvicorn.protocols.http.httptools_impl:send:483 - 172.66.0.243:63170 - "POST /api/v1/knowledge/908275ea-0d91-4ccd-92c9-456331129ea5/file/add HTTP/1.1" 400
+openwebui-hosting-webui  | 2026-04-23 01:13:58.018 | INFO     | uvicorn.protocols.http.httptools_impl:send:483 - 172.66.0.243:24648 - "GET /_app/version.json HTTP/1.1" 200

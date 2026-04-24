@@ -1,0 +1,315 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="robots" content="noindex, nofollow, noarchive">
+  <title>Microsoft 365 Copilot - MCNC SI RAG - Research Notes</title>
+  <base href="/research-notes/">
+  <link rel="stylesheet" href="assets/css/main.css">
+  <link rel="stylesheet" href="research/2026-04-mcnc-si-rag/assets/style.css">
+</head>
+<body data-include-pending class="r-2026-04-mcnc-si-rag">
+  <div data-include="assets/partials/header.tpl"></div>
+
+  <main class="page">
+    <nav class="breadcrumb">
+      <a href="/research-notes/">Research Notes</a>
+      <span class="breadcrumb__sep">/</span>
+      <a href="research/2026-04-mcnc-si-rag/index.html">MCNC SI RAG</a>
+      <span class="breadcrumb__sep">/</span>
+      <span>Microsoft 365 Copilot</span>
+    </nav>
+
+    <div class="layout--with-sidebar">
+      <aside class="sidebar">
+        <h2 class="sidebar__title">MCNC SI RAG</h2>
+        <ul class="sidebar__list">
+          <li><a href="research/2026-04-mcnc-si-rag/index.html">개요</a></li>
+          <li><a href="research/2026-04-mcnc-si-rag/pages/01-openwebui-bedrock.html">Open WebUI + Bedrock</a></li>
+          <li><a href="research/2026-04-mcnc-si-rag/pages/02-q-business.html">Amazon Q Business</a></li>
+          <li><a href="research/2026-04-mcnc-si-rag/pages/03-m365-copilot.html">Microsoft 365 Copilot</a></li>
+          <li><a href="research/2026-04-mcnc-si-rag/pages/04-claude-teams.html">Claude Teams</a></li>
+          <li><a href="research/2026-04-mcnc-si-rag/pages/05-comparison.html">비교 매트릭스</a></li>
+        </ul>
+      </aside>
+
+      <article class="prose">
+        <header class="page-header">
+          <span class="r-2026-04-mcnc-si-rag__product-badge r-2026-04-mcnc-si-rag__product-badge--m365copilot">Microsoft 관리형 SaaS</span>
+          <p class="page-header__eyebrow">제품 상세 · 3 / 4</p>
+          <h1 class="page-header__title">Microsoft 365 Copilot</h1>
+          <p class="page-header__lede">
+            Microsoft 가 제공하는 M365 통합 AI 어시스턴트입니다.
+            SharePoint · OneDrive · Teams 문서를 별도 업로드 없이 자동 인식하고,
+            Word · Excel · PowerPoint 안에서 직접 AI 기능을 호출할 수 있습니다.
+          </p>
+        </header>
+
+        <p class="r-2026-04-mcnc-si-rag__callout">
+          <strong>영업팀 핵심 3줄</strong>
+          ① <strong>별도 업로드 단계가 없습니다</strong> - SharePoint/OneDrive/Teams 문서를 자동 인식.
+          ② Office 앱에서 직접 사용 가능해 <strong>직원 교육 부담이 가장 적습니다</strong>.
+          ③ 비용은 <strong>이중 라이선스 구조</strong>(M365 기본 + Copilot 추가) 라 1인당 월 $33.50 수준 - 고객사가 이미 M365 사용 중이어야 합리적.
+        </p>
+
+        <h2 id="overview">제품 개요</h2>
+        <table class="r-2026-04-mcnc-si-rag__info-table">
+          <tbody>
+            <tr><th>제공사</th><td>Microsoft</td></tr>
+            <tr><th>출시</th><td>2023년 11월 정식 출시 (Enterprise), 지속 업데이트 중</td></tr>
+            <tr><th>카테고리</th><td>Microsoft 관리형 SaaS 엔터프라이즈 AI 어시스턴트</td></tr>
+            <tr><th>핵심 가치</th><td>M365 네이티브 통합 + SharePoint 자동 인식 + Office 앱 내장 AI</td></tr>
+          </tbody>
+        </table>
+
+        <h2 id="arch">아키텍처</h2>
+        <p>
+          사용자가 질문하면 Copilot 이 SharePoint · OneDrive · Teams 문서를 자동 검색해 답변 근거로 사용하고,
+          GPT 계열 AI 엔진으로 답변을 생성합니다.
+          <strong>모든 데이터는 Microsoft 365 안에서만 처리</strong>되며 외부로 나가지 않습니다.
+        </p>
+        <p>
+          기존 SharePoint 의 사용자별 접근 권한을 그대로 반영하므로,
+          영업팀 사용자가 재무팀 폴더 문서를 못 보는 상태라면 Copilot 답변에서도 자동으로 제외됩니다.
+        </p>
+
+        <details>
+          <summary>기술팀 참고 - 컴포넌트 구성도</summary>
+          <table class="r-2026-04-mcnc-si-rag__info-table">
+            <thead>
+              <tr><th>계층</th><th>컴포넌트 / 역할</th></tr>
+            </thead>
+            <tbody>
+              <tr><th>오케스트레이터</th><td>Copilot Orchestrator - 프롬프트 전처리, Grounding, LLM 라우팅, 후처리</td></tr>
+              <tr><th>검색 인덱스</th><td>Semantic Index - 테넌트/사용자 레벨 벡터 인덱스 (Graph 콘텐츠 자동 인덱싱)</td></tr>
+              <tr><th>데이터 레이어</th><td>Microsoft Graph - 메일, 채팅, 문서, 일정, 회의 등 RBAC 기반 접근</td></tr>
+              <tr><th>LLM</th><td>Azure OpenAI Service (GPT 계열 - 최신 세대 기본 + 이전 세대 폴백)</td></tr>
+              <tr><th>확장</th><td>Copilot Studio - 커스텀 에이전트, 플러그인, MCP 지원</td></tr>
+              <tr><th>거버넌스</th><td>Entra ID 인증, Purview 민감도 레이블/DLP, 조건부 접근</td></tr>
+            </tbody>
+          </table>
+        </details>
+
+        <h2 id="features">주요 기능</h2>
+
+        <h3>문서 자동 인식</h3>
+        <ul>
+          <li>지원 형식 - Word · Excel · PowerPoint · PDF · 텍스트 · HTML · 이미지 · 코드 파일 등 일반 문서 대부분</li>
+          <li><strong>Office 문서를 원본 형식 그대로 직접 인식</strong> - 텍스트 박스, 표, 차트, 발표자 노트, SmartArt 텍스트까지 변환 손실 없이 추출</li>
+          <li>이미지 분석 - 2025년 말부터 문서 안의 이미지도 자동 인식 (글자 추출 + 내용 분석)</li>
+          <li>긴 문서 요약 - 최대 약 3,000페이지 분량까지 한 번에 요약 가능</li>
+          <li>음성 회의 - Teams 회의 녹음을 자동 텍스트화하고 요약</li>
+        </ul>
+
+        <details>
+          <summary>참고 - 지원 특수 파일 형식 상세</summary>
+          <ul>
+            <li><strong>코드 파일</strong> - JS, Python, Java, C#, SQL 등 20여 종 직접 지원</li>
+            <li><strong>Loop · Fluid</strong> - Microsoft 신규 협업 문서 형식 네이티브 지원</li>
+            <li><strong>이미지</strong> - PNG, JPG, GIF, BMP, TIFF - 글자 인식과 내용 분석 모두 지원</li>
+            <li><strong>오디오</strong> - Teams 회의 녹음 자동 전사 · 요약</li>
+          </ul>
+        </details>
+
+        <h3>AI 모델 · 검색 · 권한</h3>
+        <ul class="r-2026-04-mcnc-si-rag__metrics">
+          <li>
+            <div class="r-2026-04-mcnc-si-rag__metrics-label">AI 모델 선택</div>
+            <div class="r-2026-04-mcnc-si-rag__metrics-value">불가 (GPT 계열 고정)</div>
+          </li>
+          <li>
+            <div class="r-2026-04-mcnc-si-rag__metrics-label">한 번에 읽는 문서량</div>
+            <div class="r-2026-04-mcnc-si-rag__metrics-value">GPT 계열 기준 (공식 비공개, 통상 128K 이상)</div>
+          </li>
+          <li>
+            <div class="r-2026-04-mcnc-si-rag__metrics-label">검색 방식</div>
+            <div class="r-2026-04-mcnc-si-rag__metrics-value">의미 + 키워드 + 사용자 권한 인식</div>
+          </li>
+          <li>
+            <div class="r-2026-04-mcnc-si-rag__metrics-label">문서 정리 단위</div>
+            <div class="r-2026-04-mcnc-si-rag__metrics-value">SharePoint/OneDrive 폴더 구조 그대로 반영</div>
+          </li>
+          <li>
+            <div class="r-2026-04-mcnc-si-rag__metrics-label">통합 로그인</div>
+            <div class="r-2026-04-mcnc-si-rag__metrics-value">기존 Microsoft 계정 그대로 사용</div>
+          </li>
+        </ul>
+
+        <h3>외부 시스템 연결 · 확장</h3>
+        <ul>
+          <li><strong>기본 인식 데이터</strong> - SharePoint · OneDrive · Teams · Outlook · 일정 · OneNote · Loop (Microsoft 자체 시스템 전부)</li>
+          <li><strong>외부 시스템 연결</strong> - 100가지 이상 사전 구축 (Confluence · Salesforce · ServiceNow · Jira · SAP 등)</li>
+          <li><strong>커스텀 에이전트</strong> - Copilot Studio 로 직접 제작 가능 (별도 라이선스 필요, 대부분 프로젝트는 불필요)</li>
+        </ul>
+
+        <details>
+          <summary>참고 - 고급 기능 (대부분 프로젝트는 불필요)</summary>
+          <ul>
+            <li><strong>Copilot Studio</strong> - 커스텀 에이전트 빌더. AI 모델 직접 선택 가능 (GPT 계열, Claude 계열 등). $200/테넌트/월 추가</li>
+            <li><strong>Declarative Agents</strong> - M365 오케스트레이터 활용 + 커스텀 지식/액션 정의</li>
+            <li><strong>MCP 지원</strong> - Model Context Protocol 로 외부 비즈니스 시스템 통합</li>
+          </ul>
+        </details>
+
+        <h2 id="pricing">가격 (2026-04 기준)</h2>
+
+        <p class="r-2026-04-mcnc-si-rag__callout">
+          <strong>MCNC 권장 조합</strong>
+          MCNC 는 100명 이하 + SI 프로젝트 50명 이하이므로
+          <strong>Copilot Business ($21) + M365 Business Standard ($12.50) = 1인당 월 $33.50</strong> 조합을 권장합니다.
+          Business 와 Enterprise 는 <strong>Copilot AI 엔진과 RAG 능력이 동일</strong>하며,
+          사용자 한도(300명 vs 무제한) 와 일부 고급 보안 기능에서만 차이가 납니다.
+        </p>
+
+        <h3>Copilot 라이선스 (1인당 월)</h3>
+        <table class="r-2026-04-mcnc-si-rag__info-table">
+          <tbody>
+            <tr><th>Copilot Business <span style="color:var(--color-link)">★ 권장</span></th><td><strong>$21</strong> - 연 약정. 300명 한도. M365 Business Standard/Premium 등 기본 라이선스 필요</td></tr>
+            <tr><th>Copilot Enterprise</th><td>$30 - 연 약정. 무제한. M365 E3/E5 기본 라이선스 필요</td></tr>
+            <tr><th>Copilot Chat</th><td>$0 - M365 구독에 포함. 웹 채팅만 가능, RAG 불가</td></tr>
+            <tr><th>Copilot Studio (선택)</th><td>$200/테넌트/월 - 커스텀 에이전트 빌더 (대부분 불필요)</td></tr>
+          </tbody>
+        </table>
+
+        <h3>M365 기본 라이선스 (Copilot 사용에 필수)</h3>
+        <table class="r-2026-04-mcnc-si-rag__info-table">
+          <tbody>
+            <tr><th>Business Basic</th><td>$6 - Copilot Business 자격 충족 최소</td></tr>
+            <tr><th>Business Standard <span style="color:var(--color-link)">★ MCNC 권장</span></th><td>$12.50 - Office 앱 데스크톱 포함</td></tr>
+            <tr><th>Business Premium</th><td>$22 - 추가 보안 기능 강화</td></tr>
+          </tbody>
+        </table>
+
+        <p>
+          <strong>최종 비용 = 기본 라이선스 + Copilot</strong>.
+          MCNC 권장 조합 (Business Standard + Copilot Business) 은
+          1인당 월 <strong>$33.50</strong> 수준으로,
+          Enterprise 조합 (E3 + Copilot Enterprise = 약 $66) 의 절반입니다.
+        </p>
+
+        <details>
+          <summary>기술팀 참고 - Business vs Enterprise 세부 차이</summary>
+          <table class="r-2026-04-mcnc-si-rag__info-table">
+            <thead>
+              <tr><th>항목</th><th>Business</th><th>Enterprise</th></tr>
+            </thead>
+            <tbody>
+              <tr><th>SharePoint/OneDrive 자동 인식</th><td>지원</td><td>지원</td></tr>
+              <tr><th>의미 검색 인덱스</th><td>지원</td><td>지원</td></tr>
+              <tr><th>외부 시스템 자동 연결</th><td>지원</td><td>지원</td></tr>
+              <tr><th>Copilot Studio 통합</th><td>지원</td><td>지원</td></tr>
+              <tr><th>사용자 수 한도</th><td>300명</td><td>무제한</td></tr>
+              <tr><th>고급 정보 보호 자동 분류 (Purview)</th><td>미지원</td><td>E5 한정</td></tr>
+              <tr><th>고급 감시 · 로그 (Communication Compliance · DSPM)</th><td>미지원</td><td>E5 한정</td></tr>
+            </tbody>
+          </table>
+        </details>
+
+        <h3>리전 (데이터 저장 vs AI 처리)</h3>
+        <ul>
+          <li><strong>데이터 저장 위치</strong> - 한국 리전 사용 가능 (계약서로 보장)</li>
+          <li><strong>AI 처리 위치</strong> - 한국 리전 미지원, 다른 리전(미국 등) 으로 라우팅됨. 일반 민간사 SI 는 통상 가능, 규제 산업은 사전 검토 필요</li>
+          <li>고급 데이터 상주 보장이 필요하면 Advanced Data Residency 추가 구매 가능</li>
+        </ul>
+
+        <h2 id="cost">월 비용 시뮬레이션</h2>
+        <p>Copilot 추가 라이선스 기준. 환율 1 USD = 1,500 KRW 기준.</p>
+
+        <ul class="r-2026-04-mcnc-si-rag__cost-cards">
+          <li class="r-2026-04-mcnc-si-rag__cost-card">
+            <div class="r-2026-04-mcnc-si-rag__cost-card-label">Business 연약정 (10명, 시연용)</div>
+            <div class="r-2026-04-mcnc-si-rag__cost-card-value">월 약 ₩315,000</div>
+            <div class="r-2026-04-mcnc-si-rag__cost-card-sub">$21 × 10 = $210 / 월. M365 기본 라이선스 별도 ($125 추가 시 약 ₩503,000)</div>
+          </li>
+          <li class="r-2026-04-mcnc-si-rag__cost-card">
+            <div class="r-2026-04-mcnc-si-rag__cost-card-label">Business 연약정 (30명)</div>
+            <div class="r-2026-04-mcnc-si-rag__cost-card-value">월 약 ₩945,000</div>
+            <div class="r-2026-04-mcnc-si-rag__cost-card-sub">$21 × 30 = $630 / 월. M365 기본 포함 시 약 ₩1,508,000</div>
+          </li>
+          <li class="r-2026-04-mcnc-si-rag__cost-card">
+            <div class="r-2026-04-mcnc-si-rag__cost-card-label">Business 연약정 (50명, 본운영)</div>
+            <div class="r-2026-04-mcnc-si-rag__cost-card-value">월 약 ₩1,575,000</div>
+            <div class="r-2026-04-mcnc-si-rag__cost-card-sub">$21 × 50 = $1,050 / 월. M365 기본 포함 시 약 ₩2,513,000</div>
+          </li>
+        </ul>
+
+        <p class="r-2026-04-mcnc-si-rag__callout">
+          <strong>프로토타입 비용 안내</strong>
+          엔터프라이즈 무료 트라이얼이 없어 1년 약정 ($21 × 10명 × 12개월 = $2,520/년) 이 필요합니다.
+          대안으로 <strong>종량제 (Pay-as-you-go)</strong> 로 Copilot Chat + SharePoint Agents 만 일시 테스트 가능.
+          이미 M365 Business Standard 등을 보유한 고객사라면 기본 라이선스 비용은 추가 발생하지 않습니다.
+        </p>
+
+        <h2 id="security">데이터 처리 · 보안</h2>
+        <ul>
+          <li><strong>데이터 학습 미사용</strong> - Microsoft 약관상 프롬프트 · 응답 · 문서 데이터를 AI 학습에 사용하지 않음</li>
+          <li><strong>처리 경로</strong> - 모든 데이터는 M365 서비스 경계 내부에서만 처리되며 전송 · 저장 시 암호화 (BitLocker, TLS 등)</li>
+          <li><strong>접근 제어</strong> - 기존 Microsoft 계정 + 권한 + 다단계 인증 그대로 적용. Copilot 도 사용자 권한 범위 내에서만 문서 접근</li>
+          <li><strong>민감 정보 자동 보호</strong> - Microsoft Purview 의 민감도 레이블 · 데이터 유출 방지(DLP) 정책 자동 반영</li>
+          <li><strong>국제 보안 인증</strong> - ISO 27001/27018, ISO 42001 (AI 관리), SOC 2 Type II, GDPR, HIPAA 등 보유</li>
+          <li><strong>데이터 저장 위치</strong> - 한국 리전 보관 가능. AI 처리 자체는 다른 리전으로 갈 수 있음</li>
+        </ul>
+
+        <h2 id="pros-cons">강점과 약점</h2>
+        <div class="r-2026-04-mcnc-si-rag__pros-cons">
+          <div class="r-2026-04-mcnc-si-rag__pros">
+            <h4>강점 5</h4>
+            <ul>
+              <li>별도 업로드 단계 없음 - SharePoint · OneDrive · Teams 문서를 자동 인식</li>
+              <li>Office 문서 인식 품질 최고 - PPTX/XLSX 를 원본 형식 그대로 이해, 변환 손실 없음</li>
+              <li>Word · Excel · PPT 안에서 직접 AI 사용 - 직원 교육 부담 최소화</li>
+              <li>Confluence · Salesforce · Jira 등 100가지 이상 외부 시스템 연결 가능</li>
+              <li>데이터 저장 위치를 한국 리전으로 지정 가능</li>
+            </ul>
+          </div>
+          <div class="r-2026-04-mcnc-si-rag__cons">
+            <h4>약점 5</h4>
+            <ul>
+              <li>이중 라이선스 - M365 기본 + Copilot 추가 필요. MCNC 권장 조합도 1인당 월 $33.50</li>
+              <li>무료 트라이얼 없음 - 엔터프라이즈 평가판 미제공, 1년 약정 필수</li>
+              <li>AI 모델이 GPT 계열로 고정 - Claude 등 다른 모델로 교체 불가 (Copilot Studio 별도 구매 시만 가능)</li>
+              <li>MCNC AWS 운영 노하우 재사용 어려움 - Microsoft 생태계 중심</li>
+              <li>AI 처리 자체가 한국 리전 미지원 - 일반 민간사는 통상 가능, 규제 산업은 사전 검토 필요</li>
+            </ul>
+          </div>
+        </div>
+
+        <h2 id="si-fit">MCNC · SI 적합도</h2>
+        <ul>
+          <li><strong>권장 라이선스</strong> - <strong>Copilot Business ($21) + M365 Business Standard ($12.50)</strong>. MCNC 는 100명 이하, SI 프로젝트 50명 이하라 Business 한도(300명) 충분. AI 능력은 Enterprise 와 동일</li>
+          <li><strong>반복 배포</strong> - M365 테넌트 단위로 관리. 고객사마다 별도 테넌트 또는 SharePoint 사이트 분리 필요</li>
+          <li><strong>SM 이관</strong> - 관리형이라 운영 부담 낮음. 단, M365 관리자 역량 필요</li>
+          <li><strong>프로젝트 간 이식성</strong> - M365 사용 고객사 한정으로 높음. 비M365 환경에는 부적합</li>
+        </ul>
+
+        <h2 id="refs">공식 문서 / 참고</h2>
+        <ul class="r-2026-04-mcnc-si-rag__refs">
+          <li><a href="https://www.microsoft.com/en-us/microsoft-365-copilot" target="_blank" rel="noopener">Microsoft 365 Copilot 공식</a></li>
+          <li><a href="https://learn.microsoft.com/en-us/copilot/microsoft-365/microsoft-365-copilot-privacy" target="_blank" rel="noopener">데이터 · 프라이버시 · 보안</a></li>
+          <li><a href="https://learn.microsoft.com/en-us/copilot/microsoft-365/microsoft-365-copilot-architecture" target="_blank" rel="noopener">아키텍처 개요</a></li>
+          <li><a href="https://learn.microsoft.com/en-us/microsoftsearch/semantic-index-for-copilot" target="_blank" rel="noopener">Semantic Index</a></li>
+          <li><a href="https://learn.microsoft.com/en-us/copilot/microsoft-365/microsoft-365-copilot-licensing" target="_blank" rel="noopener">라이선스 옵션</a></li>
+        </ul>
+
+        <nav class="r-2026-04-mcnc-si-rag__pager" aria-label="제품 페이지 이동">
+          <a href="research/2026-04-mcnc-si-rag/pages/02-q-business.html">
+            <span class="r-2026-04-mcnc-si-rag__pager-label">← 이전</span>
+            <span class="r-2026-04-mcnc-si-rag__pager-title">Amazon Q Business</span>
+          </a>
+          <a href="research/2026-04-mcnc-si-rag/pages/04-claude-teams.html" class="r-2026-04-mcnc-si-rag__pager-next">
+            <span class="r-2026-04-mcnc-si-rag__pager-label">다음 →</span>
+            <span class="r-2026-04-mcnc-si-rag__pager-title">Claude Teams</span>
+          </a>
+        </nav>
+      </article>
+    </div>
+  </main>
+
+  <div data-include="assets/partials/footer.tpl"></div>
+
+  <script src="assets/js/include.js"></script>
+  <script src="assets/js/research.js"></script>
+  <script src="research/2026-04-mcnc-si-rag/assets/script.js" defer></script>
+</body>
+</html>

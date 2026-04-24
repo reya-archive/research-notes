@@ -48,7 +48,7 @@ AWS Console → Bedrock → `ap-northeast-1` 으로 리전 전환.
 - **Amazon Titan Embeddings v2** (임베딩용, 필수)
 
 > **Claude 4.x 는 Inference Profile 로만 호출 가능**
-> 2025 년부터 Claude 4.x 계열은 직접 model ID 로 on-demand 호출이 차단됐습니다. Dify 에 등록할 때도 `jp.anthropic.claude-sonnet-4-6` 같은 inference profile ID 를 써야 합니다. 데이터 주권 고려 시 `jp.` prefix 권장 (docs/03-post-install.md 3) 항목에 상세).
+> 2025 년부터 Claude 4.x 계열은 직접 model ID 로 on-demand 호출이 차단됐습니다. Dify 에 등록할 때도 `jp.anthropic.claude-sonnet-4-6` 같은 inference profile ID 를 써야 합니다. 데이터 상주 고려 시 `jp.` prefix 권장 (docs/03-post-install.md 3) 항목에 상세).
 
 ### 활성화 상태 확인 (CLI 로 명확히)
 

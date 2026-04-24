@@ -1,0 +1,293 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="robots" content="noindex, nofollow, noarchive">
+  <title>Claude Teams - MCNC SI RAG - Research Notes</title>
+  <base href="/research-notes/">
+  <link rel="stylesheet" href="assets/css/main.css">
+  <link rel="stylesheet" href="research/2026-04-mcnc-si-rag/assets/style.css">
+</head>
+<body data-include-pending class="r-2026-04-mcnc-si-rag">
+  <div data-include="assets/partials/header.tpl"></div>
+
+  <main class="page">
+    <nav class="breadcrumb">
+      <a href="/research-notes/">Research Notes</a>
+      <span class="breadcrumb__sep">/</span>
+      <a href="research/2026-04-mcnc-si-rag/index.html">MCNC SI RAG</a>
+      <span class="breadcrumb__sep">/</span>
+      <span>Claude Teams</span>
+    </nav>
+
+    <div class="layout--with-sidebar">
+      <aside class="sidebar">
+        <h2 class="sidebar__title">MCNC SI RAG</h2>
+        <ul class="sidebar__list">
+          <li><a href="research/2026-04-mcnc-si-rag/index.html">개요</a></li>
+          <li><a href="research/2026-04-mcnc-si-rag/pages/01-openwebui-bedrock.html">Open WebUI + Bedrock</a></li>
+          <li><a href="research/2026-04-mcnc-si-rag/pages/02-q-business.html">Amazon Q Business</a></li>
+          <li><a href="research/2026-04-mcnc-si-rag/pages/03-m365-copilot.html">Microsoft 365 Copilot</a></li>
+          <li><a href="research/2026-04-mcnc-si-rag/pages/04-claude-teams.html">Claude Teams</a></li>
+          <li><a href="research/2026-04-mcnc-si-rag/pages/05-comparison.html">비교 매트릭스</a></li>
+        </ul>
+      </aside>
+
+      <article class="prose">
+        <header class="page-header">
+          <span class="r-2026-04-mcnc-si-rag__product-badge r-2026-04-mcnc-si-rag__product-badge--claudeteams">Anthropic 직접 구독 SaaS</span>
+          <p class="page-header__eyebrow">제품 상세 · 4 / 4</p>
+          <h1 class="page-header__title">Claude Teams (Projects)</h1>
+          <p class="page-header__lede">
+            Anthropic 이 직접 제공하는 관리형 SaaS 채팅 서비스입니다.
+            별도 RAG 스택을 구축하지 않고 Claude 의 <strong>Projects</strong> 기능(프로젝트별 지식 파일 + 커스텀 지침)을
+            간이 RAG 로 활용하는 구조입니다. 4개 후보 중 구축 부담이 가장 낮습니다.
+          </p>
+        </header>
+
+        <p class="r-2026-04-mcnc-si-rag__callout">
+          <strong>영업팀 핵심 3줄</strong>
+          ① <strong>서버 · DB · 네트워크 설치가 전혀 없습니다</strong> - Anthropic 콘솔에서 Team 생성 + 시트 구매만 하면 즉시 사용 가능.
+          ② <strong>1인당 월 비용은 $20 (연간 결제) 또는 $25 (월간 결제)</strong>, 최소 5석부터 가입.
+          ③ <strong>Projects 기능이 RAG 역할</strong> - 프로젝트별로 지식 파일 · 커스텀 지침 · 대화를 묶어 관리합니다.
+        </p>
+
+        <h2 id="overview">제품 개요</h2>
+        <table class="r-2026-04-mcnc-si-rag__info-table">
+          <tbody>
+            <tr><th>구성</th><td>Anthropic claude.ai 웹/앱 + Projects (프로젝트별 지식 파일 · 커스텀 지침 · 공유 대화)</td></tr>
+            <tr><th>제공사</th><td>Anthropic</td></tr>
+            <tr><th>카테고리</th><td>Anthropic 직접 구독 SaaS (Team / Enterprise 플랜)</td></tr>
+            <tr><th>라이선스</th><td>시트당 월 구독 - Team Standard $20 (연간) / $25 (월간), 최소 5석</td></tr>
+            <tr><th>핵심 가치</th><td>인프라 0 + 가장 빠른 도입 + Claude 최신 세대 자동 업데이트</td></tr>
+          </tbody>
+        </table>
+
+        <h2 id="arch">아키텍처</h2>
+        <p>
+          사용자 → Claude 웹/앱 → Anthropic 서버(Projects 저장소 + Claude API) 3단계로 동작합니다.
+          MCNC 가 운영해야 할 컴포넌트는 0개이며, 업로드한 파일은 해당 프로젝트에 귀속되어 Anthropic 이 관리합니다.
+        </p>
+
+        <details>
+          <summary>기술팀 참고 - Projects 동작 구조</summary>
+          <pre class="r-2026-04-mcnc-si-rag__arch">[사용자]
+   │  브라우저 https://claude.ai  ·  데스크톱 앱  ·  모바일 앱
+   ▼
+[Anthropic 관리 서비스 (미국 리전)]
+   │
+   ├── Project 1 (고객사 A SI)
+   │     ├── Knowledge files (PPTX · XLSX · PDF · MD · TXT)
+   │     ├── Custom instructions (프로젝트 전용 프롬프트)
+   │     └── Shared conversations (팀원 간 공유)
+   │
+   ├── Project 2 (고객사 B SI)
+   └── ...
+   │
+   ▼
+[Claude Model (Sonnet 4.6 / Haiku 4.5 / Opus 4.x)]
+   · 200k context 기준 프로젝트 내 지식 파일 참조
+   · 답변 생성</pre>
+
+          <ul>
+            <li><strong>Project</strong> - 지식 파일 · 커스텀 지침 · 대화 기록을 묶는 컨테이너. 프로젝트별 공유 권한 설정 가능</li>
+            <li><strong>Knowledge files</strong> - 프로젝트에 업로드하는 참조 파일. Claude 가 대화마다 자동으로 참조</li>
+            <li><strong>Custom instructions</strong> - 프로젝트 공통 시스템 프롬프트 역할. 고객사별 톤 · 제약 조건 명시</li>
+            <li><strong>Shared conversations</strong> - 팀원 간 대화 공유. 유용한 답변을 팀 지식으로 축적</li>
+          </ul>
+        </details>
+
+        <h2 id="components">구성 요소</h2>
+        <p>Anthropic 이 운영하는 관리형 SaaS 이므로 MCNC 측 설치 구성 요소는 없습니다. 대신 Projects 내부 기능을 다음처럼 활용합니다.</p>
+        <table class="r-2026-04-mcnc-si-rag__info-table">
+          <thead>
+            <tr><th>기능</th><th>RAG 측면 역할</th></tr>
+          </thead>
+          <tbody>
+            <tr>
+              <th>Projects</th>
+              <td>하나의 SI 프로젝트 = 하나의 Project. 프로젝트별 지식 파일 · 지침 · 대화를 격리해 관리</td>
+            </tr>
+            <tr>
+              <th>Knowledge 파일 업로드</th>
+              <td>드래그&amp;드롭으로 PPTX · XLSX · PDF · MD · TXT 업로드. Claude 가 필요할 때 자동 참조</td>
+            </tr>
+            <tr>
+              <th>Custom instructions</th>
+              <td>프로젝트 공통 시스템 프롬프트. 고객사 특수 용어 · 답변 톤 · 제약 조건 사전 정의</td>
+            </tr>
+            <tr>
+              <th>Google Drive · GitHub 커넥터</th>
+              <td>Team 플랜 기본 제공. 외부 소스를 Project 지식으로 자동 동기화</td>
+            </tr>
+            <tr>
+              <th>Claude 모델</th>
+              <td>Sonnet 4.6 (기본) · Haiku 4.5 (경량) · Opus 4.x (고난도) 중 사용자가 대화마다 선택</td>
+            </tr>
+          </tbody>
+        </table>
+
+        <h2 id="pipeline">RAG 동작 원리</h2>
+        <p>
+          별도의 청크 · 임베딩 · 검색 파이프라인을 구축하지 않습니다. 프로젝트에 업로드한 지식 파일을
+          Claude 가 대화마다 자동으로 참조해 답변을 만듭니다. 200k 토큰 컨텍스트 안에 들어오는 분량은
+          전부 "한꺼번에" 읽는 방식입니다.
+        </p>
+
+        <details>
+          <summary>기술팀 참고 - Projects RAG 특성 (기존 RAG 와의 차이)</summary>
+          <ul>
+            <li><strong>청크 · 임베딩 없음</strong> - 파일 전체를 컨텍스트에 넣는 방식이라 파이프라인 튜닝 여지가 없음</li>
+            <li><strong>장점</strong> - 검색 누락 · 청크 경계 깨짐이 없고, 표/서식 손실이 최소</li>
+            <li><strong>제약</strong> - 200k context 를 초과하는 대용량 지식 기반(수천 문서)에는 부적합. 수십~수백 파일 규모까지가 현실적</li>
+            <li><strong>적합한 규모</strong> - SI 프로젝트 한 건 분량(고객사 제안서 · 요구사항 문서 · 업계 자료 수십 건)</li>
+            <li><strong>커스텀 지침</strong> - "답변은 [출처: 파일명] 인용 포함" 같은 규칙을 프로젝트 단에서 공통 적용 가능</li>
+          </ul>
+        </details>
+
+        <h2 id="features">주요 기능</h2>
+        <ul class="r-2026-04-mcnc-si-rag__metrics">
+          <li>
+            <div class="r-2026-04-mcnc-si-rag__metrics-label">AI 모델 선택</div>
+            <div class="r-2026-04-mcnc-si-rag__metrics-value">Claude Sonnet · Haiku · Opus</div>
+          </li>
+          <li>
+            <div class="r-2026-04-mcnc-si-rag__metrics-label">한 번에 읽는 문서량</div>
+            <div class="r-2026-04-mcnc-si-rag__metrics-value">200k 토큰 (일부 1M 베타)</div>
+          </li>
+          <li>
+            <div class="r-2026-04-mcnc-si-rag__metrics-label">검색 방식</div>
+            <div class="r-2026-04-mcnc-si-rag__metrics-value">Projects 컨텍스트 직접 참조</div>
+          </li>
+          <li>
+            <div class="r-2026-04-mcnc-si-rag__metrics-label">문서 정리 단위</div>
+            <div class="r-2026-04-mcnc-si-rag__metrics-value">Projects + 커스텀 지침</div>
+          </li>
+          <li>
+            <div class="r-2026-04-mcnc-si-rag__metrics-label">통합 로그인 (SSO)</div>
+            <div class="r-2026-04-mcnc-si-rag__metrics-value">SSO 포함 (Team 플랜부터 · SAML)</div>
+          </li>
+          <li>
+            <div class="r-2026-04-mcnc-si-rag__metrics-label">지원 파일</div>
+            <div class="r-2026-04-mcnc-si-rag__metrics-value">PDF · Word · Excel · PPT · MD · TXT · CSV · 이미지</div>
+          </li>
+        </ul>
+
+        <h2 id="pricing">가격 (2026-04 기준)</h2>
+
+        <h3>Team 플랜</h3>
+        <ul>
+          <li><strong>Standard 시트</strong> - $20 / 사용자 / 월 (연간 결제), $25 / 사용자 / 월 (월간 결제). <strong>최소 5석</strong></li>
+          <li><strong>Premium 시트</strong> - $100 / 사용자 / 월 (연간 결제), $125 / 사용자 / 월 (월간 결제). Claude Code 등 추가 사용량 필요한 개발자용</li>
+          <li>Team 플랜에 Projects · SSO · 중앙 청구 · 커넥터 관리 · 데스크톱 엔터프라이즈 배포 모두 포함</li>
+          <li>무료 트라이얼 없음. 개인 Pro 플랜($20/월)으로 Projects 기능 사전 체험 가능</li>
+        </ul>
+
+        <h3>50명 × 6개월 시나리오</h3>
+        <ul class="r-2026-04-mcnc-si-rag__cost-cards">
+          <li class="r-2026-04-mcnc-si-rag__cost-card">
+            <div class="r-2026-04-mcnc-si-rag__cost-card-label">연간 결제 (Standard)</div>
+            <div class="r-2026-04-mcnc-si-rag__cost-card-value">$6,000</div>
+            <div class="r-2026-04-mcnc-si-rag__cost-card-sub">$20 × 50명 × 6개월</div>
+          </li>
+          <li class="r-2026-04-mcnc-si-rag__cost-card">
+            <div class="r-2026-04-mcnc-si-rag__cost-card-label">월간 결제 (Standard)</div>
+            <div class="r-2026-04-mcnc-si-rag__cost-card-value">$7,500</div>
+            <div class="r-2026-04-mcnc-si-rag__cost-card-sub">$25 × 50명 × 6개월</div>
+          </li>
+          <li class="r-2026-04-mcnc-si-rag__cost-card">
+            <div class="r-2026-04-mcnc-si-rag__cost-card-label">인프라 비용</div>
+            <div class="r-2026-04-mcnc-si-rag__cost-card-value">0</div>
+            <div class="r-2026-04-mcnc-si-rag__cost-card-sub">Anthropic 관리 - 서버 · DB · 백업 없음</div>
+          </li>
+        </ul>
+
+        <p class="r-2026-04-mcnc-si-rag__callout">
+          <strong>Enterprise 플랜 차이점</strong>
+          역할 기반 접근 권한(RBAC) · SCIM · 감사 로그 · Compliance API · 커스텀 데이터 보존 · IP 허용 목록 · HIPAA 가
+          필요한 고객사는 Enterprise 플랜으로 업그레이드 해야 합니다. 가격은 별도 협의.
+        </p>
+
+        <h2 id="security">데이터 처리 · 보안</h2>
+        <ul>
+          <li><strong>데이터 상주</strong> - Anthropic 의 미국 인프라에 저장 · 처리됩니다. 한국 상주 옵션 없음</li>
+          <li><strong>데이터 학습 미사용</strong> - Team / Enterprise 플랜의 프롬프트 · 응답 · 업로드 파일은 기본적으로 모델 학습에 사용되지 않음</li>
+          <li><strong>네트워크 격리</strong> - VPC 개념 없음 (공용 SaaS). 공개 인터넷 경로로 Anthropic 서버에 도달</li>
+          <li><strong>암호화</strong> - Anthropic 측 관리 (고객 KMS 연동 옵션 없음). 전송 구간 TLS, 저장 시 암호화</li>
+          <li><strong>SSO</strong> - Team 플랜부터 SAML SSO 포함. 기존 사내 IdP 연동 간편</li>
+          <li><strong>국제 보안 인증</strong> - SOC 2 Type II · ISO 42001. HIPAA 는 Enterprise 에서만 지원</li>
+        </ul>
+
+        <details>
+          <summary>기술팀 참고 - 규제 민감 고객사 판단 기준</summary>
+          <ul>
+            <li><strong>한국 상주 필수 고객사 (금융 · 공공 · 의료 등)</strong> - Claude Teams 비권장. Open WebUI + Bedrock (도쿄) 또는 M365 Copilot (한국 저장) 권장</li>
+            <li><strong>민감 내부 문서 외부 전송 금지 고객사</strong> - Claude Teams 비권장. Open WebUI + Bedrock 권장 (사내 서버 내부 보관)</li>
+            <li><strong>Anthropic 사용 이력 없는 고객사</strong> - 데이터 처리 방식 사전 검토 필요 (<a href="https://trust.anthropic.com/" target="_blank" rel="noopener">trust.anthropic.com</a>)</li>
+            <li><strong>빠른 시연 우선 + 데이터 상주 무관 고객사</strong> - Claude Teams 최적 (수분 내 시작 가능)</li>
+          </ul>
+        </details>
+
+        <h2 id="pros-cons">강점과 약점</h2>
+        <div class="r-2026-04-mcnc-si-rag__pros-cons">
+          <div class="r-2026-04-mcnc-si-rag__pros">
+            <h4>강점 5</h4>
+            <ul>
+              <li>인프라 0 - 서버 · DB · 업데이트 · 백업 모두 Anthropic 책임. 구축 시간 수분</li>
+              <li>Projects 기능으로 RAG 대체 - 파일 업로드 + 커스텀 지침만으로 즉시 활용</li>
+              <li>Claude 최신 세대 즉시 사용 (Sonnet 4.6 · Opus 4.x 자동 업데이트)</li>
+              <li>Team 플랜부터 SSO · 중앙 청구 · 커넥터 관리 포함 - 사내 IT 부담 최소</li>
+              <li>200k 컨텍스트 - Bedrock 계열과 동일한 답변 품질</li>
+            </ul>
+          </div>
+          <div class="r-2026-04-mcnc-si-rag__cons">
+            <h4>약점 5</h4>
+            <ul>
+              <li>데이터가 미국(Anthropic) 에 저장됨 - 한국 상주 요구 고객사 비권장</li>
+              <li>UI 변경 · 브랜딩 불가 - Anthropic 기본 화면 고정</li>
+              <li>커스텀 커넥터 개발 불가 - Google Drive · GitHub 외 확장 제한</li>
+              <li>MCNC AWS · Docker 노하우 재사용 불가 - Anthropic 직접 구독 모델</li>
+              <li>HIPAA · 감사 로그 · SCIM · 커스텀 보존 기간은 Enterprise 플랜 필요</li>
+            </ul>
+          </div>
+        </div>
+
+        <h2 id="si-fit">MCNC · SI 적합도</h2>
+        <ul>
+          <li><strong>반복 배포</strong> - 최상. 신규 SI 프로젝트마다 Project 생성 + 지식 파일 업로드 + 고객사 인원에게 시트 할당이 전부</li>
+          <li><strong>SM 이관</strong> - 최상. MCNC 가 운영할 컴포넌트가 없어 고객사에 시트 이관 후 Anthropic 이 운영 책임</li>
+          <li><strong>프로젝트 간 이식성</strong> - 중간. 프로젝트 템플릿(커스텀 지침 · 파일 셋)은 복제 가능하나 플랫폼 종속</li>
+          <li><strong>적합 시나리오</strong> - 단기 PoC · 빠른 프로토타입 · Claude 답변 품질 강조가 필요한 제안 · 데이터 상주 제약이 없는 고객사</li>
+        </ul>
+
+        <h2 id="refs">공식 문서 / 참고</h2>
+        <ul class="r-2026-04-mcnc-si-rag__refs">
+          <li><a href="https://claude.com/pricing" target="_blank" rel="noopener">Claude 공식 요금제</a></li>
+          <li><a href="https://claude.com/team" target="_blank" rel="noopener">Claude Team 소개</a></li>
+          <li><a href="https://support.anthropic.com/en/articles/9519177-what-are-projects" target="_blank" rel="noopener">Projects 기능 안내</a></li>
+          <li><a href="https://trust.anthropic.com/" target="_blank" rel="noopener">Anthropic 신뢰 · 보안 센터</a></li>
+          <li><a href="https://privacy.anthropic.com/" target="_blank" rel="noopener">Anthropic Privacy Center</a></li>
+        </ul>
+
+        <nav class="r-2026-04-mcnc-si-rag__pager" aria-label="제품 페이지 이동">
+          <a href="research/2026-04-mcnc-si-rag/pages/03-m365-copilot.html">
+            <span class="r-2026-04-mcnc-si-rag__pager-label">← 이전</span>
+            <span class="r-2026-04-mcnc-si-rag__pager-title">Microsoft 365 Copilot</span>
+          </a>
+          <a href="research/2026-04-mcnc-si-rag/pages/05-comparison.html" class="r-2026-04-mcnc-si-rag__pager-next">
+            <span class="r-2026-04-mcnc-si-rag__pager-label">다음 →</span>
+            <span class="r-2026-04-mcnc-si-rag__pager-title">비교 매트릭스</span>
+          </a>
+        </nav>
+      </article>
+    </div>
+  </main>
+
+  <div data-include="assets/partials/footer.tpl"></div>
+
+  <script src="assets/js/include.js"></script>
+  <script src="assets/js/research.js"></script>
+  <script src="research/2026-04-mcnc-si-rag/assets/script.js" defer></script>
+</body>
+</html>

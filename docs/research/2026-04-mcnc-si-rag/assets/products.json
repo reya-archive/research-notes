@@ -10,81 +10,81 @@
   },
   "products": [
     {
-      "id": "dify",
-      "name": "Dify + Amazon Bedrock",
-      "shortName": "Dify + Bedrock",
-      "vendor": "LangGenius + AWS",
+      "id": "openwebui",
+      "name": "Open WebUI + Amazon Bedrock",
+      "shortName": "Open WebUI + Bedrock",
+      "vendor": "Open WebUI + BerriAI + Apache + AWS",
       "category": "OSS 셀프호스팅",
       "categoryTag": "OSS",
-      "colorVariant": "dify",
-      "tagline": "셀프호스팅 LLMOps + Bedrock LLM 의 2-Tier 조합",
+      "colorVariant": "openwebui",
+      "tagline": "Open WebUI + LiteLLM + Tika 셀프호스팅 스택 + Bedrock 매니지드 LLM",
       "topStrengths": [
-        "데이터 주권: 모든 문서가 MCNC 인프라 내부",
-        "사용량 기반 과금: LLM 토큰만 월 $0~$10/인",
-        "MCNC 기존 노하우 100% 활용 (Docker, PGVector, Bedrock)"
+        "사내 보관: 업로드·ChromaDB·대화 기록 전부 사내 EC2 내부",
+        "사용량 기반 과금: Bedrock 토큰 단가만 과금, 소프트웨어 라이선스 0원",
+        "벤더 락인 없음: LiteLLM OpenAI 호환으로 Claude · Nova · OSS 로컬 스위치 자유"
       ],
       "pricing": {
         "perUser": {
           "min": 0,
-          "avg": 3,
+          "avg": 2,
           "max": 10,
           "unit": "USD/mo",
-          "note": "Claude Sonnet 계열 기준 (인프라 별도)"
+          "note": "Claude Sonnet 4.6 / Haiku 4.5 토큰 단가 기준 (인프라 별도)"
         },
         "costBase": { "min": 1100, "avg": 1146, "max": 1500 },
         "costPilot": { "min": 150, "avg": 155, "max": 180 },
         "trial": "영구 무료 (인프라 비용 별도)"
       },
-      "region": "MCNC 선택 (도쿄 권장)",
-      "dataResidency": "MCNC 지정 가능",
-      "llmChoice": "자유 (Claude Sonnet / Haiku / Opus 계열)",
+      "region": "MCNC 선택 (ap-northeast-1 고정 권장)",
+      "dataResidency": "MCNC 지정 가능 (EC2 내부)",
+      "llmChoice": "자유 (Claude Sonnet 4.6 / Haiku 4.5 / Nova Lite / OSS 로컬)",
       "contextWindow": "LLM 의존 (Claude 계열 200k)",
-      "connectors": "Google Drive, Notion 등 (확장 중)",
-      "folderStructure": "제한적 (태그)",
+      "connectors": "없음 (Knowledge 업로드 · MCP 서버 연동)",
+      "folderStructure": "Knowledge + 태그",
       "parsingQuality": {
         "pptxXlsx": 3,
-        "note": "Unstructured 연동 시 중상위"
+        "note": "Apache Tika 기반. Docling 전환 시 상위"
       },
-      "audioM4a": "Whisper 플러그인",
+      "audioM4a": "Whisper 플러그인 또는 외부 변환",
       "uploadUxStars": 4,
-      "uploadUxCriterion": "Dify Knowledge 드래그&드롭 · 다중 파일 · 진행률 표시",
+      "uploadUxCriterion": "Open WebUI Knowledge 드래그&드롭 · 다중 파일 · 즉시 인제스트",
       "demoFeasibilityStars": 4,
       "decisionMakerStars": 3,
       "setupDifficulty": {
         "label": "중간",
-        "note": "Docker Compose 2-tier (Dify + Bedrock IAM) 셋업"
+        "note": "Docker Compose 3-tier (Open WebUI + LiteLLM + Tika) 셋업, setup.sh 로 자동화"
       },
-      "repeatDeployStars": 4,
+      "repeatDeployStars": 5,
       "smHandoffStars": 3,
       "portabilityStars": 5,
-      "uiCustomStars": 5,
-      "workflowStars": 5,
+      "uiCustomStars": 4,
+      "workflowStars": 4,
       "integrationStars": 5,
-      "mcncSkillReuseStars": 5,
       "security": {
         "noTraining": true,
         "kms": "EBS + Bedrock KMS",
-        "vpc": "완전 지원",
-        "sso": "Enterprise Edition만 (유료)",
+        "vpc": "완전 지원 (VPC Endpoint)",
+        "sso": "OIDC · SAML (env 로 구성, Enterprise 에디션 불필요)",
         "certifications": ["Bedrock ISO 27001", "SOC 1/2/3", "HIPAA BAA"]
       },
       "strengths": [
-        "데이터 주권: 셀프호스팅으로 모든 문서가 MCNC 인프라 내부",
-        "사용량 기반 과금: LLM 토큰만 월 $0~$10/인 (인프라 별도)",
-        "MCNC 기존 노하우 높은 활용도: mcnc-rag, Docker Compose, PGVector 경험 직결",
-        "커스터마이징 자유도: UI·워크플로우·사내 연동 제약 없음",
-        "LLM 선택 자유: Claude Sonnet / Haiku / Opus 교체 가능, 벤더 락인 없음"
+        "사내 보관: 업로드 · ChromaDB · 대화 기록 전부 사내 EC2 내부",
+        "벤더 락인 없음: LiteLLM OpenAI 호환으로 Claude · Nova · OSS 로컬 전환 자유",
+        "MCNC 노하우 활용: mcnc-rag (Open WebUI 기반), Docker Compose, Bedrock CDK 직결",
+        "RAG 튜닝 UI: 22개 옵션을 Admin Panel 에서 제어 (청크·Hybrid·리랭커·Top K)",
+        "MCP 연동 자산 재사용: Open WebUI Tools 로 mcnc-rag MCP 서버 직접 호출"
       ],
       "weaknesses": [
-        "SSO 부재: Community Edition은 SAML/OIDC 미지원",
-        "문서 파싱 품질: Gemini Document AI 대비 복잡 기획서 열세",
-        "폴더 구조 제약: 복잡한 폴더 트리 그대로 표현 어려움",
+        "PersistentConfig 함정: 최초 세팅 후에는 UI 에서만 설정 변경 가능",
+        "문서 파싱 품질: Tika 기준이라 복잡 레이아웃 PDF 는 Document AI 대비 열세",
+        "Bedrock Titan 쿼터: 대량 업로드 시 분당 쿼터 초과 가능 (안정 모드 설정 필요)",
         "운영 책임 전가: 패치·백업·모니터링 MCNC 책임",
-        "검색 품질 튜닝 공수: 리랭커·청킹 전략 조정이 MCNC 책임"
+        "검색 품질 튜닝 공수: 초기 30분 세팅 + Q&A 검증으로 조정 필요"
       ],
       "docs": [
-        { "title": "Dify 공식 문서", "url": "https://docs.dify.ai/" },
-        { "title": "Dify GitHub", "url": "https://github.com/langgenius/dify" },
+        { "title": "Open WebUI 공식", "url": "https://docs.openwebui.com/" },
+        { "title": "LiteLLM 공식", "url": "https://docs.litellm.ai/" },
+        { "title": "Apache Tika", "url": "https://tika.apache.org/" },
         { "title": "Amazon Bedrock Pricing", "url": "https://aws.amazon.com/bedrock/pricing/" }
       ]
     },
@@ -139,7 +139,6 @@
       "uiCustomStars": 2,
       "workflowStars": 3,
       "integrationStars": 4,
-      "mcncSkillReuseStars": 2,
       "security": {
         "noTraining": true,
         "kms": "기본 AWS / Enterprise Index CMK",
@@ -167,86 +166,6 @@
         { "title": "Subscription Tiers", "url": "https://docs.aws.amazon.com/amazonq/latest/qbusiness-ug/tiers.html" },
         { "title": "Supported Connectors", "url": "https://docs.aws.amazon.com/amazonq/latest/qbusiness-ug/connectors-list.html" },
         { "title": "Sydney Region 발표", "url": "https://aws.amazon.com/about-aws/whats-new/2025/03/amazon-q-business-asia-pacific-sydney-region/" }
-      ]
-    },
-    {
-      "id": "gemini",
-      "name": "Gemini Enterprise + Google Drive",
-      "shortName": "Gemini Enterprise",
-      "vendor": "Google Cloud",
-      "category": "Google 관리형 SaaS",
-      "categoryTag": "Google SaaS",
-      "colorVariant": "gemini",
-      "tagline": "Gemini Pro 계열 1M 토큰 + Document AI 최상위 파싱 + NotebookLM",
-      "topStrengths": [
-        "Document AI 파싱 품질 3사 중 최상위 (PPTX/XLSX)",
-        "1M~2M 토큰 컨텍스트 (Gemini Pro 계열)",
-        "NotebookLM 내장 + Drive 네이티브 연동"
-      ],
-      "pricing": {
-        "perUser": {
-          "min": 21,
-          "avg": 30,
-          "max": 60,
-          "unit": "USD/mo",
-          "note": "Business $21 연 / Standard $30 연, $35 월 / Plus $30~60"
-        },
-        "costBase": { "min": 6300, "avg": 9000, "max": 15000 },
-        "costPilot": { "min": 210, "avg": 350, "max": 500 },
-        "trial": "30일 Business (300명 한도), Standard/Plus 영업 협의"
-      },
-      "region": "도쿄/싱가포르/global",
-      "dataResidency": "일본(도쿄) 등",
-      "llmChoice": "선택 가능 (Gemini Pro/Flash 계열)",
-      "contextWindow": "1M~2M 토큰",
-      "connectors": "100+ (Drive 네이티브)",
-      "folderStructure": "Drive 구조 그대로",
-      "parsingQuality": {
-        "pptxXlsx": 5,
-        "note": "Document AI, 3사 중 최상위"
-      },
-      "audioM4a": "네이티브 지원 (다국어)",
-      "uploadUxStars": 5,
-      "uploadUxCriterion": "Drive 드래그&drop (영업팀 완전 친숙)",
-      "demoFeasibilityStars": 5,
-      "decisionMakerStars": 5,
-      "setupDifficulty": {
-        "label": "중간",
-        "note": "Google Cloud 프로젝트 + Workspace 라이선스 할당 + Drive 카탈로깅 구성. 도메인 검증과 영업 협의 필요"
-      },
-      "repeatDeployStars": 3,
-      "smHandoffStars": 4,
-      "portabilityStars": 3,
-      "uiCustomStars": 3,
-      "workflowStars": 5,
-      "integrationStars": 5,
-      "mcncSkillReuseStars": 2,
-      "security": {
-        "noTraining": true,
-        "kms": "기본 Google / CMEK (Standard/Plus)",
-        "vpc": "VPC Service Controls",
-        "sso": "Workspace SSO / SAML",
-        "certifications": ["ISO 27001/17/18", "SOC 1/2/3", "HIPAA", "PCI DSS", "FedRAMP High"]
-      },
-      "strengths": [
-        "Document AI 파싱 품질 최상위: PPTX/XLSX 비중이 높은 데이터에 가장 강력",
-        "1M~2M 토큰 컨텍스트: 폴더 전체 한 번에 이해",
-        "NotebookLM 내장: 영업팀 친숙한 UX 즉시 사용",
-        "Google Drive 네이티브: 복잡한 폴더 트리 구조 그대로 보존",
-        "Deep Research 에이전트: 내부 문서 자동 리서치"
-      ],
-      "weaknesses": [
-        "가격대: Business $21/인·월, Plus 최대 $60/인·월",
-        "리전 제약: 한국 리전 없음, 도쿄/싱가포르",
-        "MCNC 기존 노하우 활용 제한 (AWS 중심)",
-        "SSO 유연성: Workspace 외는 에디션·협의 필요",
-        "벤더 락인: Google 생태계 의존"
-      ],
-      "docs": [
-        { "title": "Gemini Enterprise 공식", "url": "https://cloud.google.com/gemini-enterprise" },
-        { "title": "Edition 비교", "url": "https://docs.cloud.google.com/gemini/enterprise/docs/editions" },
-        { "title": "Release notes", "url": "https://docs.cloud.google.com/gemini/enterprise/docs/release-notes" },
-        { "title": "Gemini 모델 전체", "url": "https://docs.cloud.google.com/vertex-ai/generative-ai/docs/models/gemini" }
       ]
     },
     {
@@ -300,7 +219,6 @@
       "uiCustomStars": 2,
       "workflowStars": 4,
       "integrationStars": 5,
-      "mcncSkillReuseStars": 1,
       "security": {
         "noTraining": true,
         "kms": "BitLocker + 파일별 암호화 / ADR 옵션",
@@ -327,6 +245,85 @@
         { "title": "프라이버시 · 보안", "url": "https://learn.microsoft.com/en-us/copilot/microsoft-365/microsoft-365-copilot-privacy" },
         { "title": "아키텍처", "url": "https://learn.microsoft.com/en-us/copilot/microsoft-365/microsoft-365-copilot-architecture" },
         { "title": "라이선스 옵션", "url": "https://learn.microsoft.com/en-us/copilot/microsoft-365/microsoft-365-copilot-licensing" }
+      ]
+    },
+    {
+      "id": "claude-teams",
+      "name": "Claude Teams (Projects)",
+      "shortName": "Claude Teams",
+      "vendor": "Anthropic",
+      "category": "Anthropic 관리형 SaaS",
+      "categoryTag": "Anthropic SaaS",
+      "colorVariant": "claudeteams",
+      "tagline": "Anthropic 직접 구독 + Projects 기능으로 별도 RAG 스택 없이 즉시 도입",
+      "topStrengths": [
+        "인프라 0: Anthropic이 모두 운영, 팀 생성 + 시트 구매로 수분 내 시작",
+        "Projects 기능 내장: 프로젝트별 지식 · 지침 · 대화를 RAG처럼 활용",
+        "Claude 최신 세대 자동 업데이트 (Sonnet 4.6 / Haiku 4.5 / Opus 4.x 선택)"
+      ],
+      "pricing": {
+        "perUser": {
+          "min": 20,
+          "avg": 20,
+          "max": 25,
+          "unit": "USD/mo",
+          "note": "Team Standard $20(연간) / $25(월간), 최소 5석. Premium 시트 $100~$125 별도"
+        },
+        "costBase": { "min": 6000, "avg": 6000, "max": 7500 },
+        "costPilot": { "min": 250, "avg": 250, "max": 250 },
+        "trial": "없음 (개인 Pro 플랜으로 Projects 사전 체험 가능)"
+      },
+      "region": "Anthropic 관리 (미국 중심)",
+      "dataResidency": "미국 상주, 한국 리전 없음",
+      "llmChoice": "Claude 한정 (Sonnet 4.6 / Haiku 4.5 / Opus 4.x)",
+      "contextWindow": "200k (Sonnet/Haiku), 일부 1M 베타",
+      "connectors": "Projects 파일 업로드 + Google Drive · GitHub 커넥터 (기본 내장)",
+      "folderStructure": "Projects 단위 (지식 · 커스텀 지침 · 공유)",
+      "parsingQuality": {
+        "pptxXlsx": 4,
+        "note": "Claude 네이티브 문서 이해. PPT/XLSX/PDF 업로드 지원. 복잡 표는 구조 손실 가능"
+      },
+      "audioM4a": "직접 재생 불가 (전사 후 텍스트 업로드)",
+      "uploadUxStars": 5,
+      "uploadUxCriterion": "Projects 패널 드래그&드롭 · 프로젝트별 파일 컨테이너 + 커스텀 지침",
+      "demoFeasibilityStars": 5,
+      "decisionMakerStars": 4,
+      "setupDifficulty": {
+        "label": "최저",
+        "note": "Anthropic 콘솔에서 Team 생성 + 시트 할당. 서버 · DB · 네트워크 셋업 전무"
+      },
+      "repeatDeployStars": 5,
+      "smHandoffStars": 5,
+      "portabilityStars": 2,
+      "uiCustomStars": 1,
+      "workflowStars": 3,
+      "integrationStars": 3,
+      "security": {
+        "noTraining": true,
+        "kms": "Anthropic 관리 (고객 KMS 미지원)",
+        "vpc": "없음 (공용 SaaS, 공개 인터넷 경로)",
+        "sso": "SSO 포함 (Team 플랜부터 · SAML)",
+        "certifications": ["SOC 2 Type II", "ISO 42001", "HIPAA (Enterprise)"]
+      },
+      "strengths": [
+        "인프라 0: 서버 · DB · 업데이트 · 백업 모두 Anthropic 책임, 구축 시간 수분",
+        "Projects 기능: 프로젝트별 지식 파일 + 커스텀 지침 + 공유 대화로 RAG 대체",
+        "Claude 최신 세대 즉시 사용 (Sonnet 4.6 / Opus 4.x 자동 업데이트)",
+        "Team 플랜부터 SSO 포함 - 기존 사내 계정 연동 간편",
+        "200k context - Bedrock 계열과 동일한 답변 품질"
+      ],
+      "weaknesses": [
+        "한국 데이터 상주 불가 (미국 중심). 규제 민감 고객사에는 비권장",
+        "UI 커스터마이징 · 브랜딩 불가 (Anthropic 기본 UI 고정)",
+        "커스텀 커넥터 개발 불가 (Google Drive · GitHub 외 기본 커넥터만 지원)",
+        "MCNC AWS · Docker 노하우 재사용 불가 (Anthropic 직접 구독 모델)",
+        "HIPAA · 감사 로그 · SCIM · 커스텀 보존 기간은 Enterprise 플랜 필요"
+      ],
+      "docs": [
+        { "title": "Claude 공식 요금제", "url": "https://claude.com/pricing" },
+        { "title": "Claude Team 소개", "url": "https://claude.com/team" },
+        { "title": "Projects 기능 안내", "url": "https://support.anthropic.com/en/articles/9519177-what-are-projects" },
+        { "title": "신뢰 · 보안 센터", "url": "https://trust.anthropic.com/" }
       ]
     }
   ],
@@ -357,12 +354,12 @@
         "id": "features",
         "label": "기능",
         "rows": [
-          { "label": "LLM 모델 선택", "field": "llmChoice" },
-          { "label": "컨텍스트 윈도우", "field": "contextWindow" },
-          { "label": "커넥터", "field": "connectors" },
-          { "label": "폴더 구조", "field": "folderStructure" },
-          { "label": "PPTX/XLSX 파싱 품질 (★)", "field": "parsingQuality.pptxXlsx", "star": true, "criterion": "Office 문서 파싱 정확도 (참고 샘플 기준 63% 비중)" },
-          { "label": "오디오 (m4a)", "field": "audioM4a" }
+          { "label": "AI 모델 선택", "field": "llmChoice" },
+          { "label": "한 번에 읽을 수 있는 문서량", "field": "contextWindow" },
+          { "label": "외부 시스템 연결", "field": "connectors" },
+          { "label": "문서 정리 단위", "field": "folderStructure" },
+          { "label": "PPTX/XLSX 파싱 품질 (★)", "field": "parsingQuality.pptxXlsx", "star": true, "criterion": "파워포인트 · 엑셀 자동 인식 정확도" },
+          { "label": "음성 파일 (m4a) 지원", "field": "audioM4a" }
         ]
       },
       {
@@ -399,16 +396,9 @@
         "label": "보안",
         "rows": [
           { "label": "데이터 학습 미사용", "field": "security.noTraining", "bool": true },
-          { "label": "암호화 (KMS)", "field": "security.kms" },
-          { "label": "VPC 격리", "field": "security.vpc" },
-          { "label": "SSO", "field": "security.sso" }
-        ]
-      },
-      {
-        "id": "mcnc",
-        "label": "MCNC 노하우 활용도",
-        "rows": [
-          { "label": "기술 스택 호환성 (★)", "field": "mcncSkillReuseStars", "star": true, "criterion": "mcnc-rag, Docker, Bedrock 등 기존 자산 재사용도" }
+          { "label": "암호화 (저장 데이터)", "field": "security.kms" },
+          { "label": "네트워크 격리", "field": "security.vpc" },
+          { "label": "통합 로그인 (SSO)", "field": "security.sso" }
         ]
       }
     ]

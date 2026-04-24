@@ -26,13 +26,11 @@
         <h2 class="sidebar__title">MCNC SI RAG</h2>
         <ul class="sidebar__list">
           <li><a href="research/2026-04-mcnc-si-rag/index.html">개요</a></li>
-          <li><a href="research/2026-04-mcnc-si-rag/pages/01-dify-bedrock.html">Dify + Bedrock</a></li>
+          <li><a href="research/2026-04-mcnc-si-rag/pages/01-openwebui-bedrock.html">Open WebUI + Bedrock</a></li>
           <li><a href="research/2026-04-mcnc-si-rag/pages/02-q-business.html">Amazon Q Business</a></li>
-          <li><a href="research/2026-04-mcnc-si-rag/pages/03-gemini-enterprise.html">Gemini Enterprise + Drive</a></li>
-          <li><a href="research/2026-04-mcnc-si-rag/pages/04-m365-copilot.html">Microsoft 365 Copilot</a></li>
+          <li><a href="research/2026-04-mcnc-si-rag/pages/03-m365-copilot.html">Microsoft 365 Copilot</a></li>
+          <li><a href="research/2026-04-mcnc-si-rag/pages/04-claude-teams.html">Claude Teams</a></li>
           <li><a href="research/2026-04-mcnc-si-rag/pages/05-comparison.html">비교 매트릭스</a></li>
-          <li><a href="research/2026-04-mcnc-si-rag/pages/06-demo-cost.html">시연 · 비용 · 일정</a></li>
-          <li><a href="research/2026-04-mcnc-si-rag/pages/07-faq.html">FAQ</a></li>
         </ul>
       </aside>
 
@@ -42,195 +40,246 @@
           <p class="page-header__eyebrow">제품 상세 · 2 / 4</p>
           <h1 class="page-header__title">Amazon Q Business</h1>
           <p class="page-header__lede">
-            AWS가 운영하는 엔터프라이즈 검색 · 생성형 AI.
-            40+ 커넥터와 IAM Identity Center 권한 자동 상속이 강점인 관리형 RAG.
-            60일 50명 무료 트라이얼로 프로토타입을 $0로 검증할 수 있습니다.
+            AWS 가 운영하는 관리형 엔터프라이즈 RAG 서비스입니다.
+            SharePoint · Confluence · Teams 등 기존 시스템 40가지 이상을 자동으로 연결할 수 있고,
+            60일 무료 트라이얼(50명) 로 비용 부담 없이 검증할 수 있습니다.
           </p>
         </header>
+
+        <p class="r-2026-04-mcnc-si-rag__callout">
+          <strong>영업팀 핵심 3줄</strong>
+          ① <strong>SharePoint · Confluence 등 기존 시스템 자동 연결</strong>이 가장 큰 강점입니다 (40가지 이상).
+          ② 데이터는 한국이 아닌 <strong>호주(시드니) 리전</strong> 에 저장됩니다 - 일반 민간사 SI 는 통상 가능하나 규제 산업(금융 · 의료 · 정부) 은 사전 검토 필요.
+          ③ <strong>60일 50명 무료 트라이얼</strong> 가능, 본운영은 1인당 월 $3 ~ $20.
+        </p>
 
         <h2 id="overview">제품 개요</h2>
         <table class="r-2026-04-mcnc-si-rag__info-table">
           <tbody>
-            <tr><th>정식 명칭</th><td>Amazon Q Business</td></tr>
             <tr><th>제공사</th><td>AWS (Amazon Web Services)</td></tr>
-            <tr><th>출시</th><td>2024-05 GA (시드니 리전 2025-03 출시)</td></tr>
+            <tr><th>출시</th><td>2024년 5월 정식 출시 (시드니 리전 2025년 3월 추가)</td></tr>
             <tr><th>카테고리</th><td>AWS 관리형 SaaS 엔터프라이즈 RAG 어시스턴트</td></tr>
-            <tr><th>핵심 가치</th><td>40+ 커넥터로 기존 시스템 즉시 연결 + IAM 권한 자동 상속 + 관리형 운영</td></tr>
+            <tr><th>핵심 가치</th><td>40+ 시스템 자동 연결 + 사용자 권한 자동 반영 + 관리형 운영</td></tr>
           </tbody>
         </table>
 
-        <h2 id="region">시드니 리전 사용 배경</h2>
+        <h2 id="region">시드니 리전 사용 - 영업 시 사전 안내 사항</h2>
+        <p>
+          Amazon Q Business 는 2026년 4월 기준 한국(서울) 리전에서 제공되지 않아,
+          MCNC 는 가장 가까운 <strong>호주 시드니 리전</strong> 을 사용합니다.
+          이로 인해 다음 사항을 영업 단계에서 고객사에 안내해야 합니다.
+        </p>
         <ul>
-          <li><strong>서울 리전 미지원</strong>: 2026-04 기준 서울(ap-northeast-2)에서 Amazon Q Business 제공 안 됨</li>
-          <li><strong>아시아 퍼시픽 최근접</strong>: 시드니(ap-southeast-2)가 MCNC 관점 현실적 선택</li>
-          <li><strong>지연 시간</strong>: 시드니 ↔ 서울 왕복 약 130~160ms. 대화형 UX에서 체감 가능하나 치명적 수준은 아님</li>
-          <li><strong>데이터 상주</strong>: 호주 내 저장. "한국 내 보관" 요구 고객사에는 부적합 - 민간 일반 SI에서는 수용 가능한 경우가 많음</li>
+          <li>
+            <strong>데이터 저장 위치</strong> - 업로드 문서와 검색 인덱스는 호주에 저장됩니다.
+            일반 민간 기업 SI 는 통상 수용 가능하지만, <strong>규제 산업(금융 · 의료 · 정부) 고객은 사전 동의 필수</strong>입니다.
+          </li>
+          <li>
+            <strong>응답 속도</strong> - 시드니와 한국 간 왕복 시간이 약 130 ~ 160ms 추가됩니다.
+            대화에서 체감은 가능하지만 사용 불가 수준은 아닙니다.
+          </li>
+          <li>
+            <strong>일부 고급 기능 미지원</strong> - 사용자 정의 앱 빌더, 외부 시스템 자동 호출 같은 고급 기능 일부는 시드니 리전에서 미지원입니다.
+            <strong>한국 고객 대다수는 영향 없습니다.</strong>
+          </li>
         </ul>
 
-        <div class="r-2026-04-mcnc-si-rag__pros-cons">
-          <div class="r-2026-04-mcnc-si-rag__pros">
-            <h4>시드니에서 지원</h4>
-            <ul>
-              <li>엔터프라이즈 RAG 질의응답</li>
-              <li>파일 업로드 (PDF, 이미지 포함)</li>
-              <li>Tabular Search (소규모 표)</li>
-              <li>스캔 PDF OCR</li>
-              <li>임베디드 이미지 포함 파일</li>
-              <li>콘텐츠 생성 (요약, 초안)</li>
-            </ul>
+        <details>
+          <summary>기술팀 참고 - 시드니 리전 지원/미지원 기능 상세</summary>
+          <div class="r-2026-04-mcnc-si-rag__pros-cons">
+            <div class="r-2026-04-mcnc-si-rag__pros">
+              <h4>시드니에서 지원</h4>
+              <ul>
+                <li>엔터프라이즈 RAG 질의응답</li>
+                <li>파일 업로드 (PDF, 이미지 포함)</li>
+                <li>Tabular Search (소규모 표)</li>
+                <li>스캔 PDF OCR</li>
+                <li>임베디드 이미지 포함 파일</li>
+                <li>콘텐츠 생성 (요약, 초안)</li>
+              </ul>
+            </div>
+            <div class="r-2026-04-mcnc-si-rag__cons">
+              <h4>시드니에서 미지원</h4>
+              <ul>
+                <li>Q Apps (사용자 지정 앱 빌더)</li>
+                <li>Q Actions (외부 시스템 호출 에이전트)</li>
+                <li>Audio/Video 파일 파싱 (m4a 등)</li>
+                <li>Q in QuickSight 일부 기능</li>
+              </ul>
+            </div>
           </div>
-          <div class="r-2026-04-mcnc-si-rag__cons">
-            <h4>시드니에서 미지원</h4>
-            <ul>
-              <li>Q Apps (사용자 지정 앱 빌더)</li>
-              <li>Q Actions (외부 시스템 호출 에이전트)</li>
-              <li>Audio/Video 파일 파싱 (m4a 등)</li>
-              <li>Q in QuickSight 일부 기능</li>
-            </ul>
-          </div>
-        </div>
+        </details>
 
         <h2 id="features">주요 기능</h2>
 
-        <h3>RAG 엔진 / 문서 파싱</h3>
+        <h3>문서 자동 인식</h3>
         <ul>
-          <li><strong>파싱 엔진</strong>: Amazon Textract + 자체 파이프라인. 스캔 PDF OCR, 표 구조 인식 지원</li>
-          <li>지원 포맷: PDF (스캔 포함), DOCX, PPTX, XLSX, TXT, HTML, MD, CSV, JSON 등</li>
-          <li>PPTX 파싱: 슬라이드별 텍스트 + 임베디드 이미지 OCR. 도형 레이아웃 일부 손실</li>
-          <li>XLSX 파싱: 표 구조 인식. <strong>단, 시드니 리전은 "작은 표"만 지원</strong></li>
-          <li>3사 중 중상위. Document AI(Gemini) 대비 열세, Dify 대비 우위</li>
+          <li>지원 형식 - PDF (스캔본 포함), Word, PowerPoint, Excel, 텍스트, HTML, CSV, JSON 등</li>
+          <li>파워포인트 - 슬라이드별 텍스트와 삽입 이미지의 글자까지 자동 인식. 도형 레이아웃은 일부 손실</li>
+          <li><strong>엑셀 - 시드니 리전은 단순 표만 인식</strong>. 복잡한 셀 결합이 있는 표는 시트별로 분리 후 업로드 권장</li>
+          <li>4개 후보 중 중상위 수준의 자동 인식 품질</li>
         </ul>
 
-        <h3>특수 파일 형식</h3>
+        <h3>특수 파일 처리</h3>
         <ul>
-          <li><strong>오디오 (m4a)</strong>: 시드니 리전 <strong>미지원</strong>. 미국 리전만 지원</li>
-          <li><strong>다이어그램 (drawio, mmd)</strong>: 네이티브 파싱 없음. PNG/SVG 변환 후 OCR 경로</li>
-          <li><strong>XML 테이블</strong>: 표 구조 자동 인식 어려움. XLSX 변환 권장</li>
+          <li><strong>음성 파일 (m4a)</strong> - 시드니 리전 미지원 (미국 리전만 지원)</li>
+          <li><strong>다이어그램 (drawio, mmd 등)</strong> - 직접 인식 불가. 이미지로 변환 후 OCR 경로</li>
+          <li><strong>XML 표</strong> - 표 구조 자동 인식 어려움. 엑셀로 변환 권장</li>
         </ul>
 
-        <h3>LLM / 검색 / 권한</h3>
+        <h3>AI 모델 · 검색 · 권한</h3>
         <ul class="r-2026-04-mcnc-si-rag__metrics">
           <li>
-            <div class="r-2026-04-mcnc-si-rag__metrics-label">LLM 선택</div>
-            <div class="r-2026-04-mcnc-si-rag__metrics-value">불가 (AWS 내부 모델)</div>
-          </li>
-          <li>
-            <div class="r-2026-04-mcnc-si-rag__metrics-label">임베딩</div>
-            <div class="r-2026-04-mcnc-si-rag__metrics-value">AWS 내부 (Titan 계열 추정)</div>
-          </li>
-          <li>
-            <div class="r-2026-04-mcnc-si-rag__metrics-label">컨텍스트</div>
-            <div class="r-2026-04-mcnc-si-rag__metrics-value">비공개</div>
+            <div class="r-2026-04-mcnc-si-rag__metrics-label">AI 모델 선택</div>
+            <div class="r-2026-04-mcnc-si-rag__metrics-value">불가 (AWS 내부 모델 고정)</div>
           </li>
           <li>
             <div class="r-2026-04-mcnc-si-rag__metrics-label">검색 방식</div>
-            <div class="r-2026-04-mcnc-si-rag__metrics-value">벡터 + 키워드 하이브리드 (관리형)</div>
+            <div class="r-2026-04-mcnc-si-rag__metrics-value">키워드 + 의미 검색 혼합 (관리형)</div>
           </li>
           <li>
-            <div class="r-2026-04-mcnc-si-rag__metrics-label">폴더 구조</div>
-            <div class="r-2026-04-mcnc-si-rag__metrics-value">메타데이터 유지, UI 평면</div>
+            <div class="r-2026-04-mcnc-si-rag__metrics-label">한 번에 읽는 문서량</div>
+            <div class="r-2026-04-mcnc-si-rag__metrics-value">비공개</div>
           </li>
           <li>
-            <div class="r-2026-04-mcnc-si-rag__metrics-label">SSO</div>
-            <div class="r-2026-04-mcnc-si-rag__metrics-value">IAM Identity Center 필수</div>
+            <div class="r-2026-04-mcnc-si-rag__metrics-label">문서 정리 단위</div>
+            <div class="r-2026-04-mcnc-si-rag__metrics-value">메타데이터 보존, UI 평면형</div>
+          </li>
+          <li>
+            <div class="r-2026-04-mcnc-si-rag__metrics-label">통합 로그인</div>
+            <div class="r-2026-04-mcnc-si-rag__metrics-value">AWS 통합 계정 시스템 연동 필수</div>
           </li>
         </ul>
 
-        <h3>IAM Identity Center 권한 자동 상속</h3>
+        <h3>사용자 권한 자동 반영</h3>
         <p>
-          Q Business는 IAM Identity Center 필수 연동. 소스 시스템(SharePoint, Confluence 등)의
-          사용자별 ACL을 상속해 답변에서 사용자 권한 범위 밖 문서를 자동 필터링합니다.
-          예: 영업팀 사용자가 재무팀 폴더 문서를 못 보는 상태라면 Q Business 답변에서도 해당 내용이 제외됩니다.
-          MCNC SI 관점에서 <strong>고객사 조직 보안 모델을 그대로 반영</strong>할 수 있다는 점이 강점입니다.
+          Q Business 는 고객사 계정 시스템과 연동해 <strong>사용자별 접근 권한을 자동으로 반영</strong>합니다.
+          예를 들어 영업팀 사용자가 재무팀 폴더 문서를 못 보는 상태라면,
+          Q Business 답변에서도 해당 내용이 제외됩니다.
+          MCNC SI 관점에서 <strong>고객사 조직 보안 모델을 그대로 활용</strong>할 수 있다는 점이 강점입니다.
         </p>
 
-        <h3>업로드 UX (중요)</h3>
+        <details>
+          <summary>기술팀 참고 - IAM Identity Center 연동 상세</summary>
+          <p>
+            Q Business 는 IAM Identity Center 필수 연동입니다.
+            소스 시스템(SharePoint, Confluence 등) 의 사용자별 ACL 을 상속해
+            답변에서 사용자 권한 범위 밖 문서를 자동 필터링합니다.
+            세부 연동은 <a href="https://aws.amazon.com/blogs/machine-learning/build-private-and-secure-enterprise-generative-ai-apps-with-amazon-q-business-and-aws-iam-identity-center/" target="_blank" rel="noopener">AWS 공식 가이드</a> 참고.
+          </p>
+        </details>
+
+        <h3>업로드 화면 (영업 시연 시 중요)</h3>
         <p>
-          기본 경로는 Admin 콘솔 업로드 + S3 커넥터 중심 설계이므로
-          <strong>영업팀이 AWS 콘솔로 직접 업로드하는 것은 UX가 나쁩니다</strong>. 대안:
+          기본 업로드 화면은 AWS 콘솔 형태라 영업 시연에 부적합합니다.
+          현장 시연용으로는 다음 3가지 옵션 중에서 고객사 환경에 맞춰 선택합니다.
         </p>
         <ol>
-          <li>S3 버킷을 Dify 네이티브 UI 또는 자체 FE로 추상화. 업로드 → S3 → Q Business 자동 크롤링</li>
-          <li>Web Experience(내장 챗 UI)의 첨부 업로드 활용. 단, 영구 인덱싱 아닌 대화 컨텍스트 한정</li>
-          <li>SharePoint/Drive 등 이미 쓰는 시스템을 커넥터로 연결 (영업팀 기존 도구 유지)</li>
+          <li>
+            <strong>별도 업로드 화면 제작</strong> -
+            드래그&amp;드롭 가능한 간단한 업로드 페이지를 직접 만들고, 업로드된 파일을 Q Business 가 자동 인식하도록 구성
+          </li>
+          <li>
+            <strong>SharePoint · Confluence 연동</strong> -
+            고객사가 이미 사용 중인 시스템에 문서를 올리면 Q Business 가 자동으로 인식 (가장 자연스러운 시나리오)
+          </li>
+          <li>
+            <strong>채팅 화면 첨부 업로드</strong> -
+            기본 채팅 화면(Web Experience) 의 첨부 기능 사용. 단, 영구 저장 아닌 한 번의 대화 내에서만 사용
+          </li>
         </ol>
 
-        <h2 id="pricing">가격 정책 (2026-04)</h2>
+        <h2 id="pricing">가격 (2026-04 기준)</h2>
 
-        <h3>사용자 구독 (월)</h3>
+        <h3>사용자 구독 (1인당 월)</h3>
         <table class="r-2026-04-mcnc-si-rag__info-table">
           <tbody>
-            <tr><th>Lite</th><td>$3 / user / mo - 기본 Q&amp;A, 권한 반영 응답</td></tr>
-            <tr><th>Pro</th><td>$20 / user / mo - 전체 기능 (Q Apps, Q in QuickSight Reader Pro 등. 시드니는 일부 제한)</td></tr>
-            <tr><th>중복 할당</th><td>Lite + Pro 둘 다 할당 시 Pro 요금만 부과</td></tr>
+            <tr><th>Lite</th><td>$3 - 기본 채팅, 권한 반영 응답</td></tr>
+            <tr><th>Pro</th><td>$20 - 전체 기능 (사용자 정의 앱 등 고급 기능 포함, 시드니는 일부 제한)</td></tr>
+            <tr><th>중복 할당 시</th><td>Lite + Pro 둘 다 할당하면 Pro 요금만 부과</td></tr>
           </tbody>
         </table>
 
-        <h3>인덱스 (시간당)</h3>
+        <details>
+          <summary>참고 - Lite vs Pro 기능 차이</summary>
+          <table class="r-2026-04-mcnc-si-rag__info-table">
+            <thead>
+              <tr><th>기능</th><th>Lite</th><th>Pro</th></tr>
+            </thead>
+            <tbody>
+              <tr><td>기본 채팅 · 권한 반영 응답</td><td>지원</td><td>지원</td></tr>
+              <tr><td>외부 시스템 자동 연결</td><td>지원</td><td>지원</td></tr>
+              <tr><td>사용자 정의 앱 빌더 (Q Apps)</td><td>미지원</td><td>지원 (시드니 일부 제한)</td></tr>
+              <tr><td>외부 시스템 자동 호출 에이전트 (Q Actions)</td><td>미지원</td><td>지원 (시드니 일부 제한)</td></tr>
+              <tr><td>Q in QuickSight Reader Pro</td><td>미지원</td><td>지원</td></tr>
+            </tbody>
+          </table>
+        </details>
+
+        <h3>인덱스 (시간당 - 검색 데이터 저장 비용)</h3>
         <table class="r-2026-04-mcnc-si-rag__info-table">
           <tbody>
-            <tr><th>Starter Index</th><td>$0.14 / hr / unit (단일 AZ, 최대 20k 문서 or 200MB, 5 유닛 한도)</td></tr>
-            <tr><th>Enterprise Index</th><td>$0.264 / hr / unit (3개 AZ, CMK 암호화, 확장성 높음)</td></tr>
-            <tr><th>월 환산</th><td>Starter 1 유닛 $102 / Enterprise 1 유닛 $193</td></tr>
+            <tr><th>Starter Index</th><td>$0.14/시간 (월 환산 약 $102) - 단일 가용영역, 최대 20,000 문서 또는 200MB, 5 유닛 한도</td></tr>
+            <tr><th>Enterprise Index</th><td>$0.264/시간 (월 환산 약 $193) - 3개 가용영역, 자체 암호화 키, 확장성 높음</td></tr>
           </tbody>
         </table>
 
         <p class="r-2026-04-mcnc-si-rag__callout">
-          <strong>참고 샘플(591파일 · 0.9GB) 기준 적합성</strong>
-          Starter Index 200MB 한도는 추출 텍스트 기준이라 PPTX+XLSX 위주 데이터는 Starter로도 가능성 있음.
-          안전 마진 확보 및 CMK 암호화를 위해 <strong>Enterprise Index 1 유닛 권장</strong>.
+          <strong>권장 인덱스</strong>
+          Starter 200MB 한도는 일반 문서 수백 개면 충분하지만, 이미지 많은 디자인 파일은 용량이 빠르게 소진됩니다.
+          안전 마진과 자체 암호화 키 적용을 위해 본운영은 <strong>Enterprise Index 1 유닛 권장</strong>.
         </p>
 
         <h3>무료 트라이얼</h3>
         <ul>
-          <li><strong>60일 무료</strong>, 최대 50명, Lite 또는 Pro 어느 쪽이든</li>
-          <li><strong>인덱스 1,500시간 무료</strong> (60일 기준 Starter 1 유닛 ≈ 1,440시간 상응, 충분)</li>
-          <li>프로토타입 전 기간 트라이얼 내에서 해결 가능</li>
+          <li><strong>60일 무료, 최대 50명</strong>, Lite/Pro 어느 쪽이든 가능</li>
+          <li><strong>인덱스 1,500시간 무료</strong> (60일 기준 Starter 1 유닛에 해당)</li>
+          <li>프로토타입 검증 전 기간을 트라이얼 안에서 해결 가능</li>
         </ul>
 
         <h2 id="cost">월 비용 시뮬레이션</h2>
-        <p>
-          사용자 구독료 + 인덱스 비용 합산. 환율 1 USD = 1,500 KRW 기준.
-        </p>
+        <p>사용자 구독료 + 인덱스 비용 합산. 환율 1 USD = 1,500 KRW 기준.</p>
 
         <ul class="r-2026-04-mcnc-si-rag__cost-cards">
           <li class="r-2026-04-mcnc-si-rag__cost-card">
-            <div class="r-2026-04-mcnc-si-rag__cost-card-label">Lite + Starter Index (10명)</div>
-            <div class="r-2026-04-mcnc-si-rag__cost-card-value">$105 / 월</div>
-            <div class="r-2026-04-mcnc-si-rag__cost-card-sub">약 ₩157,500 ($30 + $75)</div>
+            <div class="r-2026-04-mcnc-si-rag__cost-card-label">Lite + Starter (10명, 시연용)</div>
+            <div class="r-2026-04-mcnc-si-rag__cost-card-value">월 약 ₩158,000</div>
+            <div class="r-2026-04-mcnc-si-rag__cost-card-sub">$30 + $75 = $105 / 월</div>
           </li>
           <li class="r-2026-04-mcnc-si-rag__cost-card">
-            <div class="r-2026-04-mcnc-si-rag__cost-card-label">Lite + Enterprise Index (50명)</div>
-            <div class="r-2026-04-mcnc-si-rag__cost-card-value">$343 / 월</div>
-            <div class="r-2026-04-mcnc-si-rag__cost-card-sub">약 ₩514,500 ($150 + $193)</div>
+            <div class="r-2026-04-mcnc-si-rag__cost-card-label">Lite + Enterprise (50명, 본운영)</div>
+            <div class="r-2026-04-mcnc-si-rag__cost-card-value">월 약 ₩515,000</div>
+            <div class="r-2026-04-mcnc-si-rag__cost-card-sub">$150 + $193 = $343 / 월</div>
           </li>
           <li class="r-2026-04-mcnc-si-rag__cost-card">
-            <div class="r-2026-04-mcnc-si-rag__cost-card-label">Pro + Enterprise Index (50명)</div>
-            <div class="r-2026-04-mcnc-si-rag__cost-card-value">$1,193 / 월</div>
-            <div class="r-2026-04-mcnc-si-rag__cost-card-sub">약 ₩1,789,500 ($1,000 + $193)</div>
+            <div class="r-2026-04-mcnc-si-rag__cost-card-label">Pro + Enterprise (50명, 고급 기능)</div>
+            <div class="r-2026-04-mcnc-si-rag__cost-card-value">월 약 ₩1,790,000</div>
+            <div class="r-2026-04-mcnc-si-rag__cost-card-sub">$1,000 + $193 = $1,193 / 월</div>
           </li>
         </ul>
 
         <p class="r-2026-04-mcnc-si-rag__callout">
-          60일 트라이얼 기간 내 프로토타입을 끝내면 <strong>구독료 $0</strong>. 인덱스 1,500시간 무료 한도(Starter 1 유닛 ≈ 1,440시간)로도 해결 가능.
+          <strong>영업 활용 포인트</strong>
+          60일 트라이얼 안에 프로토타입을 끝내면 <strong>구독료 $0</strong>.
+          본운영은 50명 기준 월 약 150만원(Lite + Enterprise) 수준으로 안내 가능.
         </p>
 
-        <h2 id="connectors">40+ 커넥터 (대표)</h2>
+        <h2 id="connectors">연결 가능 시스템 (40가지 이상)</h2>
+        <p>주요 시스템은 다음과 같으며, 전체 목록은 AWS 공식 문서를 참고하세요.</p>
         <ul>
-          <li><strong>콘텐츠/위키</strong>: Confluence(Cloud/Server), SharePoint(Cloud/Server), Teams, Exchange, OneDrive, Google Drive, Box, Dropbox</li>
-          <li><strong>CRM/티켓</strong>: Salesforce, ServiceNow, Jira, Zendesk</li>
-          <li><strong>커뮤니케이션</strong>: Slack, Gmail, Google Calendar (Preview)</li>
-          <li><strong>저장소</strong>: Amazon S3, Amazon FSx Windows, Smartsheet</li>
-          <li><strong>개발</strong>: GitHub (Cloud/Server)</li>
-          <li><strong>커스텀</strong>: Custom Data Source Connector (API), Web Crawler</li>
+          <li><strong>문서 · 위키</strong> - SharePoint · Confluence · Teams · OneDrive · Google Drive · Box · Dropbox</li>
+          <li><strong>고객 관리 · 티켓</strong> - Salesforce · ServiceNow · Jira · Zendesk</li>
+          <li><strong>커뮤니케이션</strong> - Slack · Gmail · Google Calendar</li>
+          <li><strong>저장소 · 개발</strong> - Amazon S3 · GitHub 등</li>
+          <li>그 외 <a href="https://docs.aws.amazon.com/amazonq/latest/qbusiness-ug/connectors-list.html" target="_blank" rel="noopener">30종 이상</a> 지원</li>
         </ul>
 
         <h2 id="security">데이터 처리 · 보안</h2>
         <ul>
-          <li><strong>AWS 약관</strong>: 고객 데이터를 모델 학습에 사용하지 않음. 입출력 데이터 저장 없음 (Q Business 인덱스 내 저장 제외)</li>
-          <li><strong>암호화</strong>: 기본 AWS 관리 키. Enterprise Index는 CMK 지원</li>
-          <li><strong>VPC Endpoint</strong>: 지원. Private 트래픽 가능</li>
-          <li><strong>인증</strong>: ISO 27001/27017/27018, SOC 1/2/3, HIPAA BAA, PCI DSS, FedRAMP Moderate (미국 리전)</li>
+          <li><strong>데이터 학습 미사용</strong> - AWS 약관상 고객 데이터를 모델 학습에 사용하지 않음. 입출력 별도 저장 없음 (Q Business 인덱스 내 저장 제외)</li>
+          <li><strong>암호화</strong> - 기본 AWS 관리 키. Enterprise Index 는 고객 자체 암호화 키 사용 가능</li>
+          <li><strong>네트워크 격리</strong> - VPC 전용 통로(VPC Endpoint) 지원으로 인터넷을 거치지 않고 호출 가능</li>
+          <li><strong>국제 보안 인증</strong> - ISO 27001/27017/27018, SOC 1/2/3, HIPAA BAA, PCI DSS 등 보유</li>
         </ul>
 
         <h2 id="pros-cons">강점과 약점</h2>
@@ -238,31 +287,30 @@
           <div class="r-2026-04-mcnc-si-rag__pros">
             <h4>강점 5</h4>
             <ul>
-              <li>40+ 커넥터로 고객사 기존 시스템 즉시 연결</li>
-              <li>IAM Identity Center + 소스 ACL 자동 상속</li>
-              <li>관리형 운영: 패치 · 스케일링 · 백업 AWS 책임</li>
-              <li>60일 50명 무료 트라이얼로 프로토타입 $0</li>
-              <li>AWS 주변 인프라 경험 활용 가능 (IAM · S3 · VPC 수준)</li>
+              <li>SharePoint · Confluence 등 40가지 이상 시스템 자동 연결</li>
+              <li>고객사 사용자 권한을 그대로 반영해 답변에서 자동 필터링</li>
+              <li>서버 운영 · 업데이트 · 백업을 AWS 가 모두 담당 (관리형)</li>
+              <li>60일 50명 무료 트라이얼로 비용 부담 없는 검증</li>
+              <li>AWS 주변 인프라 경험 (계정 관리 · S3 · 네트워크 격리) 그대로 활용 가능</li>
             </ul>
           </div>
           <div class="r-2026-04-mcnc-si-rag__cons">
             <h4>약점 5</h4>
             <ul>
-              <li>업로드 UX: S3/Admin 콘솔이라 영업팀 시연 어려움</li>
-              <li>시드니 리전 기능 제약: Q Apps/Actions, Audio/Video 미지원</li>
-              <li>LLM 선택 불가: AWS 내부 모델, 벤더 락인 강함</li>
-              <li>Pro 요금: 50명×6개월 ₩900만 (과투자 리스크)</li>
-              <li>한국 외 데이터 상주 (시드니)</li>
+              <li>기본 업로드 화면이 AWS 콘솔 형태라 영업 시연에 부적합 (별도 화면 또는 SharePoint 연동 필요)</li>
+              <li>시드니 리전 일부 고급 기능 제약 (사용자 정의 앱, 음성 파일 등)</li>
+              <li>AI 모델이 AWS 내부 모델로 고정 - Claude 또는 GPT 로 교체 불가</li>
+              <li>Pro 요금은 1인당 월 $20 - 50명 × 6개월 환산 시 약 900만원, 기능 활용도 사전 검토 필요</li>
+              <li>데이터가 한국이 아닌 호주에 저장 - 규제 산업 고객은 사전 동의 필수</li>
             </ul>
           </div>
         </div>
 
         <h2 id="si-fit">MCNC · SI 적합도</h2>
         <ul>
-          <li><strong>기존 노하우 활용도</strong>: 제한적. RAG 엔진은 AWS 관리형이라 MCNC가 직접 개입 불가. AWS 주변 인프라 운영 경험(IAM · S3 · VPC · CDK)만 셋업 단계에 활용 가능</li>
-          <li><strong>반복 배포</strong>: Q Business Application 단위로 프로젝트별 분리. CDK 템플릿화 시 수 시간 내 셋업</li>
-          <li><strong>SM 이관</strong>: 관리형이라 운영 부담 낮음. 콘솔 권한과 커넥터 설정만 인계</li>
-          <li><strong>프로젝트 간 이식성</strong>: 높음. CDK 템플릿만 재사용</li>
+          <li><strong>반복 배포</strong> - 프로젝트별로 별도 애플리케이션 단위로 분리. CDK 템플릿화 시 수 시간 내 셋업</li>
+          <li><strong>SM 이관</strong> - 관리형이라 운영 부담 낮음. 콘솔 권한과 연결 설정만 인계</li>
+          <li><strong>프로젝트 간 이식성</strong> - 높음. CDK 템플릿만 재사용</li>
         </ul>
 
         <h2 id="refs">공식 문서 / 참고</h2>
@@ -276,13 +324,13 @@
         </ul>
 
         <nav class="r-2026-04-mcnc-si-rag__pager" aria-label="제품 페이지 이동">
-          <a href="research/2026-04-mcnc-si-rag/pages/01-dify-bedrock.html">
+          <a href="research/2026-04-mcnc-si-rag/pages/01-openwebui-bedrock.html">
             <span class="r-2026-04-mcnc-si-rag__pager-label">← 이전</span>
-            <span class="r-2026-04-mcnc-si-rag__pager-title">Dify + Bedrock</span>
+            <span class="r-2026-04-mcnc-si-rag__pager-title">Open WebUI + Bedrock</span>
           </a>
-          <a href="research/2026-04-mcnc-si-rag/pages/03-gemini-enterprise.html" class="r-2026-04-mcnc-si-rag__pager-next">
+          <a href="research/2026-04-mcnc-si-rag/pages/03-m365-copilot.html" class="r-2026-04-mcnc-si-rag__pager-next">
             <span class="r-2026-04-mcnc-si-rag__pager-label">다음 →</span>
-            <span class="r-2026-04-mcnc-si-rag__pager-title">Gemini Enterprise + Drive</span>
+            <span class="r-2026-04-mcnc-si-rag__pager-title">Microsoft 365 Copilot</span>
           </a>
         </nav>
       </article>

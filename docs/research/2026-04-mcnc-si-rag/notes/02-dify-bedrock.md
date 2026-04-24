@@ -11,7 +11,7 @@
 - **카테고리**: OSS 셀프호스팅 LLMOps 플랫폼 + Amazon Bedrock 연동
 - **라이선스**: Apache 2.0 (Community Edition, 100% 기능)
 - **한 줄 소개**: Docker Compose 한 번으로 설치 가능한 오픈소스 LLM 워크플로우 · RAG · 에이전트 빌더
-- **핵심 가치 제안**: 셀프호스팅으로 데이터 주권 유지, Bedrock API 로 최신 Claude 모델 호출, Dify 네이티브 업로드 UI 로 영업팀 사용 가능한 2-Tier 구성
+- **핵심 가치 제안**: 셀프호스팅으로 사내 보관 유지, Bedrock API 로 최신 Claude 모델 호출, Dify 네이티브 업로드 UI 로 영업팀 사용 가능한 2-Tier 구성
 
 ## 아키텍처
 
@@ -121,7 +121,7 @@
 
 ## 강점 5가지
 
-1. **데이터 주권**: 셀프호스팅으로 모든 문서가 MCNC 인프라에 머무름. 고객사에 "외부 유출 없음" 증명 용이
+1. **사내 보관**: 셀프호스팅으로 모든 문서가 MCNC 인프라에 머무름. 고객사에 "외부 유출 없음" 증명 용이
 2. **저비용**: 50명×6개월 기준 약 ₩170만~220만으로 4사 중 가장 저렴 (인프라 + LLM 토큰만 과금)
 3. **MCNC 기존 노하우 높은 활용도**: mcnc-rag (Open WebUI, vLLM), Docker Compose, PostgreSQL, PGVector 경험이 그대로 이식됨
 4. **커스터마이징 자유도**: UI 변경, 워크플로우 확장, 사내 시스템 연동 제약 없음. Bedrock 외 vLLM/Ollama 로 언제든 전환 가능

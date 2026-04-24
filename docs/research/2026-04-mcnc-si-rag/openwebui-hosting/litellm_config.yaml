@@ -9,7 +9,7 @@
 #   - Amazon 네이티브 모델(Titan · Nova) 은 Marketplace 구독 이슈가 없고, raw
 #     model ID 또는 apac./us. 프로필 접두사만 있으면 됨 (Claude 와 규칙 다름)
 #   - prefix 의미 (데이터 상주 · 쿼터 트레이드오프):
-#       jp.       도쿄 리전 내 고정 (데이터 주권 최우선, 쿼터는 가장 타이트)
+#       jp.       도쿄 리전 내 고정 (데이터 상주 최우선, 쿼터는 가장 타이트)
 #       apac.     아시아-태평양 크로스 리전 (중간 타협점)
 #       global.   전 세계 크로스 리전 (쿼터 가장 여유, 데이터는 미국까지 흐를 수 있음)
 #       us.       미국 크로스 리전 (Nova 계열 일부 모델에서만 필요)
@@ -17,7 +17,7 @@
 #
 # ⚠ 이 번들의 **시연/검증 단계 기본값은 `global.`** 입니다 (Bedrock 일일 토큰
 #   쿼터 때문에 jp. 로는 쉽게 막힘). 실제 사용자에게 오픈하는 운영 배포 시에는
-#   데이터 주권 요건을 재검토하고 `jp.` 또는 `apac.` 로 일괄 교체하세요.
+#   데이터 상주 요건을 재검토하고 `jp.` 또는 `apac.` 로 일괄 교체하세요.
 #   상세는 docs/01-prerequisites.md 의 "운영 전환 체크리스트" 참고.
 # ==============================================================================
 
@@ -51,6 +51,38 @@ model_list:
       model: bedrock/amazon.titan-embed-text-v2:0
       aws_region_name: os.environ/AWS_REGION_NAME
 
+  # ---- Cohere Rerank v3.5 (External Reranker via LiteLLM) --------------------
+  # 2024-12 출시, 2026-04 현재 도쿄 포함 5개 리전 가용 (ap-northeast-1, us-east-1,
+  # us-west-2, ca-central-1, eu-central-1). Cross-region inference profile 없음 -
+  # raw model ID 를 full ARN 으로 호출해야 하며 LiteLLM 은 short form 을 rerank 로
+  # 인식하지 못함.
+  #
+  # 사전 조건:
+  #   - Bedrock 콘솔 (도쿄) → Model access → Cohere Rerank 3.5 Access granted
+  #   - IAM 정책에 bedrock:Rerank 액션 포함 (InvokeModel 과 별개의 액션 - 반드시
+  #     추가해야 함. 기존 정책은 InvokeModel 만 있어 403 발생).
+  #     자세한 정책 JSON 은 docs/01-prerequisites.md "2. IAM 권한" 참고.
+  #
+  # Open WebUI Admin Panel → Settings → Documents 설정
+  # (Reranking Engine 은 반드시 "External" - "Cohere" 아님):
+  #     하이브리드 검색             : ON
+  #     Reranking 엔진              : External
+  #     Reranking 모델              : cohere-rerank
+  #     External Reranker URL       : http://litellm:4000/rerank
+  #     External Reranker API Key   : ${LITELLM_MASTER_KEY}
+  #
+  # LiteLLM 단독 검증 (Admin Panel 반영 전):
+  #   curl -s http://<VM>:${LITELLM_PORT}/rerank \
+  #     -H "Authorization: Bearer ${LITELLM_MASTER_KEY}" \
+  #     -H "Content-Type: application/json" \
+  #     -d '{"model":"cohere-rerank","query":"제3조","documents":["제1조 ...","제3조 ..."],"top_n":2}'
+  - model_name: cohere-rerank
+    litellm_params:
+      model: bedrock/arn:aws:bedrock:ap-northeast-1::foundation-model/cohere.rerank-v3-5:0
+      aws_region_name: os.environ/AWS_REGION_NAME
+    model_info:
+      mode: rerank
+
   # ---- (선택) 추가 모델 ------------------------------------------------------
   # 필요해지면 아래 블록의 주석만 풀고  docker compose restart litellm  로 반영.
   #
@@ -76,6 +108,12 @@ litellm_settings:
 
   # 타임아웃(초) - Bedrock 스트리밍 첫 토큰이 늦는 경우 대비
   request_timeout: 600
+
+  # Bedrock Titan Embeddings v2 의 분당 쿼터 스로틀링(429) 대응.
+  # 대량 문서 업로드 시 청크 수가 많으면 일시적으로 쿼터를 넘을 수 있어,
+  # 재시도 횟수를 넉넉히 잡아 자연 백오프로 흡수 (지수 백오프는 LiteLLM 이 자동 수행).
+  # 동시성 제어는 Open WebUI 측 Embedding Concurrent Requests 로 수행.
+  num_retries: 10
 
 # ------------------------------------------------------------------------------
 # 일반 설정

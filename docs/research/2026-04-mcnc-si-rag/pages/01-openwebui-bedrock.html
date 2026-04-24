@@ -1,0 +1,444 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="robots" content="noindex, nofollow, noarchive">
+  <title>Open WebUI + Bedrock - MCNC SI RAG - Research Notes</title>
+  <base href="/research-notes/">
+  <link rel="stylesheet" href="assets/css/main.css">
+  <link rel="stylesheet" href="research/2026-04-mcnc-si-rag/assets/style.css">
+</head>
+<body data-include-pending class="r-2026-04-mcnc-si-rag">
+  <div data-include="assets/partials/header.tpl"></div>
+
+  <main class="page">
+    <nav class="breadcrumb">
+      <a href="/research-notes/">Research Notes</a>
+      <span class="breadcrumb__sep">/</span>
+      <a href="research/2026-04-mcnc-si-rag/index.html">MCNC SI RAG</a>
+      <span class="breadcrumb__sep">/</span>
+      <span>Open WebUI + Bedrock</span>
+    </nav>
+
+    <div class="layout--with-sidebar">
+      <aside class="sidebar">
+        <h2 class="sidebar__title">MCNC SI RAG</h2>
+        <ul class="sidebar__list">
+          <li><a href="research/2026-04-mcnc-si-rag/index.html">개요</a></li>
+          <li><a href="research/2026-04-mcnc-si-rag/pages/01-openwebui-bedrock.html">Open WebUI + Bedrock</a></li>
+          <li><a href="research/2026-04-mcnc-si-rag/pages/02-q-business.html">Amazon Q Business</a></li>
+          <li><a href="research/2026-04-mcnc-si-rag/pages/03-m365-copilot.html">Microsoft 365 Copilot</a></li>
+          <li><a href="research/2026-04-mcnc-si-rag/pages/04-claude-teams.html">Claude Teams</a></li>
+          <li><a href="research/2026-04-mcnc-si-rag/pages/05-comparison.html">비교 매트릭스</a></li>
+        </ul>
+      </aside>
+
+      <article class="prose">
+        <header class="page-header">
+          <span class="r-2026-04-mcnc-si-rag__product-badge r-2026-04-mcnc-si-rag__product-badge--openwebui">OSS 셀프호스팅 + Bedrock 매니지드</span>
+          <p class="page-header__eyebrow">제품 상세 · 1 / 4</p>
+          <h1 class="page-header__title">Open WebUI + Amazon Bedrock</h1>
+          <p class="page-header__lede">
+            오픈소스 채팅 화면(Open WebUI) 을 사내 서버에 직접 띄우고, AWS Bedrock 의 Claude AI 모델을
+            호출해 답변을 만드는 조합입니다. 데이터는 모두 사내에 머무르고, 토큰 사용량만 AWS 에 과금됩니다.
+          </p>
+        </header>
+
+        <p class="r-2026-04-mcnc-si-rag__callout">
+          <strong>영업팀 핵심 3줄</strong>
+          ① <strong>업로드 문서 · 대화 기록은 모두 사내 서버에 보관</strong>됩니다 - AWS 로 전송되는 건 AI 호출 본문뿐.
+          ② <strong>1인당 월 비용은 약 $1 ~ $3</strong> (AWS 토큰 단가 기준, 인프라 비용 별도)으로 가장 저렴합니다.
+          ③ <strong>AI 모델은 Claude · Nova 등 자유롭게 선택 · 교체</strong> 가능합니다 (벤더 락인 없음).
+        </p>
+
+        <h2 id="overview">제품 개요</h2>
+        <table class="r-2026-04-mcnc-si-rag__info-table">
+          <tbody>
+            <tr><th>구성</th><td>Open WebUI (사용자 채팅 화면) + LiteLLM (AI 호출 중계) + Apache Tika (문서 변환) + Amazon Bedrock (AI 모델)</td></tr>
+            <tr><th>제공사</th><td>오픈소스 커뮤니티 + AWS</td></tr>
+            <tr><th>카테고리</th><td>OSS 셀프호스팅 채팅 UI + AWS 매니지드 AI 모델 조합</td></tr>
+            <tr><th>라이선스</th><td>3개 오픈소스 모두 사내 사용 자유 (라이선스 비용 0원)</td></tr>
+            <tr><th>핵심 가치</th><td>사내 보관 + 벤더 락인 없음 + 답변 품질 세밀 조정 가능</td></tr>
+          </tbody>
+        </table>
+
+        <h2 id="arch">아키텍처</h2>
+        <p>
+          사용자 → 채팅 화면 → AI 호출 중계 → AWS AI 모델 4단계로 동작합니다.
+          업로드 문서는 자동으로 텍스트로 변환되어 사내 서버에 저장되며, AI 호출 시 관련 부분만 추려 AWS 로 전송됩니다.
+        </p>
+
+        <details>
+          <summary>기술팀 참고 - 컴포넌트 구성도 및 각 역할</summary>
+          <pre class="r-2026-04-mcnc-si-rag__arch">[사용자 / 영업팀]
+   │  브라우저 http://&lt;VM&gt;:13000
+   ▼
+[Open WebUI]  ──── Knowledge 업로드 ──▶ [Apache Tika :9998]
+   │                                      (docx · xlsx · pptx · pdf 파싱)
+   │
+   │ /v1/chat/completions · /v1/embeddings · /rerank
+   ▼
+[LiteLLM Proxy :4000]  ── Bearer LITELLM_MASTER_KEY 검증
+   │
+   ▼
+[Amazon Bedrock  ap-northeast-1]
+   · Claude Sonnet 4.6   (채팅 합성)
+   · Titan Embed v2      (청크 임베딩)
+   · Cohere Rerank v3.5  (Hybrid 리랭커)</pre>
+
+          <ul>
+            <li><strong>Open WebUI</strong> - 사용자 UI · Knowledge · 채팅 세션 · RAG 파이프라인. ChromaDB 를 내장해 별도 벡터 DB 불필요</li>
+            <li><strong>LiteLLM</strong> - Bedrock 의 네이티브 API 를 OpenAI 호환으로 래핑. 임베딩 · 리랭크 · 채팅 모두 같은 엔드포인트에서 처리</li>
+            <li><strong>Apache Tika</strong> - DOC/XLSX/PPTX/PDF/MD 등 업로드 파일의 텍스트/표 추출. <code>latest-full</code> 이미지는 Tesseract OCR 포함</li>
+            <li><strong>Amazon Bedrock</strong> - LLM/임베딩/리랭크 모델 세트. 토큰 · 건당 과금, 데이터 학습 미사용</li>
+          </ul>
+        </details>
+
+        <h2 id="components">구성 요소</h2>
+        <p>4가지 구성 요소가 각각 다음 역할을 담당합니다.</p>
+        <table class="r-2026-04-mcnc-si-rag__info-table">
+          <thead>
+            <tr><th>구성 요소</th><th>역할</th></tr>
+          </thead>
+          <tbody>
+            <tr>
+              <th>Open WebUI</th>
+              <td>사용자가 보는 채팅 화면. 문서 업로드 · 답변 받기 · 답변 품질 조정용 관리자 화면 제공</td>
+            </tr>
+            <tr>
+              <th>LiteLLM</th>
+              <td>여러 AI 모델(Claude · GPT · Nova 등) 을 하나의 방식으로 호출하기 위한 중계 서버. 모델 교체가 자유로움</td>
+            </tr>
+            <tr>
+              <th>Apache Tika</th>
+              <td>업로드한 워드/엑셀/파워포인트/PDF 를 자동으로 텍스트로 변환. 스캔 PDF 도 글자 인식 가능</td>
+            </tr>
+            <tr>
+              <th>AWS Bedrock</th>
+              <td>실제 AI 답변을 만드는 AWS 모델 서비스. 사용한 만큼만 과금되며 학습에 사용되지 않음</td>
+            </tr>
+          </tbody>
+        </table>
+
+        <details>
+          <summary>기술팀 참고 - Open WebUI 운영 주의사항</summary>
+          <ul>
+            <li>Knowledge 단위로 문서를 모아 RAG 질의에 첨부 (<code>#</code> 또는 <code>+</code> 버튼)</li>
+            <li>RAG 튜닝 옵션 22개 (청크 크기 · Hybrid Search · 리랭커 · Top K 등) 를 Admin Panel 에서 UI 로 제어</li>
+            <li><strong>PersistentConfig 함정</strong> - 상당수 설정이 첫 부팅 시 env 로 seed 된 뒤 DB 값이 우선이 됨 → 변경은 UI 에서 해야 반영됨. 영업팀 영향: 운영 중 설정 변경은 관리자 화면에서만 가능</li>
+            <li>JWT 서명용 <code>WEBUI_SECRET_KEY</code> 는 반드시 고정값 (미설정 시 재시작마다 세션 만료)</li>
+            <li>가입 최초 1인이 자동 관리자, 이후는 pending 으로 들어와 관리자 승인 필요 (<code>ENABLE_SIGNUP=true</code>, <code>DEFAULT_USER_ROLE=pending</code>)</li>
+          </ul>
+        </details>
+
+        <details>
+          <summary>기술팀 참고 - LiteLLM Proxy 설정</summary>
+          <ul>
+            <li><code>/v1/chat/completions</code> · <code>/v1/embeddings</code> · <code>/rerank</code> 세 엔드포인트를 단일 키 (<code>LITELLM_MASTER_KEY</code>) 로 제공</li>
+            <li>OpenAI 전용 파라미터 (logit_bias 등) 는 <code>drop_params: true</code> 로 자동 제거</li>
+            <li><code>num_retries: 10</code>, <code>request_timeout: 600</code> 으로 Bedrock 429 스로틀링을 지수 백오프로 흡수</li>
+            <li>모델 블록에 <code>rpm</code>/<code>tpm</code> 하드 캡 추가 가능 (본 번들 기본값은 재시도 강화 방식)</li>
+          </ul>
+        </details>
+
+        <details>
+          <summary>기술팀 참고 - Apache Tika 설정</summary>
+          <ul>
+            <li><code>latest-full</code> 이미지 - Tesseract · 언어 팩 포함 → 스캔 PDF OCR 가능</li>
+            <li>JVM heap 기본 <code>-Xmx1g</code>. 대형 XLSX/PDF 를 많이 올릴 때는 <code>-Xmx2g ~ 4g</code> 로 상향</li>
+            <li>헬스 체크 - <code>http://tika:9998/tika</code> (컨테이너 내부 DNS)</li>
+          </ul>
+        </details>
+
+        <details>
+          <summary>기술팀 참고 - Bedrock 호출 모델 정식명</summary>
+          <ul>
+            <li><strong>Claude Sonnet 4.6</strong> (<code>bedrock/global.anthropic.claude-sonnet-4-6</code>) - 채팅 합성. Inference Profile 필수</li>
+            <li><strong>Claude Haiku 4.5</strong> - 쿼터 회피 · 비용 절감 대안. 한국어 톤 유사</li>
+            <li><strong>Titan Embeddings v2</strong> (<code>amazon.titan-embed-text-v2:0</code>) - 청크 임베딩. Inference Profile 불필요</li>
+            <li><strong>Cohere Rerank v3.5</strong> (<code>cohere.rerank-v3-5:0</code>, full ARN 호출) - Hybrid 리랭커. IAM 에 <code>bedrock:Rerank</code> 별도 필요</li>
+          </ul>
+        </details>
+
+        <h2 id="pipeline">RAG 동작 원리</h2>
+        <p>
+          업로드한 문서를 작은 단위로 나눠 저장해 두고, 사용자가 질문하면 가장 관련성 높은 부분만 골라
+          AI 에 전달해 답변을 받습니다. 답변에는 어떤 파일에서 가져왔는지 [출처] 가 함께 표시됩니다.
+        </p>
+
+        <details>
+          <summary>기술팀 참고 - 6단계 파이프라인 상세</summary>
+          <ol>
+            <li><strong>업로드</strong> - 드래그&amp;드롭 → 파일 → Tika 파싱 → 텍스트/표 추출</li>
+            <li><strong>청킹</strong> - token 기준 · 800 토큰 · overlap 150 · Markdown Header Splitter ON · Chunk Min Size Target 400</li>
+            <li><strong>임베딩</strong> - Titan Embed v2 (LiteLLM 경유) → ChromaDB (Open WebUI 볼륨 내장)</li>
+            <li><strong>질의</strong> - 사용자 질문 → Titan 임베딩 → Hybrid (Vector + BM25, 가중치 0.5) Top K 8</li>
+            <li><strong>리랭크</strong> - Cohere Rerank v3.5 → Top K 리랭커 4</li>
+            <li><strong>합성</strong> - Claude Sonnet 4.6 + 한국어 커스텀 RAG 템플릿 → <code>[출처: ...]</code> 인용 포함 답변</li>
+          </ol>
+        </details>
+
+        <h2 id="features">주요 기능</h2>
+        <ul class="r-2026-04-mcnc-si-rag__metrics">
+          <li>
+            <div class="r-2026-04-mcnc-si-rag__metrics-label">AI 모델 선택</div>
+            <div class="r-2026-04-mcnc-si-rag__metrics-value">Claude · Nova · OSS 자유</div>
+          </li>
+          <li>
+            <div class="r-2026-04-mcnc-si-rag__metrics-label">한 번에 읽는 문서량</div>
+            <div class="r-2026-04-mcnc-si-rag__metrics-value">Claude 200k 토큰</div>
+          </li>
+          <li>
+            <div class="r-2026-04-mcnc-si-rag__metrics-label">검색 방식</div>
+            <div class="r-2026-04-mcnc-si-rag__metrics-value">키워드 + 의미 검색 혼합</div>
+          </li>
+          <li>
+            <div class="r-2026-04-mcnc-si-rag__metrics-label">문서 정리 단위</div>
+            <div class="r-2026-04-mcnc-si-rag__metrics-value">Knowledge + 태그</div>
+          </li>
+          <li>
+            <div class="r-2026-04-mcnc-si-rag__metrics-label">통합 로그인 (SSO)</div>
+            <div class="r-2026-04-mcnc-si-rag__metrics-value">OIDC · SAML 지원 (별도 라이선스 불필요)</div>
+          </li>
+          <li>
+            <div class="r-2026-04-mcnc-si-rag__metrics-label">지원 파일</div>
+            <div class="r-2026-04-mcnc-si-rag__metrics-value">PDF · Word · Excel · PPT · MD · HTML · TXT · CSV · JSON</div>
+          </li>
+        </ul>
+
+        <h2 id="pricing">가격 (2026-04 기준)</h2>
+
+        <h3>소프트웨어</h3>
+        <ul>
+          <li>Open WebUI · LiteLLM · Tika 모두 오픈소스 → <strong>라이선스 비용 0원</strong></li>
+        </ul>
+
+        <h3>AWS Bedrock 사용량 (도쿄 리전 기준)</h3>
+        <p>실제 사용한 토큰 만큼만 과금됩니다. 50명 × 6개월 기준 월 약 $50 ~ $150 수준 (서버 비용 별도).</p>
+
+        <details>
+          <summary>기술팀 참고 - 모델별 단가표</summary>
+          <table class="r-2026-04-mcnc-si-rag__info-table">
+            <tbody>
+              <tr><th>Claude Sonnet 4.6</th><td>입력 $3 / 출력 $15 (per 1M 토큰)</td></tr>
+              <tr><th>Claude Haiku 4.5</th><td>입력 $1 / 출력 $5 (per 1M 토큰, 쿼터 여유)</td></tr>
+              <tr><th>Titan Embeddings v2</th><td>$0.02 / 1M 토큰</td></tr>
+              <tr><th>Cohere Rerank v3.5</th><td>$1.00 / 1k 쿼리 (documents 개수 무관, 쿼리 1건 = 1 request)</td></tr>
+              <tr><th>Batch Inference</th><td>Claude 계열 50% 할인</td></tr>
+              <tr><th>Prompt Caching</th><td>Write 1.25x · Read 0.1x</td></tr>
+            </tbody>
+          </table>
+        </details>
+
+        <h2 id="ec2-spec">서버 사양</h2>
+        <p>
+          초기 시연 단계는 <strong>AWS EC2 t3.large</strong> (월 약 8만원) 로 시작하면 충분합니다.
+          동시 사용자 50명 이상으로 늘어나면 <strong>m6i.xlarge 또는 그 이상</strong> 으로 단계별 확장 가능합니다.
+          서버는 한 대로 시작해 사용량 증가에 따라 키우는 방식이 가장 비용 효율적입니다.
+        </p>
+
+        <details>
+          <summary>기술팀 참고 - 단계별 EC2 사양 권장표</summary>
+          <p>
+            현재 <code>openwebui-hosting</code> 번들(Docker Compose 로 Open WebUI + LiteLLM + Tika 세 컨테이너를 한 호스트에 올리는 구성) 을
+            AWS EC2 에 얹을 때의 단계별 권장 사양입니다.
+            Bedrock 은 동일 리전(<strong>ap-northeast-1</strong>) 에서 호출하는 것을 전제로 합니다.
+          </p>
+
+          <table class="r-2026-04-mcnc-si-rag__info-table">
+            <thead>
+              <tr>
+                <th>단계</th>
+                <th>인스턴스</th>
+                <th>vCPU / RAM</th>
+                <th>EBS (gp3)</th>
+                <th>동시 사용자</th>
+                <th>비고</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <th>PoC 최소</th>
+                <td><code>t3.medium</code></td>
+                <td>2 / 4 GB</td>
+                <td>30 GB</td>
+                <td>1 ~ 3</td>
+                <td>엑셀 대량 업로드 시 swap 발생 가능. Tika heap <code>-Xmx512m</code> 제한 권장. 단기 시연 용도만</td>
+              </tr>
+              <tr>
+                <th>시연 권장</th>
+                <td><code>t3.large</code></td>
+                <td>2 / 8 GB</td>
+                <td>50 GB</td>
+                <td>5 ~ 10</td>
+                <td><strong>본 번들 기본 권장</strong>. Tika heap 1g 여유. Titan 429 는 Admin Panel 안정 모드 + LiteLLM num_retries 로 흡수</td>
+              </tr>
+              <tr>
+                <th>소규모 운영</th>
+                <td><code>t3.xlarge</code></td>
+                <td>4 / 16 GB</td>
+                <td>100 GB</td>
+                <td>20 ~ 30</td>
+                <td>대형 PPTX / 200p+ PDF 파싱 안정. 버스트 크레딧 소진 걱정 줄어듦</td>
+              </tr>
+              <tr>
+                <th>중대형 운영</th>
+                <td><code>m6i.xlarge</code></td>
+                <td>4 / 16 GB</td>
+                <td>100 GB</td>
+                <td>30 ~ 50</td>
+                <td>AWS Nitro, 예측 가능 성능. 실제 운영 단계에서 권장</td>
+              </tr>
+              <tr>
+                <th>대용량 KB</th>
+                <td><code>m6i.2xlarge</code></td>
+                <td>8 / 32 GB</td>
+                <td>200 GB</td>
+                <td>50+</td>
+                <td>엑셀 · PPTX 배치 업로드, ChromaDB 수십만 청크 · Tika OCR 모델 캐시 포함</td>
+              </tr>
+            </tbody>
+          </table>
+
+          <h4>EBS · 스토리지 산정 근거</h4>
+          <ul>
+            <li><strong>Open WebUI 볼륨</strong> (<code>openwebui-hosting-data</code>) - 대화 기록 + 사용자 DB + ChromaDB(벡터) + 업로드 원본. Knowledge 1 GB 원본 기준 ChromaDB 는 약 1.5 ~ 3 GB</li>
+            <li><strong>Tika 이미지 캐시</strong> - <code>latest-full</code> 이미지만 2 ~ 3 GB (Tesseract · 언어 팩)</li>
+            <li><strong>Docker 레이어</strong> - 총 8 ~ 12 GB 여유 필요</li>
+            <li>사내 SI 프로젝트 한 건 분량(문서 수백 건 · 수 GB) 이면 <strong>gp3 50 ~ 100 GB</strong> 로 시작, 증가 시 온라인 확장</li>
+          </ul>
+
+          <h4>리전 · 네트워크 · 보안 그룹</h4>
+          <ul>
+            <li><strong>리전</strong> - <code>ap-northeast-1</code> (Tokyo). Bedrock 과 동일 리전 고정. cross-region 트래픽 비용/지연 방지, 데이터 도쿄 상주 유지</li>
+            <li><strong>보안 그룹</strong>
+              <ul>
+                <li>inbound 13000 (Open WebUI) / 14000 (LiteLLM) 을 사내 VPN · Office IP 대역으로 제한</li>
+                <li>0.0.0.0/0 전체 오픈 금지 (Admin Panel 로 바로 접근 가능한 구조라 민감)</li>
+                <li>outbound 443 → <code>bedrock-runtime.ap-northeast-1.amazonaws.com</code> 만 열어도 동작. VPC Endpoint 사용 시 더 안전</li>
+              </ul>
+            </li>
+            <li><strong>IAM</strong> - Bedrock <code>InvokeModel</code> · <code>InvokeModelWithResponseStream</code> · <code>Rerank</code> 3개 액션 필요. Resource 에 <code>inference-profile/*</code> 포함 (Claude 호출 전제)</li>
+            <li><strong>도메인</strong> - 사내 DNS + 내부 CA 인증서로 HTTPS 종료 (nginx · ALB · Caddy 중 택)</li>
+          </ul>
+
+          <h4>확장 경로</h4>
+          <ul>
+            <li><strong>로컬 임베딩 전환</strong> - Bedrock Titan 쿼터 부담이 크거나 완전 오프라인 시 → <code>g5.xlarge</code> (A10G 24GB) 에 BGE-M3 로컬 임베딩, LiteLLM 에서 Ollama 모델로 라우팅</li>
+            <li><strong>컨테이너 분리</strong> - Fargate 또는 ECS 로 분리해 Tika 는 CPU 집약, Open WebUI 는 메모리 집약 리소스 분배</li>
+            <li><strong>GPU 합성</strong> - Claude 대신 로컬 Llama 계열 호스팅이 필요하면 <code>g5.2xlarge</code> 이상, 단 Bedrock 대비 운영 부담 급증</li>
+            <li><strong>멀티 AZ</strong> - EBS 볼륨 → RDS (PostgreSQL + pgvector) 로 빼고 Open WebUI 를 stateless 로 전환 후 ALB 뒤 2+ 노드</li>
+          </ul>
+        </details>
+
+        <p class="r-2026-04-mcnc-si-rag__callout">
+          <strong>단일 노드 권장</strong>
+          MCNC 의 초기 SI 프로토타입 단계에서는 분산 구성보다
+          <strong>단일 EC2 (t3.large → m6i.xlarge)</strong> 로 운영하면서
+          백업만 정기적으로 받는 구성이 가장 비용 효율적입니다.
+          동시 50명 이상으로 성장할 때 확장 경로를 검토하세요.
+        </p>
+
+        <h2 id="security">데이터 처리 · 보안</h2>
+        <ul>
+          <li><strong>사내 보관</strong> - 업로드 파일 · 검색 인덱스 · 대화 기록은 모두 사내 서버 안에 머무릅니다. AWS 로 전송되는 것은 AI 호출 시점의 본문(질문 + 검색된 문서 일부)뿐</li>
+          <li><strong>데이터 저장 위치 선택</strong> - AI 호출 시 데이터가 어디까지 흘러가는지 3단계로 선택할 수 있습니다.
+            <ul>
+              <li><strong>도쿄 우선</strong> - 일본 도쿄 리전에서만 처리 (데이터 상주 최우선, 처리 용량 가장 제한적)</li>
+              <li><strong>아시아 태평양</strong> - 도쿄 + 시드니 등 아시아권에서 처리 (중간 타협점)</li>
+              <li><strong>전세계</strong> - 미국 포함 전체 리전에서 처리 (처리 용량 가장 여유, 시연 기본값)</li>
+            </ul>
+          </li>
+          <li><strong>네트워크 격리</strong> - VPC 내부 전용 통로(VPC Endpoint) 로 인터넷을 거치지 않고 AWS 호출 가능</li>
+          <li><strong>데이터 학습 미사용</strong> - AWS Bedrock 약관상 고객 데이터를 모델 학습에 사용하지 않음, 입출력 저장 없음</li>
+          <li><strong>국제 보안 인증</strong> - Bedrock ISO 27001 · SOC 1/2/3 · HIPAA BAA 보유</li>
+        </ul>
+
+        <details>
+          <summary>기술팀 참고 - 보안 그룹 · IAM · Inference Profile prefix 상세</summary>
+          <ul>
+            <li><strong>Bedrock Inference Profile prefix</strong>
+              <ul>
+                <li><code>jp.</code> - 도쿄 리전 내 고정 (데이터 상주 최우선, 쿼터 가장 타이트)</li>
+                <li><code>apac.</code> - 아시아-태평양 크로스 리전 (중간 타협점)</li>
+                <li><code>global.</code> - 전 세계 크로스 리전 (쿼터 여유, 데이터가 미국까지 흐를 수 있음). <strong>본 번들 시연 기본값</strong></li>
+              </ul>
+            </li>
+            <li><strong>운영 전환 시</strong> - 고객사 요구에 따라 <code>global.</code> → <code>jp.</code>/<code>apac.</code> 로 일괄 교체. <code>openwebui-hosting/docs/01-prerequisites.md</code> 참고</li>
+            <li><strong>VPC Endpoint</strong> - Bedrock · STS 두 개 Endpoint 생성 시 인터넷 게이트웨이 없이도 호출 가능</li>
+            <li><strong>PersistentConfig 함정</strong> - Admin Panel 에서 설정을 바꾼 뒤에는 <code>docker-compose.yml</code> 의 env 를 고쳐도 반영 안 됨. 운영 매뉴얼에 명시 필수</li>
+          </ul>
+        </details>
+
+        <h2 id="pros-cons">강점과 약점</h2>
+        <div class="r-2026-04-mcnc-si-rag__pros-cons">
+          <div class="r-2026-04-mcnc-si-rag__pros">
+            <h4>강점 5</h4>
+            <ul>
+              <li>모든 문서 · 대화 기록이 사내 서버 안에만 머무름 (외부 전송 없음)</li>
+              <li>저비용 - 50명 × 6개월 기준 서버 포함 약 200만원대, AI 사용량은 사용한 만큼만</li>
+              <li>AI 모델 자유 선택 - Claude · Nova · 국산 LLM 등으로 언제든 교체 가능</li>
+              <li>답변 품질을 관리자 화면에서 세밀하게 조정 가능 (검색 방식 · 답변 깊이 등 22개 옵션)</li>
+              <li>MCNC 기존 자산 (mcnc-rag · Docker Compose · Bedrock 인프라) 그대로 재사용 가능</li>
+            </ul>
+          </div>
+          <div class="r-2026-04-mcnc-si-rag__cons">
+            <h4>약점 5</h4>
+            <ul>
+              <li>운영 중 설정 변경은 관리자 화면에서만 가능 (직접 파일 수정은 무효, 운영 매뉴얼 필수)</li>
+              <li>복잡 레이아웃 PDF · 표는 Microsoft · Google 의 자동 인식 대비 다소 아쉬움</li>
+              <li>대량 문서를 한꺼번에 올릴 때 AWS 처리 속도 제한 발생 가능 (안정 모드 설정으로 회피)</li>
+              <li>서버 운영 책임 - 패치 · 백업 · 모니터링을 MCNC 가 담당 (대신 운영 매뉴얼 재사용 가능)</li>
+              <li>초기 답변 품질 튜닝 공수 - 첫 30분 세팅 후 Q&amp;A 검증으로 추가 조정 필요</li>
+            </ul>
+          </div>
+        </div>
+
+        <h2 id="si-fit">MCNC · SI 적합도</h2>
+        <ul>
+          <li><strong>반복 배포</strong> - <code>openwebui-hosting/setup.sh</code> 한 번 실행으로 3 컨테이너 기동 + 헬스 체크까지. Terraform/CDK 로 EC2 까지 묶으면 수 시간 내 신규 프로젝트 셋업</li>
+          <li><strong>SM 이관</strong> - 매뉴얼 · 운영 절차 · 관리자 화면 체크리스트 (<code>openwebui-hosting/docs/04-admin-settings.md</code>) 인계로 충분. 대형 고객사는 MCNC 기술팀 상주 필요</li>
+          <li><strong>프로젝트 간 이식성</strong> - 매우 높음. compose · config · CLAUDE.md 수준까지 표준화돼 있음</li>
+        </ul>
+
+        <h2 id="refs">공식 문서 / 참고</h2>
+        <ul class="r-2026-04-mcnc-si-rag__refs">
+          <li><a href="https://docs.openwebui.com/" target="_blank" rel="noopener">Open WebUI 공식 문서</a></li>
+          <li><a href="https://github.com/open-webui/open-webui" target="_blank" rel="noopener">Open WebUI GitHub</a></li>
+          <li><a href="https://docs.litellm.ai/" target="_blank" rel="noopener">LiteLLM 공식 문서</a></li>
+          <li><a href="https://tika.apache.org/" target="_blank" rel="noopener">Apache Tika</a></li>
+          <li><a href="https://aws.amazon.com/bedrock/pricing/" target="_blank" rel="noopener">Amazon Bedrock Pricing</a></li>
+          <li><a href="https://aws.amazon.com/bedrock/anthropic/" target="_blank" rel="noopener">Amazon Bedrock - Claude (Anthropic)</a></li>
+          <li><strong>내부 구축 문서</strong> -
+            <a href="research/2026-04-mcnc-si-rag/openwebui-hosting/docs/01-prerequisites.md">01 사전 조건</a> ·
+            <a href="research/2026-04-mcnc-si-rag/openwebui-hosting/docs/02-install.md">02 설치</a> ·
+            <a href="research/2026-04-mcnc-si-rag/openwebui-hosting/docs/03-post-install.md">03 설치 후</a> ·
+            <a href="research/2026-04-mcnc-si-rag/openwebui-hosting/docs/04-admin-settings.md">04 Admin 설정</a> ·
+            <a href="research/2026-04-mcnc-si-rag/openwebui-hosting/docs/05-openwebui-rag-tuning.md">05 RAG 튜닝</a> ·
+            <a href="research/2026-04-mcnc-si-rag/openwebui-hosting/docs/06-troubleshooting.md">06 트러블슈팅</a> ·
+            <a href="research/2026-04-mcnc-si-rag/openwebui-hosting/docs/07-example-queries.md">07 예시 질의집</a>
+          </li>
+        </ul>
+
+        <nav class="r-2026-04-mcnc-si-rag__pager" aria-label="제품 페이지 이동">
+          <a href="research/2026-04-mcnc-si-rag/index.html">
+            <span class="r-2026-04-mcnc-si-rag__pager-label">← 이전</span>
+            <span class="r-2026-04-mcnc-si-rag__pager-title">개요</span>
+          </a>
+          <a href="research/2026-04-mcnc-si-rag/pages/02-q-business.html" class="r-2026-04-mcnc-si-rag__pager-next">
+            <span class="r-2026-04-mcnc-si-rag__pager-label">다음 →</span>
+            <span class="r-2026-04-mcnc-si-rag__pager-title">Amazon Q Business</span>
+          </a>
+        </nav>
+      </article>
+    </div>
+  </main>
+
+  <div data-include="assets/partials/footer.tpl"></div>
+
+  <script src="assets/js/include.js"></script>
+  <script src="assets/js/research.js"></script>
+  <script src="research/2026-04-mcnc-si-rag/assets/script.js" defer></script>
+</body>
+</html>

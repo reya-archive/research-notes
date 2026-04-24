@@ -26,7 +26,9 @@
       "Bash(ls *.json)",
       "WebFetch(domain:docs.dify.ai)",
       "Bash(rm -f compose.nextcloud.yml docs/04-sync-setup.md)",
-      "Bash(rm -rf sync)"
+      "Bash(rm -rf sync)",
+      "WebFetch(domain:docs.openwebui.com)",
+      "Bash(.claude/skills/gstack/browse/dist/browse.exe --version)"
     ]
   }
 }

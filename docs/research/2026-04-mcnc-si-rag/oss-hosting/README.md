@@ -1,6 +1,6 @@
 # Dify + Bedrock 프로토타입 셋업
 
-MCNC SI RAG 시스템 후보 비교([리서치 페이지](../pages/01-dify-bedrock.html)) 중 **Dify + Amazon Bedrock** 조합을 자체 리눅스 VM 위에 최소 설정으로 구축하기 위한 Docker Compose 번들.
+MCNC SI RAG 시스템 후보 비교([리서치 개요 페이지](../index.html)) 중 **Dify + Amazon Bedrock** 조합을 자체 리눅스 VM 위에 최소 설정으로 구축하기 위한 Docker Compose 번들. (2026-04-23 현재 웹 리서치 노트의 최종 비교 대상은 Open WebUI+Bedrock / Q Business / M365 Copilot 3개로 축소되어 이 번들은 참고 자료 성격으로 유지됩니다.)
 
 ## 이 프로토타입이 하는 일
 
@@ -76,7 +76,7 @@ oss-hosting/
 
 1. **Dify 공식 compose 를 fork 하지 않는다** - `./dify/` 는 shallow clone 하고, 우리 변경분은 환경변수 · overlay 만. 업그레이드 시 `cd dify && git pull` 한 번으로 끝.
 2. **시크릿은 `.env` 한 곳**에만. `.gitignore` 에 `.env` 포함. 코드에 키를 박지 않음.
-3. **데이터 주권** - 모든 업로드 파일은 MCNC VM 내부 (Dify Weaviate) 에 저장. 외부로 나가는 것은 Bedrock API 호출 시의 프롬프트 뿐이며, Bedrock 은 고객 데이터를 학습에 사용하지 않음 (리서치 페이지 `data-policy` 섹션 참고).
+3. **사내 보관** - 모든 업로드 파일은 MCNC VM 내부 (Dify Weaviate) 에 저장. 외부로 나가는 것은 Bedrock API 호출 시의 프롬프트 뿐이며, Bedrock 은 고객 데이터를 학습에 사용하지 않음 (리서치 페이지 `data-policy` 섹션 참고).
 4. **Dify 네이티브 업로드** - 파일 업로드 · 다중 파일 · 진행률 · 즉시 인제스트 모두 Dify UI 로 일원화. 별도 파일 서버/동기화 불필요.
 
 ## 프로토타입이 다루지 않는 것

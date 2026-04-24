@@ -6,8 +6,8 @@
 #   1. 필수 도구 확인 (docker, docker compose, curl)
 #   2. 우리 .env 가 없으면 템플릿 복사 후 안내 후 종료
 #   3. .env 안 placeholder 값이 남아 있으면 경고
-#   4. docker compose up -d   (litellm + open-webui 동시 기동)
-#   5. LiteLLM / Open WebUI 헬스 체크
+#   4. docker compose up -d   (litellm + tika + open-webui 동시 기동)
+#   5. LiteLLM / Open WebUI 헬스 체크 (tika 는 compose healthcheck + depends_on 으로 보장)
 #   6. 접근 URL · 테스트 curl · 최초 관리자 계정 생성 안내 출력
 #
 # 재실행 안전 (idempotent) : 이미 존재하는 항목은 건너뜁니다.
@@ -132,7 +132,7 @@ OPENWEBUI_PORT_VALUE="${OPENWEBUI_PORT_VALUE:-13000}"
 # ------------------------------------------------------------------------------
 # 4. docker compose up
 # ------------------------------------------------------------------------------
-log "이미지 pull + 컨테이너 기동 중 (litellm + open-webui)..."
+log "이미지 pull + 컨테이너 기동 중 (litellm + tika + open-webui)..."
 docker compose --env-file "$SCRIPT_DIR/.env" up -d
 
 ok "컨테이너 기동 명령 완료. 초기 부팅이 완료될 때까지 대기합니다..."

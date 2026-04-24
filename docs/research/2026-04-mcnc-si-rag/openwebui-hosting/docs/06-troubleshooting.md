@@ -14,6 +14,19 @@
 - Access Key 의 정책에 `bedrock:InvokeModel`, `bedrock:InvokeModelWithResponseStream` 이 포함되어 있는지 확인
 - Resource 에 `inference-profile/*` 가 없으면 Claude 호출만 실패함 ([01-prerequisites.md](./01-prerequisites.md#2-iam-권한) 참고)
 
+### `not authorized to perform: bedrock:Rerank` (403, Rerank 전용)
+
+원인: Rerank API 는 InvokeModel 과 별개의 IAM 액션 `bedrock:Rerank` 를 요구합니다. 기존 정책에 이게 없으면 Cohere Rerank 호출 시 403 발생.
+
+해결: IAM 정책의 `BedrockInvoke` 블록 Action 배열에 **`bedrock:Rerank`** 추가 후 저장. 정책은 즉시 반영되어 LiteLLM 재시작 불필요. [01-prerequisites.md](./01-prerequisites.md#2-iam-권한) 의 최신 정책 JSON 참고.
+
+LiteLLM 로그에 찍히는 실제 에러 형태:
+
+```
+{"Message":"User: arn:aws:iam::XXXX:user/<name> is not authorized to perform:
+ bedrock:Rerank because no identity-based policy allows the bedrock:Rerank action"}
+```
+
 ### `ValidationException: Invocation of model ID ... isn't supported`
 
 원인 : Claude 4.x 를 raw model ID 로 부르고 있음. `litellm_config.yaml` 에서 `bedrock/anthropic.claude-*` 가 아니라 `bedrock/global.anthropic.claude-*` (inference profile) 형식인지 확인. prefix 는 `jp.` · `apac.` · `global.` 중 하나여야 함.
@@ -129,10 +142,81 @@ docker compose exec litellm cat /app/config.yaml | head -20
 - 가장 흔한 원인: Titan Embeddings v2 **Model access 미승인** · IAM `foundation-model/*` resource 누락
 - `/v1/embeddings` 를 curl 로 직접 쏴봐서 LiteLLM 쪽에서 정상인지 먼저 격리
 
+### 엑셀 · 큰 PDF 업로드 시 `429 Too Many Requests` 로 실패
+
+증상: 마크다운은 잘 되는데 엑셀/대형 PDF 만 업로드 직후 실패. LiteLLM 로그에 아래가 반복.
+
+```
+litellm.RateLimitError: BedrockException - {"message":"Too many requests, please wait before trying again."}
+Received Model Group=titan-embed-v2
+POST /v1/embeddings HTTP/1.1  429 Too Many Requests
+```
+
+그리고 Open WebUI 로그에 `ClientResponseError: 429, url='http://litellm:4000/v1/embeddings'` 가 뜨며 업로드 API 는 400 으로 종결.
+
+원인: Open WebUI 가 청크를 대량 병렬로 Titan 에 쏴 **Bedrock 분당 쿼터**(ap-northeast-1 Titan Embed v2 InvokeModel RPM) 를 초과. 엑셀은 시트·행이 많아 청크가 수십~수백 개로 늘어나 재현.
+
+진단 (업로드 직전에 띄워두고 재시도):
+
+```bash
+docker compose logs -f --tail 0 litellm | grep -iE "429|Too many|RateLimit"
+```
+
+해결 순서:
+
+1. **Admin Panel → Settings → Documents → 임베딩 에서 안정 모드로 전환** (즉시 반영, Reindex 불필요):
+   - `Async Embedding Processing` : **OFF**
+   - `Embedding Concurrent Requests` : **1**
+2. **LiteLLM 재시도 강화**. `litellm_config.yaml` 의 `litellm_settings.num_retries: 10` 이 있어야 함 (이 번들 기본값). 없다면 추가 후 `docker compose restart litellm`.
+3. 재업로드. LiteLLM 로그에 `200 OK` 가 청크 개수만큼 순차로 찍히면 성공.
+4. 적재 완료 후 일상 질의 단계로 돌아가면 위 2개 옵션을 다시 `ON / 5` 로 복귀해 속도 회복. 자세한 두 모드 비교는 [05-openwebui-rag-tuning.md](./05-openwebui-rag-tuning.md#임베딩-embedding---3개-옵션).
+5. 10회 재시도에도 계속 429 가 나면 Bedrock 쿼터 자체가 너무 낮음. Service Quotas 에서 "On-demand InvokeModel requests per minute for Amazon Titan Text Embeddings V2" 증액 신청.
+
 ### Knowledge 조회는 되는데 답변에 반영이 안 됨
 
 - 채팅 시 `+` 버튼 → Knowledge 첨부 또는 `#` 으로 지정했는지 확인
-- Admin Panel → **Settings → Documents → Chunk size / Top K** 값이 지나치게 작으면 context 가 누락됨. 이 번들 기본 프리셋은 800 / 150 / 5
+- Admin Panel → **Settings → Documents → Chunk size / Top K** 값이 지나치게 작으면 context 가 누락됨. 이 번들 기본 프리셋은 800 / 150 / 8 · Hybrid ON ([05-openwebui-rag-tuning.md](./05-openwebui-rag-tuning.md))
+
+## Tika (콘텐츠 추출)
+
+### `docker compose ps` 에 tika 가 unhealthy
+
+헬스 체크는 `wget` 으로 `http://127.0.0.1:9998/tika` 를 호출합니다. 원인:
+
+- **OOM**: 큰 PDF 여러 개를 동시 파싱할 때 JVM heap 초과. `docker-compose.yml` 의 `tika` 서비스 `JAVA_OPTS` 를 `-Xmx2g` 로 상향 후 `docker compose up -d tika`
+- **느린 기동**: `latest-full` 이미지는 Tesseract · 언어 팩 포함이라 첫 부팅이 30 초 이상 걸릴 수 있음. `start_period: 30s` 넘어가면 `docker compose logs tika` 로 부팅 로그 확인
+
+### 업로드 후 Knowledge 내용이 빈 것처럼 보임
+
+원인 A) Tika 경로가 연결 안 됨
+- Admin Panel → Settings → Documents 에서 **콘텐츠 추출 엔진 = Tika · Tika Server URL = `http://tika:9998`** 인지 확인
+- compose env 만으로는 PersistentConfig 때문에 기존 볼륨에서 무시됨 - UI 에서 직접 확인
+
+원인 B) 과거에 다른 엔진으로 업로드된 Knowledge
+- 추출 엔진 변경 후에는 **각 Knowledge 마다 Reindex 필요**. Admin Panel → Knowledge 상세 → Reindex
+
+원인 C) 원본이 스캔 PDF
+- `latest-full` 에 Tesseract 가 포함돼 있지만 Open WebUI 쪽에서 **PDF 이미지 추출 (OCR)** 토글이 OFF 면 OCR 미수행. ON 으로 바꾸고 Reindex
+
+### "연결 실패" 류 에러
+
+Open WebUI 이미지에는 `wget` 이 없고 `curl` 이 기본 포함되어 있습니다.
+
+```bash
+# 권장 - curl 로 호출
+docker compose exec open-webui curl -s http://tika:9998/tika
+
+# curl 도 없는 이미지라면 Python 으로 대체
+docker compose exec open-webui python3 -c \
+  "import urllib.request; print(urllib.request.urlopen('http://tika:9998/tika').read().decode()[:80])"
+
+# DNS 해석만이라도 확인 (getent 는 대부분 이미지에 포함)
+docker compose exec open-webui getent hosts tika
+```
+
+- 응답 없음 → tika 컨테이너가 아직 기동 중이거나 네트워크 이슈. `docker compose ps` · `docker network ls --filter 'name=openwebui-hosting'` 확인
+- "This is Tika Server ..." 응답 정상인데 Admin Panel 에서 실패 → URL 에 오타, 또는 `localhost:9998` / 호스트 IP 로 잘못 넣은 경우. 반드시 컨테이너 간 DNS 이름 `http://tika:9998`
+- `sh: 1: wget: not found` 에러 → Tika 가 문제가 아니라 호출 도구 문제. 위 curl 버전으로 다시 실행
 
 ### env 를 바꿨는데 반영이 안 됨 (PersistentConfig)
 

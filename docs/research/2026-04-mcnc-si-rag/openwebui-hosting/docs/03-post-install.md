@@ -30,7 +30,7 @@ docker compose exec open-webui env | grep OPENAI_API_BASE_URL
 docker compose logs open-webui | grep -i openai
 ```
 
-LiteLLM 쪽에서 `/v1/models` 가 제대로 내려오는지 [05-troubleshooting.md](./05-troubleshooting.md) 참고.
+LiteLLM 쪽에서 `/v1/models` 가 제대로 내려오는지 [06-troubleshooting.md](./06-troubleshooting.md) 참고.
 
 ## C. 간단한 채팅 테스트
 
@@ -73,6 +73,8 @@ docker compose logs -f litellm | grep -i embed
 - 새 채팅 → 모델 `claude-sonnet-4-6` 선택
 - `+` 버튼 → 방금 만든 Knowledge 첨부 (또는 `#` 으로 호출)
 - 문서 내용 관련 질문 → 답변에 출처 표시가 붙으면 RAG 경로 OK
+
+> 실제 시연 품질을 올리려면 Chunk · Hybrid · Reranker · Top K 등 22개 옵션 튜닝이 필요합니다. 상세는 [05-openwebui-rag-tuning.md](./05-openwebui-rag-tuning.md).
 
 ## E. 외부 클라이언트 (선택)
 
@@ -128,5 +130,6 @@ print(resp.choices[0].message.content)
 ## 다음 단계
 
 - Admin Panel 세부 세팅 (Arena OFF · 청크 튜닝 · 커스텀 에이전트 · 백업) → [04-admin-settings.md](./04-admin-settings.md)
-- 문제 생겼다면 → [05-troubleshooting.md](./05-troubleshooting.md)
+- RAG 품질 튜닝 (22개 옵션 MCNC 문서 기준) → [05-openwebui-rag-tuning.md](./05-openwebui-rag-tuning.md)
+- 문제 생겼다면 → [06-troubleshooting.md](./06-troubleshooting.md)
 - 다른 프로바이더(OpenAI · Ollama 등) 추가 → `litellm_config.yaml` 의 `model_list:` 에 섹션만 append 후 `docker compose restart litellm`

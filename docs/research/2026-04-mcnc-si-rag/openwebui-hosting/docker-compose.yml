@@ -1,9 +1,10 @@
 # ==============================================================================
-# openwebui-hosting - LiteLLM Proxy + Open WebUI 번들
+# openwebui-hosting - LiteLLM Proxy + Open WebUI + Tika 번들
 # ==============================================================================
-# 이 compose 하나로 두 서비스가 함께 뜹니다.
+# 이 compose 하나로 세 서비스가 함께 뜹니다.
 #   - litellm    : Bedrock 을 OpenAI 호환으로 변환하는 프록시
-#   - open-webui : 내부 litellm 서비스에 자동 연결된 웹 UI (RAG 임베딩 포함)
+#   - tika       : docx/xlsx/pptx/pdf 등 한국어 SI 문서 파싱 (Apache Tika 서버)
+#   - open-webui : 내부 litellm · tika 에 자동 연결된 웹 UI (RAG 포함)
 #
 # 사용 예:
 #   docker compose --env-file .env up -d
@@ -49,12 +50,32 @@ services:
       retries: 10
       start_period: 30s
 
+  tika:
+    image: apache/tika:latest-full
+    container_name: openwebui-hosting-tika
+    restart: unless-stopped
+    # 호스트 포트 공개 안 함 (Open WebUI 내부에서만 호출)
+    # 외부 디버깅이 필요하면 ports: ["${TIKA_PORT:-19998}:9998"] 로 노출
+    expose:
+      - "9998"
+    environment:
+      # JVM heap. 소규모 문서면 512m 여유, 대용량 PDF · XLSX 배치면 1~2g 로 상향
+      JAVA_OPTS: "-Xms256m -Xmx1g"
+    healthcheck:
+      test: ["CMD-SHELL", "wget -q -O - http://127.0.0.1:9998/tika || exit 1"]
+      interval: 15s
+      timeout: 5s
+      retries: 10
+      start_period: 30s
+
   open-webui:
     image: ghcr.io/open-webui/open-webui:main
     container_name: openwebui-hosting-webui
     restart: unless-stopped
     depends_on:
       litellm:
+        condition: service_healthy
+      tika:
         condition: service_healthy
     ports:
       - "${OPENWEBUI_PORT:-13000}:8080"
@@ -82,6 +103,15 @@ services:
       RAG_EMBEDDING_MODEL: titan-embed-v2
       RAG_OPENAI_API_BASE_URL: http://litellm:4000/v1
       RAG_OPENAI_API_KEY: ${LITELLM_MASTER_KEY}
+
+      # ---- 콘텐츠 추출 엔진 (Tika) ----
+      # 내장 PyPDF/python-docx 대비 표 · docx · xlsx · pptx 품질이 크게 올라감.
+      # PersistentConfig 라 이미 볼륨에 값이 있으면 env 는 무시됨 - 최초 기동
+      # 또는 새 볼륨일 때만 seed 로 작용. 기존 설치에서는 Admin Panel → Settings →
+      # Documents 에서 "콘텐츠 추출 엔진: Tika" 로 수동 전환 (자세히는
+      # docs/05-openwebui-rag-tuning.md "1. 콘텐츠 추출 엔진").
+      CONTENT_EXTRACTION_ENGINE: tika
+      TIKA_SERVER_URL: http://tika:9998
 
       # ---- 브랜딩 / 운영 ----
       # 기존 mcnc-llm-webui 와 시각적으로 구분되도록

@@ -1,0 +1,13 @@
+mcnc@mcncui-MacStudio mcnc-oss-openwebui % docker compose logs -f --tail 100 tika
+openwebui-hosting-tika  | INFO  [main] 00:28:42,101 org.apache.tika.server.core.TikaServerProcess Starting Apache Tika 3.3.0 server
+openwebui-hosting-tika  | INFO  [main] 00:28:42,306 org.apache.tika.server.core.TikaServerProcess loading resource from SPI: class org.apache.tika.server.standard.resource.XMPMetadataResource
+openwebui-hosting-tika  | INFO  [main] 00:28:42,379 org.apache.cxf.endpoint.ServerImpl Setting the server's publish address to be http://0.0.0.0:9998/
+openwebui-hosting-tika  | INFO  [main] 00:28:42,415 org.eclipse.jetty.server.Server jetty-11.0.26; built: 2025-08-14T18:03:14.457Z; git: 7559873b6e46eea7c2c6da2b58327ea2ecf941f4; jvm 21.0.9+10-Ubuntu-125.04
+openwebui-hosting-tika  | INFO  [main] 00:28:42,442 org.eclipse.jetty.server.AbstractConnector Started ServerConnector@2aa27288{HTTP/1.1, (http/1.1)}{0.0.0.0:9998}
+openwebui-hosting-tika  | INFO  [main] 00:28:42,444 org.eclipse.jetty.server.Server Started Server@3569edd5{STARTING}[11.0.26,sto=0] @577ms
+openwebui-hosting-tika  | INFO  [main] 00:28:42,453 org.eclipse.jetty.server.handler.ContextHandler Started o.a.c.t.h.JettyContextHandler@2234078{/,null,AVAILABLE}
+openwebui-hosting-tika  | INFO  [main] 00:28:42,456 org.apache.tika.server.core.TikaServerProcess Started Apache Tika server cfd91383-26c7-4e83-8174-0dbf59036bb8 at http://0.0.0.0:9998/
+openwebui-hosting-tika  | INFO  [qtp1658785779-58] 00:42:58,023 org.apache.tika.server.core.resource.TikaResource /tika (autodetecting type)
+openwebui-hosting-tika  | INFO  [qtp1658785779-58] 00:42:58,340 org.apache.tika.parser.ocr.TesseractOCRParser Tesseract is installed and is being invoked. This can add greatly to processing time.  If you do not want tesseract to be applied to your files see: https://cwiki.apache.org/confluence/display/TIKA/TikaOCR#TikaOCR-disable-ocr
+openwebui-hosting-tika  | INFO  [qtp1658785779-69] 00:43:41,969 org.apache.tika.server.core.resource.TikaResource /tika (autodetecting type)
+openwebui-hosting-tika  | INFO  [qtp1658785779-56] 00:45:06,467 org.apache.tika.server.core.resource.TikaResource /tika (autodetecting type)

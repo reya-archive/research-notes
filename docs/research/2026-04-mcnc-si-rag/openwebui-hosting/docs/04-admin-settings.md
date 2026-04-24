@@ -46,18 +46,22 @@ Open WebUI 의 많은 설정(Arena · RAG 청크/Top-K · 임베딩 모델 · Si
 
 ---
 
-## 3. 청크 · 검색 파라미터 (한국어 문서 기준 튜닝)
+## 3. 청크 · 검색 파라미터 (요약)
 
-같은 **Settings → Documents** 하단의 "Chunk Params" 영역.
+같은 **Settings → Documents** 에서 아래 값만 맞춰 두면 시연이 가능한 최소 프리셋입니다.
 
-| 필드 | 기본값 | 권장값 | 이유 |
-|---|---|---|---|
-| **Chunk Size** | 1500 | **800** | 한국어 토큰이 영어보다 조금 짧아 1500 은 과대. 800 정도가 맥락 유지 + 검색 정확도 균형 |
-| **Chunk Overlap** | 100 | **150** | 청크 경계에서 문맥이 끊기는 걸 완화 |
-| **Top K** | 3 | **5** | 한국어 검색 recall 보완 |
-| PDF Extract Images | Off | Off (그대로) | Titan 은 텍스트 전용이라 이미지 파싱 불필요 |
+| 필드 | 권장값 |
+|---|---|
+| 콘텐츠 추출 엔진 | **Tika** (번들 포함, `http://tika:9998`) |
+| Chunk Size (토큰) | **800** |
+| Chunk Overlap | **150** |
+| Top K | **8** |
+| Hybrid Search | **ON** |
+| PDF Extract Images | OFF |
 
-저장 후 **기존 Knowledge 가 있다면 재인덱싱 필요** — Knowledge 페이지에서 각 Knowledge → `Reindex` 버튼.
+**22개 옵션 전체 튜닝 (콘텐츠 추출 엔진 · Markdown Header Splitter · Reranker · BM25 가중치 · RAG 템플릿 등) 의 상세 설명 · MCNC 문서 기준 권장값 · 시나리오별 검증 절차는 [05-openwebui-rag-tuning.md](./05-openwebui-rag-tuning.md) 에 정리돼 있습니다.** 이쪽이 Dify 의 [04-dify-rag-tuning.md](../../oss-hosting/docs/04-dify-rag-tuning.md) 에 대응하는 Open WebUI 버전 가이드입니다.
+
+저장 후 **기존 Knowledge 가 있다면 재인덱싱 필요** - Knowledge 페이지에서 각 Knowledge → `Reindex` 버튼.
 
 ---
 
@@ -134,7 +138,7 @@ docker compose exec open-webui tar czf - /app/backend/data > webui-backup.tar.gz
 
 - [ ] 1. Evaluations → Arena Models OFF
 - [ ] 2. Documents → Embedding Engine/Model/Base URL/API Key 확인
-- [ ] 3. Documents → Chunk 800 · Overlap 150 · Top K 5
+- [ ] 3. Documents → Tika 엔진 · Chunk 800 · Overlap 150 · Top K 8 · Hybrid ON (상세: [05-openwebui-rag-tuning.md](./05-openwebui-rag-tuning.md))
 - [ ] 4. Workspace → Models → titan-embed-v2 숨김
 - [ ] 5. Workspace → Models → 커스텀 에이전트 생성 + System Prompt
 - [ ] 6. Workspace → Models → Export 로 백업
@@ -142,5 +146,6 @@ docker compose exec open-webui tar czf - /app/backend/data > webui-backup.tar.gz
 
 ## 다음 단계
 
-- 기동 · 설정이 꼬이면 → [05-troubleshooting.md](./05-troubleshooting.md)
+- RAG 품질 튜닝 (22개 옵션 MCNC 문서 기준) → [05-openwebui-rag-tuning.md](./05-openwebui-rag-tuning.md)
+- 기동 · 설정이 꼬이면 → [06-troubleshooting.md](./06-troubleshooting.md)
 - 외부 클라이언트(Python SDK · curl) 에서 직접 LiteLLM 호출 → [03-post-install.md](./03-post-install.md#e-외부-클라이언트-선택)
