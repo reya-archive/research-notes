@@ -1,0 +1,301 @@
+<!DOCTYPE html>
+<!--
+  FIAT .claude 워크스페이스 기능 소개 페이지
+  - 배포 동봉용 단일 소개 페이지 (file:// 직접 실행, 외부 의존 없음)
+  - 출처: .claude/ 자산 (agents / skills / hooks / 룰북 / tech-stack / failure-cases)
+-->
+<html lang="ko">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>FIAT · .claude 워크스페이스 가이드</title>
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+
+  <!-- ===== 상단 네비 ===== -->
+  <header class="nav" id="top">
+    <div class="nav-inner">
+      <a class="brand" href="#top">
+        <span class="brand-mark">.claude</span>
+        <span class="brand-sub">FIAT 워크스페이스</span>
+      </a>
+      <nav class="nav-links">
+        <a href="#workflow">Test Workflow</a>
+        <a href="#agents">에이전트</a>
+        <a href="#skills">스킬</a>
+        <a href="#hooks">Hook</a>
+        <a href="#rulebooks">룰북</a>
+        <a href="#learning">학습 루프</a>
+      </nav>
+      <button class="theme-toggle" id="themeToggle" aria-label="테마 전환">◐</button>
+    </div>
+  </header>
+
+  <!-- ===== 히어로 ===== -->
+  <section class="hero">
+    <div class="hero-glow"></div>
+    <div class="hero-inner">
+      <p class="eyebrow">Framework for Integrated Application Technology</p>
+      <h1>코딩 표준을 <span class="grad">강제하는</span><br />Claude Code 운영 자산</h1>
+      <p class="lead">
+        FIAT 프레임워크의 코딩·테스트 표준을 에이전트, 스킬, Hook으로 자동화한 워크스페이스입니다.
+        스펙 헤더부터 행동 검증 11축까지 - 사람이 매번 기억하지 않아도 규칙이 스스로 작동합니다.
+      </p>
+      <div class="hero-cta">
+        <a class="btn btn-primary" href="#workflow">Test Workflow 보기</a>
+        <a class="btn btn-ghost" href="#skills">스킬 둘러보기</a>
+      </div>
+
+      <div class="stats">
+        <div class="stat"><span class="stat-num" data-count="5">0</span><span class="stat-label">서브에이전트</span></div>
+        <div class="stat"><span class="stat-num" data-count="14">0</span><span class="stat-label">스킬</span></div>
+        <div class="stat"><span class="stat-num" data-count="10">0</span><span class="stat-label">자동 Hook</span></div>
+        <div class="stat"><span class="stat-num" data-count="11">0</span><span class="stat-label">행동 검증 축</span></div>
+        <div class="stat"><span class="stat-num" data-count="16">0</span><span class="stat-label">기술 스택 패턴</span></div>
+      </div>
+    </div>
+  </section>
+
+  <main>
+
+    <!-- ===== 개요 ===== -->
+    <section class="section" id="overview">
+      <div class="section-head">
+        <span class="kicker">무엇인가</span>
+        <h2>규칙을 문서로만 두지 않습니다</h2>
+        <p class="section-desc">
+          CLAUDE.md 한 장으로는 LLM이 매번 규칙을 지키기 어렵습니다.
+          이 워크스페이스는 규칙을 <strong>실행 가능한 자산</strong>으로 쪼개어, 작업 시점마다 자동으로 개입합니다.
+        </p>
+      </div>
+      <div class="grid grid-3">
+        <article class="card">
+          <div class="card-icon">
+            <svg viewBox="0 0 24 24" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M9 4h6a1 1 0 0 1 1 1 1 1 0 0 1-1 1H9a1 1 0 0 1-1-1 1 1 0 0 1 1-1Z"/><path d="M8 5H6a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V7a2 2 0 0 0-2-2h-2"/><path d="M8 11h8M8 15h6"/></svg>
+          </div>
+          <h3>룰북이 길잡이</h3>
+          <p>도메인 무관 결정 트리와 테스트 11축 기준을 SSOT로 보유. 모호한 옵션은 임의 선택 대신 트리로 분기합니다.</p>
+        </article>
+        <article class="card">
+          <div class="card-icon">
+            <svg viewBox="0 0 24 24" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="5" y="8" width="14" height="11" rx="2"/><path d="M12 8V4"/><circle cx="9" cy="13" r="1"/><circle cx="15" cy="13" r="1"/><path d="M9.5 16h5"/></svg>
+          </div>
+          <h3>에이전트가 분업</h3>
+          <p>계획·작성·평가·보고를 별도 에이전트로 분리해, 한 세션이 모든 책임을 떠안지 않게 합니다.</p>
+        </article>
+        <article class="card">
+          <div class="card-icon">
+            <svg viewBox="0 0 24 24" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3l7 3v5c0 4.5-3 7.5-7 9-4-1.5-7-4.5-7-9V6l7-3Z"/><path d="M9 12l2 2 4-4"/></svg>
+          </div>
+          <h3>Hook이 자동 검증</h3>
+          <p>스펙 헤더 누락, 테스트 축 누락, 우회 패턴을 파일 작성 즉시 자동 검출합니다. 사람의 기억에 의존하지 않습니다.</p>
+        </article>
+      </div>
+    </section>
+
+    <!-- ===== Test Workflow ===== -->
+    <section class="section section-alt" id="workflow">
+      <div class="section-head">
+        <span class="kicker">핵심</span>
+        <h2>Test Workflow</h2>
+        <p class="section-desc">
+          테스트 작업은 4개 에이전트가 순차로 협업합니다. 메인 세션은 직접 작성하지 않고 오케스트레이터 역할만 합니다.
+        </p>
+      </div>
+
+      <div class="pipeline">
+        <div class="pipe-step" data-step="1">
+          <span class="pipe-badge">@code-architect</span>
+          <h4>합성 코치</h4>
+          <p>도메인·base class·cross-domain 점검 (신규 production 동반 시)</p>
+        </div>
+        <div class="pipe-arrow">→</div>
+        <div class="pipe-step" data-step="2">
+          <span class="pipe-badge">@test-planner</span>
+          <h4>계획</h4>
+          <p>TC 사양 발행, 라이프사이클·테스트 레벨·11축 매핑 (read-only)</p>
+        </div>
+        <div class="pipe-arrow">→</div>
+        <div class="pipe-step" data-step="3">
+          <span class="pipe-badge">@test-generator</span>
+          <h4>작성</h4>
+          <p>실제 *Test.java 작성 + gradle 실측 (유일한 write 권한)</p>
+        </div>
+        <div class="pipe-arrow">→</div>
+        <div class="pipe-step" data-step="4">
+          <span class="pipe-badge">@test-evaluator</span>
+          <h4>평가</h4>
+          <p>11축 갭 / 합격 기준 12항 / 안티패턴 16항 정밀 검증 (read-only)</p>
+        </div>
+        <div class="pipe-arrow">→</div>
+        <div class="pipe-step" data-step="5">
+          <span class="pipe-badge">@test-reporter</span>
+          <h4>보고</h4>
+          <p>cut 단위 결과 보고 파일 자동 생성 (도메인 reports 폴더)</p>
+        </div>
+      </div>
+
+      <div class="modes">
+        <article class="mode-card">
+          <h3>에이전트 위임 모드 <span class="tag tag-default">기본</span></h3>
+          <p>메인은 <code>*Test.java</code>를 직접 건드리지 않고 4개 에이전트를 순차 호출. 안전 우선.</p>
+        </article>
+        <article class="mode-card">
+          <h3>메인 단독 모드 <span class="tag">선택</span></h3>
+          <p>사용자 명시 선택 시 메인이 직접 작성하되, 강제 규칙 11항을 스스로 적용. Hook이 작성 직후 검증.</p>
+        </article>
+      </div>
+
+      <!-- 라이프사이클 -->
+      <h3 class="sub-title">라이프사이클 결정 트리</h3>
+      <div class="grid grid-4">
+        <div class="mini-card"><span class="mini-level">L1</span><strong>Author</strong><p>TC 사양 부재 / GAP 해소</p><code>/test-tc-spec-author</code></div>
+        <div class="mini-card"><span class="mini-level">L2</span><strong>Generate</strong><p>Test 파일 자체 부재</p><code>/test-add</code></div>
+        <div class="mini-card"><span class="mini-level">L3</span><strong>Reinforce</strong><p>존재하나 11축 갭</p><code>/test-coverage-improve</code></div>
+        <div class="mini-card"><span class="mini-level">L4</span><strong>Repair</strong><p>빌드 실패 / Flaky</p><code>/test-fix</code></div>
+      </div>
+    </section>
+
+    <!-- ===== 11축 ===== -->
+    <section class="section" id="axes">
+      <div class="section-head">
+        <span class="kicker">검증 철학</span>
+        <h2>행동 검증 11축</h2>
+        <p class="section-desc">
+          목적은 커버리지 지표가 아니라 <strong>스펙 행동이 실제로 동작함을 증명</strong>하는 것. 커버리지는 부산물입니다.
+        </p>
+      </div>
+      <div class="axes-grid">
+        <div class="axis"><span>1</span> Happy path</div>
+        <div class="axis"><span>2</span> Boundary / 등가분할</div>
+        <div class="axis"><span>3</span> Error contract</div>
+        <div class="axis"><span>4</span> State transition</div>
+        <div class="axis"><span>5</span> Round-trip / invariant</div>
+        <div class="axis"><span>6</span> Collaborator interaction</div>
+        <div class="axis"><span>7</span> Lifecycle</div>
+        <div class="axis"><span>8</span> Concurrency</div>
+        <div class="axis"><span>9</span> Serialization format</div>
+        <div class="axis"><span>10</span> Defensive paths</div>
+        <div class="axis"><span>11</span> Performance / SLA</div>
+      </div>
+    </section>
+
+    <!-- ===== 에이전트 ===== -->
+    <section class="section section-alt" id="agents">
+      <div class="section-head">
+        <span class="kicker">5종</span>
+        <h2>서브에이전트</h2>
+        <p class="section-desc">각자 단일 책임. 메인 세션이 명시 호출하거나 자동 위임합니다.</p>
+      </div>
+      <div class="grid grid-3" id="agentGrid"></div>
+    </section>
+
+    <!-- ===== 스킬 ===== -->
+    <section class="section" id="skills">
+      <div class="section-head">
+        <span class="kicker">14종</span>
+        <h2>스킬</h2>
+        <p class="section-desc">자주 하는 작업을 일관된 워크플로로 호출. <code>/스킬명</code> 으로 명시 실행하거나 자동 매칭됩니다.</p>
+      </div>
+      <div class="tabs">
+        <button class="tab active" data-tab="code">코드 작업 8종</button>
+        <button class="tab" data-tab="test">테스트 작업 6종</button>
+      </div>
+      <div class="grid grid-2" id="skillGrid"></div>
+    </section>
+
+    <!-- ===== Hook ===== -->
+    <section class="section section-alt" id="hooks">
+      <div class="section-head">
+        <span class="kicker">10종 · 4 이벤트</span>
+        <h2>자동 Hook</h2>
+        <p class="section-desc">
+          <code>settings.json</code>에 등록된 Node.js 스크립트로, Mac·Windows 모두 동작합니다.
+          <strong>테스트 워크플로(위임/단독 모드) 진입 시에만 활성</strong>되고, 일반 대화·일반 코딩에서는 조용히 침묵합니다.
+        </p>
+      </div>
+      <div class="hooks-wrap" id="hookGroups"></div>
+    </section>
+
+    <!-- ===== 룰북 ===== -->
+    <section class="section" id="rulebooks">
+      <div class="section-head">
+        <span class="kicker">SSOT</span>
+        <h2>룰북 3종</h2>
+        <p class="section-desc">작업 시작 시 자동 로드되어 길잡이가 됩니다.</p>
+      </div>
+      <div class="grid grid-3">
+        <article class="card card-doc">
+          <h3>CLAUDE.md</h3>
+          <p class="doc-role">협업 룰북 · 결정 트리</p>
+          <p>Entity base class 선택, archive PK 전략, 도메인 경계, 안티패턴 등 모호 지점을 결정 트리로 명시.</p>
+        </article>
+        <article class="card card-doc">
+          <h3>CLAUDE-testing.md</h3>
+          <p class="doc-role">테스트 룰북 SSOT</p>
+          <p>강제 규칙 11항, 테스트 레벨 4지 선택, Mock 정책, Edge 분리, 안티패턴 16항을 담은 단일 출처.</p>
+        </article>
+        <article class="card card-doc">
+          <h3>ONBOARDING.md</h3>
+          <p class="doc-role">메인 세션 의무 절차</p>
+          <p>cut 시작 시 모드 선택, 라이프사이클 결정, Hard 강제 사항, cut 종료 보고 양식을 규정.</p>
+        </article>
+      </div>
+    </section>
+
+    <!-- ===== 학습 루프 ===== -->
+    <section class="section section-alt" id="learning">
+      <div class="section-head">
+        <span class="kicker">지속 개선</span>
+        <h2>학습 루프와 기술 스택 패턴</h2>
+        <p class="section-desc">우회 사례를 기록해 같은 실수를 막고, 기술 스택별 테스트 패턴을 외부화해 확장합니다.</p>
+      </div>
+      <div class="grid grid-2">
+        <article class="card">
+          <div class="card-icon">
+            <svg viewBox="0 0 24 24" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M3 7a2 2 0 0 1 2-2h4l2 2h6a2 2 0 0 1 2 2v8a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V7Z"/></svg>
+          </div>
+          <h3>failure-cases</h3>
+          <p>에이전트가 자산을 우회한 과거 사례를 markdown으로 보존. 같은 패턴 감지 시 reference하여 재발을 막습니다.</p>
+          <ul class="bullet">
+            <li>메인 직접 테스트 작성 우회 → Hook 3종 강화</li>
+            <li>추론 PASS vs 실측 FAIL → gradle 실측 강제</li>
+            <li>보고 포맷 회귀 → check-report-format Hook 신설</li>
+            <li>문서·Hook 메시지 drift → 리뷰로 정합화 (PostToolUse 7종 표기 · solo 모드 보고 의무 통일 · 보고 80~250줄 기준 일원화)</li>
+          </ul>
+        </article>
+        <article class="card">
+          <div class="card-icon">
+            <svg viewBox="0 0 24 24" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3 3 8l9 5 9-5-9-5Z"/><path d="M3 13l9 5 9-5"/></svg>
+          </div>
+          <h3>tech-stack 패턴 16종</h3>
+          <p>새 기술 스택 도입 시 자산은 무변경, reference만 추가하는 확장 구조입니다.</p>
+          <div class="chips">
+            <span class="chip">Kafka 이벤트</span>
+            <span class="chip">Redis 캐시·락</span>
+            <span class="chip">JPA / QueryDSL</span>
+            <span class="chip">gRPC</span>
+            <span class="chip">Multi-tenancy</span>
+            <span class="chip">Circuit Breaker</span>
+            <span class="chip">Saga 상태머신</span>
+            <span class="chip">Vault Secret</span>
+            <span class="chip">Apache Camel</span>
+            <span class="chip">IAM / OAuth2</span>
+            <span class="chip">Observability</span>
+            <span class="chip">Data Masking</span>
+          </div>
+        </article>
+      </div>
+    </section>
+
+  </main>
+
+  <footer class="footer">
+    <p><strong>.claude</strong> · FIAT 워크스페이스 운영 자산</p>
+    <p class="footer-sub">규칙을 기억하지 않아도 규칙이 작동하도록 - 에이전트 · 스킬 · Hook · 룰북</p>
+  </footer>
+
+  <script src="app.js"></script>
+</body>
+</html>
